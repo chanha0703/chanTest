@@ -34,7 +34,7 @@
         <li class="navbar-item" data-target="dom">
           <a class="navbar-link" href="#!" aria-current="page" rel="noopener">
             <span class="icon is-person-check is-medium">
-              <svg id="svgDocument"><use href="#document"></use></svg>
+              <svg id="svgClipboard"><use href="#clipboard"></use></svg>
             </span>
             <span>문서관리</span>
           </a>
@@ -55,8 +55,8 @@
         <li class="navbar-item">
           <a class="navbar-link" id="headerEmplSearch" href="#!" aria-current="page" rel="noopener">
             <div class="control is-x-large has-icon-right" style="width: 150px;">
-              <input id="inputEmplSearch" type="text" th:placeholder="사원검색" class="input"/>
-              <span class="icon is-search is-large" onclick="openEmplSearchPopup()">
+              <input id="inputEmplSearch" type="text" th:placeholder="사원검색" class="input" disabled/>
+              <span class="icon is-search is-large">
                   <svg id="svgSearch"><use href="#search"></use></svg>
               </span>
             </div>
@@ -104,7 +104,7 @@
           </div>
           <div class="field">
             <div class="control is-x-large has-icon-right">
-              <input id="menuSearch" type="text" th:placeholder="메뉴검색" class="input" autocomplete="off"/>
+              <input id="menuSearch" type="text" th:placeholder="메뉴검색" class="input" autocomplete="off" disabled/>
               <span class="icon is-search is-large">
                 <svg id="svgSearch_2"><use href="#search"></use></svg>
               </span>
@@ -113,7 +113,7 @@
           </div>
         </div>
         <ul class="tabs is-menu">
-          <li class="tab is-active">
+          <li class="tab is-active" data-target="base">
             <a class="tab-link" href="#" rel="noopener">
               <span class="icon is-medium is-menu">
                 <svg id="svgMenu"><use href="#menu"></use></svg>
@@ -121,7 +121,7 @@
               <span>메뉴</span>
             </a>
           </li>
-          <li class="tab">
+          <li class="tab" data-target="fav">
             <a class="tab-link" href="#" rel="noopener">
               <span class="icon is-medium is-menu">
                 <svg id="svgStar"><use href="#star"></use></svg>
@@ -132,7 +132,7 @@
         </ul>
         <div class="tab-contents is-menu">
           <div class="tab-content is-menu is-active">
-            <ul id="sideMenuDoc" class="menu">
+            <ul id="sideMenuDoc" class="menu" style="display: none;">
               <li class="menu-item">
                 <a class="menu-link" href="/manufacture/manufactureRecord.html" aria-current="page" rel="noopener">
                   제조기록서
@@ -158,6 +158,17 @@
               <li class="menu-item">
                 <a class="menu-link" href="#" aria-current="page" rel="noopener">
                   권한 관리
+                  <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                      <a class="sub-menu-link" href="#" rel="noopener">권한 그룹</a>
+                    </li>
+                    <li class="sub-menu-item">
+                      <a class="sub-menu-link" href="#" rel="noopener">권한 별 유저</a>
+                    </li>
+                    <li class="sub-menu-item">
+                      <a class="sub-menu-link" href="#" rel="noopener">권한 별 메뉴</a>
+                    </li>
+                  </ul>
                 </a>
               </li>
               <li class="menu-item">
@@ -166,6 +177,8 @@
                 </a>
               </li>
             </ul>
+            <ul id="sideMenuFav" class="menu" style="display: none;">
+            </ul>
           </div>
           <div class="tab-content is-favorite">
             <ul id="favoriteMenu" class="favorite"></ul>
@@ -173,106 +186,71 @@
         </div>
       </aside>
       <div class="page">
-
+        <!-- 메인 페이지 시작... -->
         <div class="content">
-        <div class="page is-main">
-        <div class="page-body">
-          <div class="card is-sub is-search">
-            <div class="card-header">
-              <h1 class="page-title"></h1>
-            </div>
-            <div class="card-body">
-              <table id="searchTable" class="table is-search is-fullwidth">
-                <colgroup>
-                  <col style="width: 15%;" />
-                  <col style="width: 7%;" />
-                  <col style="width: 9%;" />
-                  <col />
-                  <col style="width: 15%;" />
-                  <col />
-                  <col style="width: 7.4%;" />
-                </colgroup>
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title"></h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 15%;" />
+                      <col style="width: 7%;" />
+                      <col style="width: 9%;" />
+                      <col />
+                      <col style="width: 15%;" />
+                      <col />
+                      <col style="width: 7.4%;" />
+                    </colgroup>
+                    <tbody>
 
-                <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="card is-sub">
-            <div class="card-body">
-              <div class="columns has-gap">
-                <div class="column">
-                  <div class="form">
-                    <div class="columns has-table-title">
-                      <h2 class="table-title">
-                        <span>title</span>
-                        <span class="data-count">12934810924<span></span>1902837129037</span>
-                      </h2>
-                      <div class="buttons">
-                        <input type="file" id="upload_files" style="display: none;">
-                        <button id="btnExcelDownload" class="button is-outline is-primary is-medium">엑셀다운로드</button>
-                        <button id="upload_btnExcelupload" class="button is-outline is-primary is-medium">
-                          <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
-                          <span>다운다운받자</span>
-                        </button>
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>title</span>
+                            <span class="data-count">12934810924<span></span>1902837129037</span>
+                          </h2>
+                          <div class="buttons">
+                            <input type="file" id="upload_files" style="display: none;">
+                            <button id="btnExcelDownload" class="button is-outline is-primary is-medium">엑셀다운로드</button>
+                            <button id="upload_btnExcelupload" class="button is-outline is-primary is-medium">
+                              <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
+                              <span>다운다운받자</span>
+                            </button>
+                          </div>
+                        </div>
+                        <div id="leavDayGrid" class="realgrid" style="height: 600rem;"></div>
                       </div>
                     </div>
-                    <div id="leavDayGrid" class="realgrid" style="height: 600rem;"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        </div>
-        </div>
-
+        <!-- 메인 페이지 끝... -->
       </div>
     </div>
-  </div>
-</div>
-<div class="container is-mdi">
-  <ul class="tabs is-mdi"></ul>
-  <div class="buttons">
-    <button class="button is-close-window is-ghost">
-      <span class="icon is-close-window is-medium">
-          <svg>
-              <use href="#close-window"></use>
-          </svg>
-      </span>
-      <p class="tooltip">모두닫기</p>
-    </button>
-    <button class="button is-download-circle is-ghost">
-      <span class="icon is-download-circle is-medium">
-          <svg>
-              <use href="#download-circle"></use>
-          </svg>
-      </span>
-    </button>
   </div>
 </div>
 
 <script th:inline="javascript">
 
   $(document).ready(function() {
-    $("#headerMenu .navbar-item").on("click", function () {
-      // 모든 li에서 is-active 제거
-      $("#headerMenu .navbar-item").removeClass("is-active");
-
-      // 클릭한 li에 is-active 추가
-      $(this).addClass("is-active");
-      if($(this).data('target') == 'dom') {
-        $("#sideMenuCom").hide();
-        $("#sideMenuDoc").show();
-      }else if($(this).data('target') == 'com') {
-        $("#sideMenuDoc").hide();
-        $("#sideMenuCom").show();
-      }
-    });
-
     setSvg();
+    initEvent();
   })
 
   function setSvg() {
@@ -289,6 +267,60 @@
         $svg.html(svgContent); // 기존 <use>를 대체
       });
     });
+  }
+
+
+  function initEvent() {
+    //GNB
+    $("#headerMenu .navbar-item").on("click", function () {
+      $("#headerMenu .navbar-item").removeClass("is-active");
+
+      // 클릭한 li에 is-active 추가
+      $(this).addClass("is-active");
+      if($(this).data('target') == 'dom') {
+        $("#sideMenuCom").hide();
+        $("#sideMenuFav").hide();
+        $("#sideMenuDoc").show();
+      }else if($(this).data('target') == 'com') {
+        $("#sideMenuDoc").hide();
+        $("#sideMenuFav").hide();
+        $("#sideMenuCom").show();
+      }
+    });
+
+    //LNB
+    $("ul.menu .menu-item").click(function() {
+      $("ul.menu .menu-item").removeClass('is-active');
+      $(this).addClass('is-active');
+    });
+
+    //TABS(메뉴/즐겨찾기)
+    $("ul.tabs .tab").click(function() {
+      $("ul.tabs .tab").removeClass('is-active');
+      $(this).addClass('is-active');
+
+      if($(this).data('target') == 'base') {
+        let gnb = $("#headerMenu .navbar-item.is-active").data("target");
+        if(gnb && gnb == 'dom') {
+          $("#sideMenuCom").hide();
+          $("#sideMenuFav").hide();
+          $("#sideMenuDoc").show();
+        }else if(gnb && gnb == 'com') {
+          $("#sideMenuDoc").hide();
+          $("#sideMenuFav").hide();
+          $("#sideMenuCom").show();
+        }else {
+          $("#sideMenuDoc").hide();
+          $("#sideMenuFav").hide();
+          $("#sideMenuCom").hide();
+        }
+      }else if($(this).data('target') == 'fav') {
+        $("#sideMenuDoc").hide();
+        $("#sideMenuCom").hide();
+        $("#sideMenuFav").show();
+      }
+    });
+
   }
 </script>
 </body>

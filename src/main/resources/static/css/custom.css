@@ -162,7 +162,7 @@
     padding: 0 21rem!important;
 }
 .container.is-page {
-    min-width: 920rem!important;
+    min-width: 720rem !important;
 }
 .container.is-page.is-main {
     min-width: 920rem;
@@ -204,7 +204,7 @@
         padding: 0 42rem 0 10rem!important;
     }
     .logo.is-gsitm-hr {
-        width:95rem!important;
+        width: 115rem !important;
     }
     .navbar-logo {
         min-width: 30rem!important;
