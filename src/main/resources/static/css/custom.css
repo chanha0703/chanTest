@@ -1,0 +1,247 @@
+.column.is-3 {
+    flex-basis: calc(25% - 0.25px);
+    flex-grow: 0;
+}
+.column.is-4 {
+    flex-basis: calc(33.33333% - 0.33333px);
+    flex-grow: 0;
+}
+.column.is-5 {
+    flex-basis: calc(41.66666% - 0.41666px);
+    flex-grow: 0;
+}
+.column.is-6 {
+    flex-basis: calc(50% - 0.5px);
+    flex-grow: 0;
+}
+
+.padding-left30 {
+    padding-left:30px
+}
+
+.tui-grid-cell .link {
+    cursor: pointer;
+    text-decoration: underline;
+    white-space: normal;
+}
+
+.link > .tui-grid-cell-content  {
+    cursor: pointer;
+    text-decoration: underline;
+    white-space: normal;
+}
+
+.tui-grid-cell .link-no-wrap {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.link-no-wrap > .tui-grid-cell-content {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.dialog-scroll {
+    overflow-y: auto;
+}
+
+/* 그리드 수정 */
+.tui-pagination .tui-next-is-ellip, .tui-pagination .tui-prev-is-ellip {
+    height: 28px;
+}
+.tui-grid-cell-content.whitespace-normal {
+    white-space: normal;
+    padding: 1px 5px;
+}
+
+/* 차트 툴팁 수정 */
+.tui-chart .tui-chart-tooltip-area .tui-chart-tooltip .tui-chart-default-tooltip>.tui-chart-tooltip-body span.tui-chart-legend-rect {
+    vertical-align: bottom;
+}
+
+.tui-chart .tui-chart-tooltip-area .tui-chart-tooltip .tui-chart-default-tooltip>.tui-chart-tooltip-body span {
+    vertical-align: sub;
+}
+
+.animate-fade-in {
+    position: relative;
+    -webkit-animation-name: animate-fade-in;
+    -webkit-animation-duration: 0.6s;
+    animation-name: animate-fade-in;
+    animation-duration: 0.6s
+}
+
+@-webkit-keyframes animate-fade-in {
+    from { opacity:0 }
+    to { opacity:1 }
+}
+
+.side-modal {
+    display: none;
+    z-index: 1100;
+    background-color: rgba(0, 0, 0, 0.35);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    min-width: 240px;
+}
+
+.top-modal {
+    display: none;
+    z-index: 1100;
+    background-color: rgba(0, 0, 0, 0.35);
+    position: fixed;
+    top: 0;
+    left: 240px;
+    right: 0;
+    min-height: 94px;
+}
+
+/* checkbox disabled 색 조정 */
+.checkbox input[disabled]~.input-button{
+    background-color: #bebebe;
+}
+
+.button .is-search {
+    width: max-content;
+}
+
+/* (주)GS main 로고 사이즈 적용 */
+.icon.is-medium.is-logo-gs {
+    width: 217.6px;
+    height: 72px;
+}
+
+.realgrid .sky-column  td{
+    background: #dde4f2 !important;
+}
+
+.change-password-margin{
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.change-password-section{
+    max-width: 320px;
+    margin: auto;
+    margin-top: 10%;
+}
+
+.change-password-is-sub{
+    height: 720px;
+}
+
+.change-password-input{
+    border-radius: 10px;
+}
+
+.is-main-notice{
+    min-height: 257rem;
+}
+
+.navbar-item #inputEmplSearch{
+    height: 80%;
+}
+/*인사 발령 수정*/
+.form-custom{
+    margin-bottom: 1rem;
+}
+.ui-widget-overlay{
+    z-index: 1000 !important;
+}
+
+.themeHeader {
+    width: 100%;
+}
+
+.navbar {
+    min-width: auto!important;
+}
+.tabs.is-underline .tab {
+    padding: 0 21rem!important;
+}
+.container.is-page {
+    min-width: 920rem!important;
+}
+.container.is-page.is-main {
+    min-width: 920rem;
+    width: 100%;
+}
+.container.is-page.is-iframe {
+    min-width: 980rem;
+    width: 100%;
+}
+.rg-root {
+    font-family: "Malgun Gothic", "맑은 고딕", AppleSDGothicNeo-Light, sans-serif!important;
+}
+@media (max-width: 1600px) { /*1670px*/
+    .container.is-page.is-main .main-head {
+        padding: 0 15rem!important;
+    }
+    .navbar-left .navbar-link {
+        font-size: 13rem!important;
+    }
+    .navbar-left .navbar-item:hover .navbar-link span, .navbar-left .navbar-item.is-hover .navbar-link span, .navbar-left .navbar-item.is-active .navbar-link span {
+        font-size: 13rem!important;
+    }
+    .rg-root {
+        font-family: sans-serif!important;
+    }
+    /*
+    .container.is-page {
+        padding-top: 50px!important;
+    }
+    */
+    .container.is-page.is-main .main-body {
+        padding: 30rem 30rem 30rem!important;
+    }
+    .navbar {
+        background: #fff;
+        width:100%;
+    }
+    .navbar-menu {
+        padding: 0 42rem 0 10rem!important;
+    }
+    .logo.is-gsitm-hr {
+        width:95rem!important;
+    }
+    .navbar-logo {
+        min-width: 30rem!important;
+        margin-left: 20rem!important;
+        /*display: none!important;*/
+    }
+    .container.is-page.is-main .main-body > .columns > .column.is-half {
+        width: 100%;
+    }
+    .container.is-page.is-iframe {
+        height: auto!important;
+    }
+    .container {
+        /*padding-top: 50px;*/
+    }
+    .container.is-page.is-iframe .column.is-half {
+        width: 100%!important;
+    }
+    .container.is-page.is-iframe .column.is-one-quarter {
+        width: calc(50% - (10rem * 2));
+    }
+    .navbar-menu {
+        width: 100%!important;
+    }
+    .navbar-left .navbar-item:not(:last-child) {
+        margin-right: 0rem!important;
+    }
+    .navbar-left .navbar-link {
+        padding: 0 19rem;
+    }
+    .desc {
+        white-space: normal!important;
+    }
+    .main-slide .slide-title .desc {
+        font-size: 19rem;
+    }
+    .main-slide .slide-title .title {
+        font-size: 25rem;
+    }
+}
