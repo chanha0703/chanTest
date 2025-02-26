@@ -134,7 +134,7 @@
           <div class="tab-content is-menu is-active">
             <ul id="sideMenuDoc" class="menu">
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="/manufacture/manufactureRecord.html" aria-current="page" rel="noopener">
                   제조기록서
                 </a>
               </li>
@@ -173,11 +173,62 @@
         </div>
       </aside>
       <div class="page">
-        <div class="tab-contents is-mdi">
-          <!-- 메인 페이지 시작... -->
 
-          <!-- 메인 페이지 끝... -->
+        <div class="content">
+        <div class="page is-main">
+        <div class="page-body">
+          <div class="card is-sub is-search">
+            <div class="card-header">
+              <h1 class="page-title"></h1>
+            </div>
+            <div class="card-body">
+              <table id="searchTable" class="table is-search is-fullwidth">
+                <colgroup>
+                  <col style="width: 15%;" />
+                  <col style="width: 7%;" />
+                  <col style="width: 9%;" />
+                  <col />
+                  <col style="width: 15%;" />
+                  <col />
+                  <col style="width: 7.4%;" />
+                </colgroup>
+
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card is-sub">
+            <div class="card-body">
+              <div class="columns has-gap">
+                <div class="column">
+                  <div class="form">
+                    <div class="columns has-table-title">
+                      <h2 class="table-title">
+                        <span>title</span>
+                        <span class="data-count">12934810924<span></span>1902837129037</span>
+                      </h2>
+                      <div class="buttons">
+                        <input type="file" id="upload_files" style="display: none;">
+                        <button id="btnExcelDownload" class="button is-outline is-primary is-medium">엑셀다운로드</button>
+                        <button id="upload_btnExcelupload" class="button is-outline is-primary is-medium">
+                          <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
+                          <span>다운다운받자</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div id="leavDayGrid" class="realgrid" style="height: 600rem;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        </div>
+        </div>
+
       </div>
     </div>
   </div>

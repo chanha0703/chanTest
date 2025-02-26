@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="card is-sub is-search">
+            <div class="card-header">
+                <h1 class="page-title"></h1>
+            </div>
+            <div class="card-body">
+                <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                        <col style="width: 15%;" />
+                        <col style="width: 7%;" />
+                        <col style="width: 9%;" />
+                        <col />
+                        <col style="width: 15%;" />
+                        <col />
+                        <col style="width: 7.4%;" />
+                    </colgroup>
+
+                    <tbody>
+                    <tr>
+                        <th><span class="is-required">[[#{overseas.new.translate23}]]</span></th>
+                        <td>
+                            <th:block th:replace="components/datepicker :: datepicker(
+                                id='baseYear',
+                                name='baseYear',
+                                type='year',
+                                required=true,
+                                width='170rem'
+                                )"
+                            ></th:block>
+                        </td>
+                        <th>[[#{overseas.new.translate1}]]</th>
+                        <td id="tdOrgInputBox">
+                            <th:block th:replace="components/org-input :: org-input(
+                                id='orgCode',
+                                name='orgCode',
+                                nmId='orgNameHan',
+                                nmName='orgNameHan',
+                                width='170rem')"
+                            ></th:block>
+                        </td>
+                        <td id="tdOrgSelectBox" style="display:none;">
+                            <th:block
+                                    th:replace="components/select :: select(
+                                            id='selectOrgCode',
+                                            name='orgCode',
+                                            width='170rem'
+                                        )"
+                            ></th:block>
+                        </td>
+                        <th><span>[[#{common.employeeNumber}]]/[[#{common.fullName}]]</span></th>
+                        <td>
+                            <th:block th:replace="components/psmstrhis-input :: psmstrhis-input(
+                            id='searchEmplNo',
+                            name='searchEmplNo',
+                            nmId='searchEmplNameHan',
+                            nmName='searchEmplNameHan',
+                            width='170rem')">
+                            </th:block>
+                        </td>
+                        <td>
+                            <button id="btnSearch" class="button is-search is-medium">
+                            <span class="icon is-search is-medium">
+                              <svg>
+                                  <use href="#search"></use>
+                              </svg>
+                            </span>
+                                <span>[[#{common.inquiry}]]</span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card is-sub">
+            <div class="card-body">
+                <div class="columns has-gap">
+                    <div class="column">
+                        <div class="form">
+                            <div class="columns has-table-title">
+                                <h2 class="table-title">
+                                    <span>[[#{overseas.new.translate24}]]</span>
+                                    <span class="data-count">[[#{common.total}]]<span></span>[[#{common.numberCases}]]</span>
+                                </h2>
+                                <div class="buttons">
+                                    <input type="file" id="upload_files" style="display: none;">
+                                    <button id="btnExcelDownload" class="button is-outline is-primary is-medium">[[#{overseas.new.translate11}]]</button>
+                                    <button id="upload_btnExcelupload" class="button is-outline is-primary is-medium">
+                                        <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
+                                        <span>[[#{overseas.new.translate12}]]</span>
+                                    </button>
+                                    <th:block
+                                            th:replace="components/security-button :: securityButton (id='btnAddRow', class='button is-outline is-primary is-medium', text=#{common.additional}, pgmId='1001', role='c')"/>
+                                    <th:block
+                                            th:replace="components/security-button :: securityButton (id='btnRemoveRow', class='button is-outline is-primary is-medium', text=#{common.elimination}, role='d')"/>
+                                    <th:block
+                                            th:replace="components/security-button :: securityButton (id='btnSaveGrid', class='button is-filled is-primary is-medium', text=#{common.storage}, role='u')"/>
+                                </div>
+                            </div>
+                            <div id="leavDayGrid" class="realgrid" style="height: 600rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="uploadExcelGrid" class="realgrid" style="display:none;"></div>
+
+
+    <script>
+        var nowYear = new Date().format("yyyy");
+        var toDay = new Date().format("yyyyMMdd");
+        var uploadExcelGrid;
+        var apiUrl = '/overseas/vaction/overseasHoliday100'; // g/s휴가대상자/일수관리
+        var leavemstrGrid;
+        let _prefix ='upload_';
+        var $officeCode = $('select[name=officeCode]');
+        var userIdntClCode = "[[${users.idntClCode}]]";// 해외인지 아닌지 구분 값 (임직원1012,1013), (1014 - 해외)
+        var userTitleCode = "[[${users.titleCode}]]";  // 법인 지사장, 법인장 구분
+        var userHrManager = "[[${users.hrManager}]]"; // 인사담당자 여부 y n
+        var userDeputyManager = "[[${users.deputy}]]"; // 현채인,주재원 대리인 여부 y n
+        // 엑셀 불러오기
+        $(document).on('click', '#'+_prefix+'btnExcelupload', function(e) {
+            document.getElementById(_prefix + "files").dispatchEvent(new MouseEvent("click"));
+        });
+
+        // Excel file upload
+        $(document).on('change', '#'+_prefix+'files', function(e) {
+            leavDayGrid.import(e.target.files, excelUploadBeforeCallbackHoliday, excelUploadAfterCallbackHoliday);
+        });
+
+        function isNull(v) {
+            return (v === undefined || v === null) ? true : false;
+        }
+
+        $(document).ready(function (e) {
+            //initCodeSet();  // 공통코드 조회
+            //initAuthority();
+            //initUploadExcel();
+        });
+
+        function initAuthority(){
+            //직책자일경우
+            if(userHrManager == 'Y'){
+                console.log("인사담당자입니다.");
+                //인사담당자일때
+                $('#orgCode').attr("disabled",false);
+                $('#orgNameHan').attr("disabled",false);
+                $("#emplNo").attr("disabled",false);
+                $("#emplNameHan").attr("disabled",false);
+                $('#_org-input_searchBtn').show();
+                $("#tdOrgSelectBox").empty();
+
+                initGrid();
+            }else {
+                $.get(apiUrl+"/getaccessibleorglist", null,function(data) {
+                    if((userHrManager == 'N' && userTitleCode == '3400') || (userHrManager == 'N' && userTitleCode == '3500')
+                        || (userHrManager == 'N' && userDeputyManager == 'Y')){
+                        console.log("법인장, 지사장, 대리인 입니다.");
+                        //법인장 지사장일때 본인 지사, 지점만
+                        if(data && data.length > 1) {
+                            //평가형태
+                            let options = {
+                                dataList    : data,
+                                value       : "orgCode",
+                                text        : "orgNameHan",
+                                placeholder : ""
+                            };
+                            $("#selectOrgCode").addOptions(options);
+
+                            $("#tdOrgInputBox").hide();
+                            $("#tdOrgInputBox").empty();
+                            $("#tdOrgSelectBox").show();
+                        }else {
+                            $('#orgCode').val('[[${users.deptId}]]');
+                            $('input[name=orgNameHan]').val('[[${users.deptNm}]]');
+                            $('#orgCode').attr("disabled",true);
+                            $('input[name=orgNameHan]').attr("disabled",true);
+                            $('#_org-input_searchBtn').hide();
+                            $("#tdOrgSelectBox").empty();
+                        }
+                    }else{
+                        console.log("페이지에 권한이 없습니다.");
+                        //일반 담당자일때
+                        $("#tdOrgSelectBox").empty();
+                    }
+
+                    initGrid();
+                });
+            }
+        }
+        // 공통코드 조회
+        function initCodeSet() {
+            var searchParam = {
+                'baseCodList':
+                    [
+                        {'patternCode': 'CD03', 'effDateYn': true, 'companyYn': true}  // 사업장
+                    ]
+            }
+            var cmmComCode = new obj.cmmcodeSet();
+            cmmComCode.setCallback("getCodeSetCallback");
+            cmmComCode.addParam(searchParam);
+            cmmComCode.ajax();
+        }
+
+        // 공통코드 Callback
+        async function getCodeSetCallback(cmbData) {
+
+            var options = {
+                dataList: cmbData[0].cdbaseList,
+                value: "baseCode",
+                text: "codeNameHan",
+                placeholder: "[[#{common.entire}]]"
+            };
+            $officeCode.addOptions(options);
+            //initUploadExcel();
+        }
+
+        // 그리드 초기화
+        function initGrid() {
+            var columns = new UstraRealGridColumn()
+
+                .add('coCode', '[[#{common.company}]][[#{common.sortation}]][[#{common.code}]]', 'i18n', 'auto', true, {
+                    visible: false
+                })
+                .add('emplNo', '[[#{common.employeeNumber}]]', 'i18n', 90, false, {
+                    align: 'center',
+                    required: true,
+                    editable: function (grid, cell) {
+                        return this.getRow(cell.index).rowStatus === "C";
+                    }
+                })
+                .addButton('emplNameHan', '[[#{common.fullName}]]', 'i18n', 110, false, {
+                    btnText: "[[#{common.fullName}]]",
+                    align: 'center',
+                    required: true,
+                    editable: function (grid, cell) {
+                        return this.getRow(cell.index).rowStatus === "C";
+                    },
+                    btnClass: "button is-new-window is-ghost is-float-right",
+                    onClick: function (renderer, event) {
+                        openPsmstrgsPopup();
+                    }
+                })
+                .add('orgNameHan', '[[#{overseas.new.translate8}]]', 'i18n', 150, false, {
+                    align: 'left',
+                    maxLength: 100,
+                    editable: function (grid, cell) {
+                        return false;
+                    }
+                })
+                .add('locNameHan', '[[#{overseas.new.translate9}]]', 'i18n', 150, false, {
+                    align: 'left',
+                    maxLength: 100,
+                    editable: function (grid, cell) {
+                        return false;
+                    }
+                })
+                .add('positionNameHan', '[[#{common.officialResponsibilities}]]', 'i18n', 100, false, {
+                    align: 'center',
+                    maxLength: 100,
+                    editable: function (grid, cell) {
+                        return false;
+                    }
+                })
+                .add('year', '[[#{overseas.new.translate23}]]', 'i18n', '60', true, {
+                    align: 'center',
+                    required: true,
+                    editable: function (grid, cell) {
+                        return false;
+                    },
+                    editOptions: {
+                        format: 'yyyy-MM-dd'
+                    }
+                })
+                .addDate('entranceDate', '[[#{overseas.new.translate5}]]', 'i18n', 100, false, {
+                    align: 'center',
+                    required: false,
+                    editable: function (grid, cell) {
+                        return false;
+                    },
+                    editOptions: {
+                        format: 'yyyy-MM-dd'
+                    }
+                })
+
+                .addNumber('leaveDaysYear', '[[#{common.annualOff}]]', 'i18n', 50, false, {
+                    align: 'center',
+                    required: true,
+                    maxLength: 8,
+                    numberFormat: "#,##0.0"
+                })
+                .addNumber('leaveDaysAdd', '[[#{overseas.new.translate25}]]', 'i18n', 50, false, {
+                    align: 'center',
+                    required: false,
+                    maxLength: 8,
+                    numberFormat: "#,##0.0"
+                })
+
+                .addNumber('leaveDaysTotal', '[[#{overseas.new.translate26}]]', 'i18n', 60, false, {
+                    align: 'center',
+                    maxLength: 8,
+                    numberFormat: "#,##0.0",
+                    editable: function (grid, cell) {
+                        return false;
+                    }
+                })
+
+                .add('remark', '[[#{common.remarks}]]', 'i18n', 150, false, {align: 'left', required: false, maxLength: 255})
+
+            leavDayGrid = new UstraRealGrid('leavDayGrid', columns, {
+                check: true,
+                state: true,
+                crudOptions: {
+                    remove: {
+                        button: 'btnRemoveRow', fieldName: 'wclvedayList', url: apiUrl,
+                        onSuccess: afterRemoveRow, onError: afterRemoveRowError
+                    }
+                }
+            }).build();
+
+            //그리드 채우기
+            leavDayGrid.getGrid().displayOptions.fitStyle = "fill";
+
+            leavDayGrid.on("onEditChange", function (grid, index, value) {
+
+                if (index.column == "leaveDaysYear" || index.column == "leaveDaysAdd" || index.column == "leaveDaysEtc"
+                    || index.column == "leaveDaysNext" || index.column == "leaveDaysRegl" || index.column == "leaveDaysSave") {
+                    var a1 = 0;
+                    var a2 = 0;
+                    var a3 = 0;
+                    var a4 = 0;
+
+                    if (index.column == "leaveDaysYear") {
+                        a1 = value;
+                    } else {
+                        a1 = isNull(grid.getValue(index.dataRow, "leaveDaysYear")) ? 0 : grid.getValue(index.dataRow, "leaveDaysYear");
+                    }
+
+                    if (index.column == "leaveDaysAdd") {
+                        a2 = value;
+                    } else {
+                        a2 = isNull(grid.getValue(index.dataRow, "leaveDaysAdd")) ? 0 : grid.getValue(index.dataRow, "leaveDaysAdd");
+                    }
+
+                    if (index.column == "leaveDaysEtc") {
+                        a3 = value;
+                    } else {
+                        a3 = isNull(grid.getValue(index.dataRow, "leaveDaysEtc")) ? 0 : grid.getValue(index.dataRow, "leaveDaysEtc");
+                    }
+
+                    if (index.column == "leaveDaysNext") {
+                        a4 = value;
+                    } else {
+                        a4 = isNull(grid.getValue(index.dataRow, "leaveDaysNext")) ? 0 : grid.getValue(index.dataRow, "leaveDaysNext");
+                    }
+
+                    const leaveDaysTotalv = a1 + a2 + a3;//+a4+a5+a6;
+                    grid.setValue(index.dataRow, "leaveDaysTotal", leaveDaysTotalv);
+                }
+
+            });
+
+            search();
+        }
+        function initUploadExcel(){
+            var columns = new UstraRealGridColumn()
+                .add('coCode', '[[#{common.company}]][[#{common.sortation}]][[#{common.code}]]', 'i18n', 'auto', true, {
+                    visible: false
+                })
+                .add('emplNo', '[[#{common.employeeNumber}]]', 'i18n', 100, false, {
+                })
+                .add('emplNameHan', '[[#{common.fullName}]]', 'i18n', 110, false, {
+                })
+                .add('orgNameHan', '[[#{common.department}]]', 'i18n', 150, false, {
+                })
+                .add('locNameHan', '[[#{common.workPlace}]]', 'i18n', 150, false, {
+                })
+                .add('year', '[[#{common.criteria}]][[#{common.year1}]]', 'i18n', 100, true, {
+                })
+                .addNumber('leaveDaysYear', '[[#{common.annualOff}]]', 'i18n', 100, false, {
+                })
+                .addNumber('leaveDaysAdd', '[[#{common.additional}]][[#{common.annualOff}]]', 'i18n', 100, false, {
+                })
+                .addNumber('leaveDaysTotal', '[[#{common.annualOff}]][[#{common.totalSum}]]', 'i18n', 100, false, {
+                })
+                .add('remark', '[[#{common.remarks}]]', 'i18n', 150, false, {align: 'left', required: false})
+
+            uploadExcelGrid = new UstraRealGrid("uploadExcelGrid", columns, {
+                state: true,
+                editable: false
+            }).build();
+        }
+
+
+        // 그리드 조회
+        function search() {
+            var params = $('#searchTable').getData();
+
+            $.get(apiUrl, params, function (data) {
+                if (data != null) {
+                    leavDayGrid.bind(data.wrkleaveList);
+
+                }
+            });
+        }
+
+        // 그리드 삭제 후 콜백
+        function afterRemoveRow() {
+            console.log("afterRemoveRow");
+            search();
+        }
+
+        function afterRemoveRowError() {
+            console.log("afterRemoveRowError");
+            search();
+            //leavDayGrid.reload();
+        }
+
+        // 조회 버튼
+        $(document).on('click', '#btnSearch', search);
+
+        // 엑셀업로드 양식 다운로드 버튼
+        $(document).on('click', '#btnExcelDownload', function (e) {
+            uploadExcel();
+        });
+        function uploadExcel(){
+            let today = new Date().format("yyyyMMdd");
+            uploadExcelGrid.export({
+                type: "excel",
+                fileName: "[[#{common.international}]][[#{common.corporation}]]GS[[#{common.vacation}]][[#{common.officerCrown}]]_" + today + ".xlsx"
+            });
+        }
+
+
+
+
+
+        function excelUploadBeforeCallbackHoliday(){
+
+        }
+
+        function excelUploadAfterCallbackHoliday() {
+            console.log("excelUploadAfterCallbackHoliday");
+            var data  = leavDayGrid.getAllRowKeys();
+            leavDayGrid.setRowStates(data, "created");
+            for(var i =0; i<leavDayGrid.getRowCount(); i++){
+            }
+            document.getElementById(_prefix + "files").value = "";
+        }
+
+        // 추가 버튼
+        $(document).on('click', '#btnAddRow', function (e) {
+
+            var lastRow = leavDayGrid.getLastRow();
+            var id = '1';
+            if (lastRow != null) {
+                id = (parseInt(lastRow.id) + 1).toString();
+            }
+            var toDay = new Date().format("yyyyMMdd");
+
+            var baseYearv = $('input[name=baseYear]').val();
+
+            leavDayGrid.insertFocusRow({
+                year: baseYearv, leaveDaysYear: 0, leaveDaysAdd: 0, leaveDaysEtc: 0, leaveDaysCpsm: 0, leaveDaysNext: 0
+                , leaveDaysRegl: 0, leaveDaysTotal: 0, leaveDaysSave: 0, reckonDateVaca: toDay, entranceDate: toDay
+            });
+
+        });
+
+        // 삭제
+        $('#btnRemoveRow').on('click', function (e) {
+
+            var length = leavDayGrid.getCheckedRows().length;
+            if (length <= 0) {
+                $.alert('[[#{wrk.msg.notice.select.wantTo.delete.vacationRecipients}]]');
+                return false;
+            }
+            var msg = "[[#{eval.msg.confirm.deleteCheckedRow}]]".replace('__::ROW::__', length);
+            $.confirm(msg, null, function (e) {
+                for (var i = 0; i < length; i++) {
+                    leavDayGrid.removeRow(leavDayGrid.getCheckedRows()[0].rowKey);
+                }
+
+                var param = leavDayGrid.getModifiedDataJson('wclvedayList');
+                var req = $.post(apiUrl, param, function (data) {
+                    $.alert('[[#{common.msg.notice.deleted}]]');
+                })
+
+            });
+        });
+
+        // 저장
+        $('#btnSaveGrid').on('click', function (e) {
+            var gridValidate = leavDayGrid.validateIfModifiedCustom();
+            if(gridValidate.length > 0) {
+                return false;
+            }
+            var param = leavDayGrid.getModifiedDataJson('wclvedayList');
+            var gridData = leavDayGrid.getModifiedData();
+            if(gridData.length == 0) {
+                $.alert('[[#{common.msg.notice.nothingChanged}]]');
+                return;
+            }
+
+            $.post(apiUrl, param, function (result) {
+                if (result && result > 0) {
+                    search();
+                    $.alert('[[#{common.msg.notice.saved}]]');
+                } else {
+                    $.error('[[#{common.msg.notice.save.failed}]]');
+                }
+            });
+
+        });
+
+        // 휴가대상자/일수 생성
+        $('#btnBatchSubject').on('click', function (e) {
+            openWrkleavmstr110();
+        });
+
+        //사원검색 팝업 띄우기
+        function openPsmstrgsPopup() {
+
+            var selectedRow = leavDayGrid.getFocusData();
+            var orgNoName = selectedRow.emplNameHan;
+            openPop("/popup/psmst/psmstrgs-pop/view",   {
+                orgNoName: orgNoName,
+                onApply: function (checkedRow) {
+                    if (!_.isEmpty(checkedRow)) {
+                        var empno = checkedRow.emplNo;
+                        var empnm = checkedRow.emplNameHan;
+                        var orgcd = checkedRow.orgCode;
+                        var orgnm = checkedRow.orgNameHan;
+                        var loccd = checkedRow.locCode;
+                        var locnm = checkedRow.locNameHan;
+                        var positioncd = checkedRow.positionCode;
+                        var positionnm = checkedRow.positionNameHan;
+                        var titlecd = checkedRow.titleCode;
+                        var titlenm = checkedRow.titleNameHan;
+                        var etdate = checkedRow.entranceDate;
+
+                        var gradeCode = checkedRow.gradeCode;
+                        var gradeNameHan = checkedRow.gradeNameHan;
+                        const params = $('#searchTable').getData();
+
+                        $.get(apiUrl+"/leavDate/"+empno, params, function (data) {
+                            if (data != null) {
+                                // 그리드 업데이트(서버저장X)
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "emplNo", empno);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "emplNameHan", empnm);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "orgCode", orgcd);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "orgNameHan", orgnm);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "locCode", loccd);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "locNameHan", locnm);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "positionCode", positioncd);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "positionNameHan", positionnm);
+                                //leavDayGrid._grid.setValue(selectedRow.rowKey, "titleCode", titlecd);
+                                // leavDayGrid._grid.setValue(selectedRow.rowKey, "titleNameHan", titlenm);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "entranceDate", etdate);
+
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "reckonDateVaca", data.reckonDateVaca); // TODO. 팝업에서 기산일 가져오는 로직 추가해야 함. 2021.03.31.
+
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "leaveDaysYear", data.leaveDaysYear);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "leaveDaysAdd", data.leaveDaysAdd);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "leaveDaysTotal", (data.leaveDaysYear + data.leaveDaysAdd));
+
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "gradeCode", gradeCode);
+                                leavDayGrid._grid.setValue(selectedRow.rowKey, "gradeNameHan", gradeNameHan);
+                            }else{
+
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
+        // 휴가 대상자 반영 팝업(조직코드)
+        function openWrkleavmstr110(event) {
+            var baseYearv = $('input[name=baseYear]').val();
+            openPop("/wrk/wrkleav/wrkleavmstr110/view", {
+                baseYear: baseYearv,
+                onClose: function () {
+                    search();
+                }
+            });
+        }
+
+        // 연차오픈
+        $('#btnLeavOpen').on('click', function (e) {
+
+            var length = leavDayGrid.getCheckedRows().length;
+            if (length <= 0) {
+                $.alert('[[#{wrk.msg.notice.select.wantTo.open.vacationRecipients}]]');
+                return false;
+            }
+
+            $.confirm("[[#{wrk.msg.confirm.afterOpen}]]", null, function (e) {
+                for (var i = 0; i < length; i++) {
+                    leavDayGrid.removeRow(leavDayGrid.getCheckedRows()[0].rowKey);
+                }
+
+                var params = leavDayGrid.getModifiedDataJson('wclvedayList');
+
+                console.log('param ==> ');
+                console.log(params);
+
+                var req = $.put(apiUrl + "/leav-open", params, function (data) {
+                    if (data && data > 0) {
+                        $.alert('[[#{common.msg.notice.processed}]]');
+                        search();
+                    } else {
+                        //  $.error('[[#{common.msg.notice.save.failed}]]');
+                    }
+                });
+            });
+        });
+
+        // 마감처리
+        $('#btnBatchClose').on('click', function (e) {
+
+            var baseYearv = $('input[name=baseYear]').val();
+
+            var msg = "[[#{wrk.msg.confirm.notPossible.toSelectTargetAgain.afterClosing}]]".replace('__::ROW::__', baseYearv);
+            $.confirm(msg, null, function (e) {
+                var params = $('#searchTable').getData();
+                var req = $.post(apiUrl + "/close-proc", params, function (data) {
+                    if (data && data > 0) {
+                        $.alert('[[#{common.msg.notice.processed}]]');
+                        search();
+                    } else {
+                        //  $.error('[[#{common.msg.notice.save.failed}]]');
+                    }
+                });
+            });
+        });
+
+        $("#baseYear").keydown(function (key) {// 엔터키 이벤트(조회)
+            if (key.keyCode == 13) {
+                event.preventDefault();
+                search();
+            }
+        });
+    </script>
+</div>
+
+</html>
