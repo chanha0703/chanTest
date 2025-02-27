@@ -32,7 +32,7 @@
     <div class="navbar-menu">
       <ul class="navbar-left" id="headerMenu">
         <li class="navbar-item" data-target="dom">
-          <a class="navbar-link" href="#!" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
             <span class="icon is-person-check is-medium">
               <svg id="svgClipboard"><use href="#clipboard"></use></svg>
             </span>
@@ -40,7 +40,7 @@
           </a>
         </li>
         <li class="navbar-item" data-target="com">
-          <a class="navbar-link" href="#!" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
             <span class="icon is-person-check is-medium">
               <svg id="svgWindowGear"><use href="#window-gear"></use></svg>
             </span>
@@ -50,10 +50,10 @@
       </ul>
       <ul class="navbar-right">
         <li class="navbar-item">
-          <a class="navbar-link" id="btnsiteMap" href="#!" aria-current="page" rel="noopener"></a>
+          <a class="navbar-link" id="btnsiteMap" href="#" aria-current="page" rel="noopener"></a>
         </li>
         <li class="navbar-item">
-          <a class="navbar-link" id="headerEmplSearch" href="#!" aria-current="page" rel="noopener">
+          <a class="navbar-link" id="headerEmplSearch" href="#" aria-current="page" rel="noopener">
             <div class="control is-x-large has-icon-right" style="width: 150px;">
               <input id="inputEmplSearch" type="text" th:placeholder="사원검색" class="input" disabled/>
               <span class="icon is-search is-large">
@@ -63,7 +63,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a class="navbar-link" href="/logout" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
             <span class="icon is-logout is-medium">
                 <svg id="svgLogout"><use href="#logout"></use></svg>
             </span>
@@ -134,7 +134,7 @@
           <div class="tab-content is-menu is-active">
             <ul id="sideMenuDoc" class="menu" style="display: none;">
               <li class="menu-item">
-                <a class="menu-link" href="/manufacture/manufactureRecord.html" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener">
                   제조기록서
                 </a>
               </li>
@@ -272,7 +272,7 @@
 
   function initEvent() {
     //GNB
-    $("#headerMenu .navbar-item").on("click", function () {
+    $("#headerMenu .navbar-item").click(function() {
       $("#headerMenu .navbar-item").removeClass("is-active");
 
       // 클릭한 li에 is-active 추가
@@ -290,8 +290,20 @@
 
     //LNB
     $("ul.menu .menu-item").click(function() {
-      $("ul.menu .menu-item").removeClass('is-active');
-      $(this).addClass('is-active');
+      let isAlreadyActive = $(this).hasClass('is-active');
+      if(!isAlreadyActive) {
+        $(".sub-menu-item").removeClass('is-active');
+        $("ul.menu .menu-item").removeClass('is-active');
+        $(this).addClass('is-active');
+      }
+    });
+
+    $("ul.menu .menu-item .sub-menu .sub-menu-item").click(function() {
+      let isAlreadyActive = $(this).hasClass('is-active');
+      if(!isAlreadyActive) {
+        $(".sub-menu-item").removeClass('is-active');
+        $(this).addClass('is-active');
+      }
     });
 
     //TABS(메뉴/즐겨찾기)

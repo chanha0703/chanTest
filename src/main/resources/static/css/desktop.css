@@ -22437,7 +22437,7 @@ a.list-item {
   line-height: 19rem;
   color: #666;
 }
-.menu > li > a::before {
+.menu > li:has(.sub-menu) > a::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -22447,7 +22447,7 @@ a.list-item {
   background-color: #a1a1a1;
   transform: translateY(-50%);
 }
-.menu > li > a::after {
+.menu > li:has(.sub-menu) > a::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -22461,7 +22461,7 @@ a.list-item {
   border-color: #151515;
 }
 .menu > li:hover > a, .menu > li.is-hover > a, .menu > li:focus > a, .menu > li.is-focus > a, .menu > li.is-active > a {
-  color: black;
+  color: #5f0000;
 }
 .menu > li:hover > a::before, .menu > li:hover > a::after, .menu > li.is-hover > a::before, .menu > li.is-hover > a::after, .menu > li:focus > a::before, .menu > li:focus > a::after, .menu > li.is-focus > a::before, .menu > li.is-focus > a::after, .menu > li.is-active > a::before, .menu > li.is-active > a::after {
   background-color: #151515;

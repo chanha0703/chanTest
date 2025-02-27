@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: temp
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  thymeleaf:
+    cache: false
+
