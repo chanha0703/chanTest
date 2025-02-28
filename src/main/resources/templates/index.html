@@ -134,24 +134,24 @@
           <div class="tab-content is-menu is-active">
             <ul id="sideMenuDoc" class="menu" style="display: none;">
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage('list')">
                   제조기록서
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener"  onclick="loadPage($(this).text())">
                   제조기록서 양식
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   Log 레포트
                 </a>
               </li>
             </ul>
             <ul id="sideMenuCom" class="menu" style="display:none;">
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   공통코드 관리
                 </a>
               </li>
@@ -160,19 +160,19 @@
                   권한 관리
                   <ul class="sub-menu">
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener">권한 그룹</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 그룹</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener">권한 별 유저</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 별 유저</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener">권한 별 메뉴</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 별 메뉴</a>
                     </li>
                   </ul>
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   사용자 관리
                 </a>
               </li>
@@ -185,28 +185,60 @@
           </div>
         </div>
       </aside>
-      <div class="page">
+      <div class="page" id="mainContent">
         <!-- 메인 페이지 시작... -->
-        <div class="content">
+        <!-- 1(S) -->
+        <div class="content" id="docList" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
               <div class="card is-sub is-search">
                 <div class="card-header">
-                  <h1 class="page-title"></h1>
+                  <h1 class="page-title">제조기록서</h1>
                 </div>
                 <div class="card-body">
                   <table id="searchTable" class="table is-search is-fullwidth">
                     <colgroup>
-                      <col style="width: 15%;" />
-                      <col style="width: 7%;" />
-                      <col style="width: 9%;" />
-                      <col />
-                      <col style="width: 15%;" />
-                      <col />
-                      <col style="width: 7.4%;" />
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
                     </colgroup>
                     <tbody>
-
+                    <tr>
+                      <th><span>등록일자</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>공정번호</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                      <td rowspan="2">
+                        <button type="button" id="btnSearch" class="button is-search is-filled is-medium">
+                            <span class="icon is-search is-medium">
+                                <svg><use href="#search"></use></svg>
+                            </span>
+                          <span>조회</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><span>제조번호</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>품목</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
@@ -219,15 +251,17 @@
                       <div class="form">
                         <div class="columns has-table-title">
                           <h2 class="table-title">
-                            <span>title</span>
-                            <span class="data-count">12934810924<span></span>1902837129037</span>
+                            <span>제조기록서</span>
+                            <span class="data-count">1<span></span>건</span>
                           </h2>
                           <div class="buttons">
                             <input type="file" id="upload_files" style="display: none;">
-                            <button id="btnExcelDownload" class="button is-outline is-primary is-medium">엑셀다운로드</button>
-                            <button id="upload_btnExcelupload" class="button is-outline is-primary is-medium">
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('update')">
+                              양식 등록
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" onclick="alert('미구현 기능입니다.');">
                               <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
-                              <span>다운다운받자</span>
+                              <span>버튼2</span>
                             </button>
                           </div>
                         </div>
@@ -240,6 +274,86 @@
             </div>
           </div>
         </div>
+        <!-- 1(E) -->
+
+        <!-- 2(S) -->
+        <div class="content" id="emptyForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title" id="emptyTitle">빈페이지</h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>검색조건1</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>검색조건2</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                      <td rowspan="2">
+                        <button type="button" id="btnSearch" class="button is-search is-filled is-medium" disabled>
+                            <span class="icon is-search is-medium">
+                                <svg><use href="#search"></use></svg>
+                            </span>
+                          <span>조회</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><span>검색조건3</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>검색조건4</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>검색결과</span>
+                            <span class="data-count">x<span></span>건</span>
+                          </h2>
+                        </div>
+                        <div style="height: 600rem;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2(E) -->
         <!-- 메인 페이지 끝... -->
       </div>
     </div>
@@ -251,7 +365,7 @@
   $(document).ready(function() {
     setSvg();
     initEvent();
-  })
+  })  //document.ready
 
   function setSvg() {
     const svgPath = "/img/svg/"; // SVG 파일 경로
@@ -267,7 +381,7 @@
         $svg.html(svgContent); // 기존 <use>를 대체
       });
     });
-  }
+  } //setSvg
 
 
   function initEvent() {
@@ -298,6 +412,7 @@
       }
     });
 
+    //LNB
     $("ul.menu .menu-item .sub-menu .sub-menu-item").click(function() {
       let isAlreadyActive = $(this).hasClass('is-active');
       if(!isAlreadyActive) {
@@ -332,8 +447,30 @@
         $("#sideMenuFav").show();
       }
     });
+  } //initEvent
 
+  function loadPage(type) {
+    if (type === 'list') {
+      $("#emptyForm").fadeOut(300).promise().done(function() {
+        $("#docList").fadeIn(300);
+      });
+    } else if (type === 'detail') {
+      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
+        console.log("detail 뷰 로딩 완료");
+      });
+    } else if (type === 'update') {
+      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
+        console.log("update 뷰 로딩 완료");
+      });
+    } else {
+      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
+        $("#emptyTitle").text(type);
+        $("#emptyForm").fadeIn(300);
+      });
+    }
   }
+
+
 </script>
 </body>
 

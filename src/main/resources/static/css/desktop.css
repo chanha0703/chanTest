@@ -23650,7 +23650,7 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
   position: relative;
 }
 .page.is-main .page-body {
-  padding: 30rem;
+  padding: 39.5rem;
 }
 .left-navbar.is-active ~ .page {
   width: calc(100% - 300rem);
@@ -23665,7 +23665,7 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
   content: "";
   flex: none;
   display: block;
-  height: 15rem;
+  /*height: 15rem;*/
 }
 
 .panel {
@@ -26155,7 +26155,7 @@ fieldset[disabled] .button.is-secondary .icon, .button.is-secondary[disabled] .i
 }
 .button.is-outline.is-primary:focus, .button.is-outline.is-primary.is-focus {
   border-color: black;
-  background-color: #f5f5f5;
+  /*background-color: #f5f5f5;*/
   color: black;
 }
 .button.is-outline.is-primary.is-active {
