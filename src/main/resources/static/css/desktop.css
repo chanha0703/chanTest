@@ -27063,7 +27063,7 @@ fieldset[disabled] .input, .input[disabled] {
 }
 
 input:checked ~ .icon {
-  fill: #151515 !important;
+  fill: #5f0000 !important;
 }
 
 .label:not(:last-child) {

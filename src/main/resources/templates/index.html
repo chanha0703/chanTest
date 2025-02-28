@@ -15,6 +15,8 @@
 
   <script src="/js/jquery.min.js"></script>
 
+  <script src="https://cdn.tiny.cloud/1/55m7l1db0rcatk0ou8pab7jkklwxolztxybc1k71cjcjuf0t/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
 </head>
 
 <body>
@@ -188,12 +190,37 @@
       <div class="page" id="mainContent">
         <!-- 메인 페이지 시작... -->
         <!-- 1(S) -->
-        <div class="content" id="docList" style="display: none;">
+        <div class="content" id="listForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
               <div class="card is-sub is-search">
                 <div class="card-header">
-                  <h1 class="page-title">제조기록서</h1>
+                  <h1 class="page-title">
+                    제조기록서(임시페이지로 양식 등록/작성/수정 가능)
+                    <div class="columns">
+                      <ul aria-label="breadcrumbs"class="breadcrumbs has-chevron-separator">
+                        <li class="breadcrumb">
+                          <span>홈</span>
+                        </li>
+                        <li aria-current="page"class="breadcrumb is-active">
+                          <a href="#"rel="noopener">제조기록서</a>
+                        </li>
+                      </ul>
+                      <label class="checkbox is-star">
+                        <input type="checkbox"/>
+                        <span class="icon is-star is-large">
+                          <svg><use href="#star"></use></svg>
+                        </span>
+                        <div class="tooltip">즐겨찾기</div>
+                      </label>
+                      <button class="button is-question is-ghost">
+                        <span class="icon is-question is-filled is-medium">
+                          <svg><use href="#question-filled"></use></svg>
+                        </span>
+                        <div class="tooltip">도움말</div>
+                      </button>
+                    </div>
+                  </h1>
                 </div>
                 <div class="card-body">
                   <table id="searchTable" class="table is-search is-fullwidth">
@@ -255,9 +282,14 @@
                             <span class="data-count">1<span></span>건</span>
                           </h2>
                           <div class="buttons">
-                            <input type="file" id="upload_files" style="display: none;">
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('update')">
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('regist')">
                               양식 등록
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('update')">
+                              양식 수정
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('detail')">
+                              양식 상세
                             </button>
                             <button type="button" class="button is-outline is-primary is-medium" onclick="alert('미구현 기능입니다.');">
                               <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
@@ -265,7 +297,7 @@
                             </button>
                           </div>
                         </div>
-                        <div id="leavDayGrid" class="realgrid" style="height: 600rem;"></div>
+                        <div style="height: 420rem;"></div>
                       </div>
                     </div>
                   </div>
@@ -344,7 +376,7 @@
                             <span class="data-count">x<span></span>건</span>
                           </h2>
                         </div>
-                        <div style="height: 600rem;"></div>
+                        <div style="height: 420rem;"></div>
                       </div>
                     </div>
                   </div>
@@ -354,6 +386,210 @@
           </div>
         </div>
         <!-- 2(E) -->
+
+        <!-- 3(S) -->
+        <div class="content" id="registForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title">제조기록서 등록</h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>기타1</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>기타2</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>양식</span>
+                          </h2>
+                          <div class="buttons">
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼1
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼2
+                            </button>
+                          </div>
+                        </div>
+                        <div style="height: 465rem;">
+                          <div id="registTiny"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 3(E) -->
+
+        <!-- 4(S) -->
+        <div class="content" id="updateForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title">제조기록서 수정</h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>기타1</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>기타2</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>양식</span>
+                          </h2>
+                          <div class="buttons">
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼1
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼2
+                            </button>
+                          </div>
+                        </div>
+                        <div style="height: 465rem;">
+                          <div id="updateTiny"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 4(E) -->
+
+        <!-- 5(S) -->
+        <div class="content" id="detailForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title">제조기록서 상세</h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>기타1</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>기타2</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>양식</span>
+                          </h2>
+                          <div class="buttons">
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼1
+                            </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기타버튼2
+                            </button>
+                          </div>
+                        </div>
+                        <div style="height: 465rem;">
+                          <div id="detailTiny"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 5(E) -->
         <!-- 메인 페이지 끝... -->
       </div>
     </div>
@@ -361,8 +597,10 @@
 </div>
 
 <script th:inline="javascript">
-
   $(document).ready(function() {
+    setTinyMce('registTiny');
+    setTinyMce('updateTiny');
+    setTinyMce('detailTiny');
     setSvg();
     initEvent();
   })  //document.ready
@@ -450,27 +688,69 @@
   } //initEvent
 
   function loadPage(type) {
+    $(".tox-statusbar__branding").hide();
     if (type === 'list') {
-      $("#emptyForm").fadeOut(300).promise().done(function() {
-        $("#docList").fadeIn(300);
+      $("#emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+        $("#listForm").fadeIn(300);
       });
     } else if (type === 'detail') {
-      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
-        console.log("detail 뷰 로딩 완료");
+      $("#listForm, #emptyForm, #registForm, #updateForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+        $("#detailForm").fadeIn(300);
       });
     } else if (type === 'update') {
-      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
-        console.log("update 뷰 로딩 완료");
+      $("#listForm, #emptyForm, #registForm, #detailForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+        $("#updateForm").fadeIn(300);
+      });
+    } else if (type === 'regist') {
+      $("#listForm, #emptyForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+        $("#registForm").fadeIn(300);
       });
     } else {
-      $("#docList, #emptyForm").fadeOut(300).promise().done(function() {
+      $("#listForm, #emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
         $("#emptyTitle").text(type);
         $("#emptyForm").fadeIn(300);
       });
     }
+  } //loadPage
+
+  function setTinyMce(tag) {
+    if(tag === 'detailTiny') {
+      tinymce.init({
+        selector: '#'+tag
+        , language: 'ko_KR'
+        , resize: false
+        , menubar: false
+        , toolbar: false
+        , readonly: true
+        , height: 490
+      });
+    }else {
+      tinymce.init({
+        selector: '#'+tag
+        , language: 'ko_KR'
+        , resize: false
+        , height: 490
+        , plugins: [
+          // Core editing features
+          'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
+          // Your account includes a free trial of TinyMCE premium features
+          // Try the most popular premium features until Mar 5, 2025:
+          'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword'
+        ]
+        , toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap '
+      });
+    }
   }
-
-
 </script>
 </body>
 
