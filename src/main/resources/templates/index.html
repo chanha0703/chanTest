@@ -11,12 +11,12 @@
   <meta name="theme-color" content="#ffffff">
 
   <link rel="stylesheet" href="/css/desktop.css"/>
-  <link rel="stylesheet" href="css/custom.css"/>
+  <link rel="stylesheet" href="/css/custom.css"/>
 
   <script src="/js/jquery.min.js"></script>
+  <script src="/js/temp.js"></script>
 
-  <script src="https://cdn.tiny.cloud/1/55m7l1db0rcatk0ou8pab7jkklwxolztxybc1k71cjcjuf0t/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
+  <script src="https://cdn.tiny.cloud/1/9hwtzxtc2zwisi7b85nco60f3mzb63hrh69z1w3qywn28snr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -196,7 +196,7 @@
               <div class="card is-sub is-search">
                 <div class="card-header">
                   <h1 class="page-title">
-                    제조기록서(임시페이지로 양식 등록/작성/수정 가능)
+                    제조기록서(임시페이지로 등록/수정/작성/상세 가능)
                     <div class="columns">
                       <ul aria-label="breadcrumbs"class="breadcrumbs has-chevron-separator">
                         <li class="breadcrumb">
@@ -288,8 +288,11 @@
                             <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('update')">
                               양식 수정
                             </button>
+                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('write')">
+                              제조기록서 작성
+                            </button>
                             <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('detail')">
-                              양식 상세
+                              제조기록서 상세
                             </button>
                             <button type="button" class="button is-outline is-primary is-medium" onclick="alert('미구현 기능입니다.');">
                               <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
@@ -434,8 +437,8 @@
                             <span>양식</span>
                           </h2>
                           <div class="buttons">
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼1
+                            <button id="btnRegist" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              등록하기
                             </button>
                             <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                               기타버튼2
@@ -502,11 +505,11 @@
                             <span>양식</span>
                           </h2>
                           <div class="buttons">
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼1
+                            <button id="btnUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              수정하기
                             </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼2
+                            <button id="btnUpdateLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              불러오기
                             </button>
                           </div>
                         </div>
@@ -524,6 +527,74 @@
         <!-- 4(E) -->
 
         <!-- 5(S) -->
+        <div class="content" id="writeForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title">제조기록서 작성</h1>
+                </div>
+                <div class="card-body">
+                  <table id="searchTable" class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>기타1</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>기타2</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>양식</span>
+                          </h2>
+                          <div class="buttons">
+                            <button id="btnWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              작성하기
+                            </button>
+                            <button id="btnWriteLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              불러오기
+                            </button>
+                          </div>
+                        </div>
+                        <div style="height: 465rem;">
+                          <div id="writeTiny"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 5(E) -->
+
+        <!-- 6(S) -->
         <div class="content" id="detailForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
@@ -573,8 +644,8 @@
                             <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                               기타버튼1
                             </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼2
+                            <button id="btnDetailLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              불러오기
                             </button>
                           </div>
                         </div>
@@ -589,7 +660,22 @@
             </div>
           </div>
         </div>
-        <!-- 5(E) -->
+        <!-- 6(E) -->
+
+        <div id="myModal" class="my-modal">
+          <div class="my-modal-content">
+            <span class="my-close">&times;</span>
+            <h1 class="page-title" id="myModalTitle">등록하기</h1>
+            <input type="hidden" id="modalTinyName"/>
+            <input type="hidden" id="modalActType"/>
+            <br/>
+            <div>
+              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(1)">샘플_1</button>
+              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(2)">샘플_2</button>
+              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(3)">샘플_3</button>
+            </div>
+          </div>
+        </div>
         <!-- 메인 페이지 끝... -->
       </div>
     </div>
@@ -597,10 +683,18 @@
 </div>
 
 <script th:inline="javascript">
+
+  let nowEnable = false;    //테이블 resize 현재값
+  let documentList = {
+    'list_1': {'name':'샘플_1','content':content_1}
+    , 'list_2': {'name':'샘플_2','content':content_2}
+    , 'list_3' : {'name':'샘플_3','content':content_3}
+  };
+
   $(document).ready(function() {
     setTinyMce('registTiny');
     setTinyMce('updateTiny');
-    setTinyMce('detailTiny');
+    setTinyMce('writeTiny');
     setSvg();
     initEvent();
   })  //document.ready
@@ -685,36 +779,129 @@
         $("#sideMenuFav").show();
       }
     });
+
+    $("#btnWrite").click(() => {
+      $("#myModalTitle").text('작성하기');
+      $("#modalTinyName").val('writeTiny');
+      $("#modalActType").val('set');
+      $("#myModal").fadeIn();
+    });
+
+    $("#btnWriteLoad").click(() => {
+      $("#myModalTitle").text('불러오기');
+      $("#modalTinyName").val('writeTiny');
+      $("#modalActType").val('get');
+      $("#myModal").fadeIn();
+    });
+
+    $("#btnDetailLoad").click(() => {
+      $("#myModalTitle").text('불러오기');
+      $("#modalTinyName").val('detailTiny');
+      $("#modalActType").val('get');
+      $("#myModal").fadeIn();
+    });
+
+    $("#btnUpdate").click(() => {
+      $("#myModalTitle").text('수정하기');
+      $("#modalTinyName").val('updateTiny');
+      $("#modalActType").val('set');
+      $("#myModal").fadeIn();
+    });
+
+    $("#btnUpdateLoad").click(() => {
+      $("#myModalTitle").text('불러오기');
+      $("#modalTinyName").val('updateTiny');
+      $("#modalActType").val('get');
+      $("#myModal").fadeIn();
+    })
+
+    $("#btnRegist").click(() => {
+      $("#myModalTitle").text('등록하기');
+      $("#modalTinyName").val('registTiny');
+      $("#modalActType").val('set');
+      $("#myModal").fadeIn();
+    });
+
+    $(".my-close, .my-modal").click(function(event){
+      if (event.target === this) {
+        $("#myModal").fadeOut();
+      }
+    });
   } //initEvent
+
+  function setModalContent(num) {
+    let tinyTarget = tinymce.get($("#modalTinyName").val());
+    if(tinyTarget) {
+      if($("#modalActType").val() === 'set') {
+        if(num === 1) {
+          content_1 = tinyTarget.getContent();
+        }else if(num === 2) {
+          content_2 = tinyTarget.getContent();
+        }else if(num === 3) {
+          content_3 = tinyTarget.getContent();
+        }
+        $("#myModal").fadeOut();
+        loadPage('list');
+      } else if($("#modalActType").val() === 'get') {
+        if(num === 1) {
+          tinyTarget.setContent(content_1);
+        }else if(num === 2) {
+          tinyTarget.setContent(content_2);
+        }else if(num === 3) {
+          tinyTarget.setContent(content_3);
+        }
+        $("#myModal").fadeOut();
+      }
+    }else if ($("#modalTinyName").val() === 'detailTiny') {
+      if(num === 1) {
+        $("#detailTiny").html(content_1);
+      }else if(num === 2) {
+        $("#detailTiny").html(content_2);
+      }else if(num === 3) {
+        $("#detailTiny").html(content_3);
+      }
+      $("#myModal").fadeOut();
+    }
+    $("#modalActType").val('')
+    $("#modalTinyName").val('');
+    $("#myModalTitle").text('');
+  }
 
   function loadPage(type) {
     $(".tox-statusbar__branding").hide();
     if (type === 'list') {
-      $("#emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+      $("#emptyForm, #registForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
         $("input").val('');
         if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
         $("#listForm").fadeIn(300);
       });
-    } else if (type === 'detail') {
-      $("#listForm, #emptyForm, #registForm, #updateForm").fadeOut(300).promise().done(function() {
+    } else if (type === 'write') {
+      $("#listForm, #emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
         $("input").val('');
         if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
-        $("#detailForm").fadeIn(300);
+        tinymce.get('writeTiny').setContent(content_1);
+        $("#writeForm").fadeIn(300);
       });
     } else if (type === 'update') {
-      $("#listForm, #emptyForm, #registForm, #detailForm").fadeOut(300).promise().done(function() {
+      $("#listForm, #emptyForm, #registForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
         $("input").val('');
         if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
         $("#updateForm").fadeIn(300);
       });
     } else if (type === 'regist') {
-      $("#listForm, #emptyForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+      $("#listForm, #emptyForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
         $("input").val('');
         if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
         $("#registForm").fadeIn(300);
       });
+    } else if(type === 'detail') {
+      $("#listForm, #emptyForm, #registForm, #updateForm, #writeForm").fadeOut(300).promise().done(function() {
+        $("input").val('');
+        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+        $("#detailForm").fadeIn(300);
+      });
     } else {
-      $("#listForm, #emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
+      $("#listForm, #emptyForm, #registForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
         $("input").val('');
         if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
         $("#emptyTitle").text(type);
@@ -724,33 +911,101 @@
   } //loadPage
 
   function setTinyMce(tag) {
-    if(tag === 'detailTiny') {
-      tinymce.init({
-        selector: '#'+tag
-        , language: 'ko_KR'
-        , resize: false
-        , menubar: false
-        , toolbar: false
-        , readonly: true
-        , height: 490
-      });
+    if(tag === 'writeTiny') {
+      setWriterTiny(tag);
     }else {
-      tinymce.init({
-        selector: '#'+tag
-        , language: 'ko_KR'
-        , resize: false
-        , height: 490
-        , plugins: [
-          // Core editing features
-          'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
-          // Your account includes a free trial of TinyMCE premium features
-          // Try the most popular premium features until Mar 5, 2025:
-          'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword'
-        ]
-        , toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap '
-      });
+      setManagerTiny(tag);
     }
   }
+
+  function toggleTableResize(editorId) {
+    let editor = tinymce.get(editorId); // 현재 에디터 가져오기
+
+    if (editor) {
+      let tempContent = editor.getContent();
+      editor.destroy(); // 현재 에디터 제거
+      setManagerTiny(editorId);
+      tinymce.get(editorId).setContent(tempContent);
+    }
+  }
+
+  function setManagerTiny(tag) {
+    tinymce.init({
+      selector: '#'+tag
+      , language: 'ko_KR'
+      , resize: 'both'
+      , height: 490
+      , plugins: [
+        // Core editing features
+        'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
+        'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword'
+      ]
+      , toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough | link table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton noWriteButton | resizeButton'
+      , content_style: `.myClass {border: 2px solid red !important;}`
+      , table_resize_bars: nowEnable
+      , setup: (editor) => {
+        editor.ui.registry.addButton('writeButton', {
+          text: '작성설정'
+          , onAction: (_) => {
+            let node = editor.selection.getNode();
+            let depth = 0;  // 최대 4단계 제한
+
+            while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
+              node = node.parentNode;
+              depth++;
+            }
+
+            if (node && node.tagName && node.tagName.toLowerCase() === "td") {
+              node.classList.add("myClass");
+            }else {
+              editor.selection.getNode().classList.add('myClass')
+            }
+          }
+        });
+        editor.ui.registry.addButton('noWriteButton', {
+          text: '작성해제'
+          , onAction: (_) => {
+            let node = editor.selection.getNode();
+            let depth = 0;  // 최대 4단계 제한
+
+            while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
+              node = node.parentNode;
+              depth++;
+            }
+
+            if (node && node.tagName && node.tagName.toLowerCase() === "td") {
+              node.classList.remove("myClass");
+            }else {
+              editor.selection.getNode().classList.remove('myClass')
+            }
+          }
+        });
+        editor.ui.registry.addButton('resizeButton', {
+          text: '테이블조절'
+          , onAction: (_) => {
+            nowEnable = !nowEnable;
+            toggleTableResize(tag);
+          }
+        });
+      }
+    });
+  }
+
+  function setWriterTiny(tag) {
+    tinymce.init({
+      selector: '#'+tag
+      , language: 'ko_KR'
+      , resize: false
+      , menubar: false
+      , toolbar: false
+      , editable_class: 'myClass'
+      , editable_root: false
+      , content_style: `.myClass {border: 2px solid red !important;}`
+      , height: 490
+    });
+  }
+
+
 </script>
 </body>
 
