@@ -938,9 +938,9 @@
       , plugins: [
         // Core editing features
         'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
-        'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword'
+        'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
       ]
-      , toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough | link table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton noWriteButton | resizeButton'
+      , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton']
       , content_style: `.myClass {border: 2px solid red !important;}`
       , table_resize_bars: nowEnable
       , setup: (editor) => {
@@ -956,27 +956,11 @@
             }
 
             if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-              node.classList.add("myClass");
+              if(node.classList.contains('myClass')) node.classList.remove("myClass");
+              else node.classList.add("myClass");
             }else {
-              editor.selection.getNode().classList.add('myClass')
-            }
-          }
-        });
-        editor.ui.registry.addButton('noWriteButton', {
-          text: '작성해제'
-          , onAction: (_) => {
-            let node = editor.selection.getNode();
-            let depth = 0;  // 최대 4단계 제한
-
-            while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
-              node = node.parentNode;
-              depth++;
-            }
-
-            if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-              node.classList.remove("myClass");
-            }else {
-              editor.selection.getNode().classList.remove('myClass')
+              if(editor.selection.getNode().classList.contains('myClass')) editor.selection.getNode().classList.remove('myClass')
+              else editor.selection.getNode().classList.add('myClass')
             }
           }
         });
@@ -987,6 +971,58 @@
             toggleTableResize(tag);
           }
         });
+        editor.ui.registry.addButton('makeRadioButton', {
+          text: '체크활성화'
+          , onAction: (_) => {
+            let content = editor.getContent();
+
+            // □가 포함된 태그를 <input type="radio">로 변환
+            // content = content.replace(/<[^>]*>□<\/[^>]*>/g, function () {
+            //   return '<input type="checkbox" class="custom-radio"/>';
+            // });
+
+            // □를 포함한 span 태그와 바로 이전 span 태그를 label로 묶기
+            // content = content.replace(/(<span[^>]*>.*?□<\/span>)(?=<span[^>]*>|\s*<\/p>)/g, function(match) {
+            //   return '<label>' + match + '</label>';
+            // });
+            //
+            // // □가 포함된 태그를 <input type="checkbox">로 변환
+            // content = content.replace(/<span[^>]*>□<\/span>/g, function() {
+            //   return '<input type="checkbox" class="custom-radio"/>';
+            // });
+
+            // content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
+            //   // □를 <input type="checkbox">로 변환
+            //   let checkbox = p2.replace('□', '<input type="checkbox" class="custom-radio"/>');
+            //   return '<label>' + p1 + checkbox + p3 + '</label>';
+            // });
+
+            content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
+              // □를 <input type="checkbox">로 변환
+              let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio"/>');
+              return p1 + checkbox + p3;
+            });
+
+            editor.setContent(content); // 변경된 내용 반영
+          }
+        });
+        editor.on('init', () => {
+          editor.getBody().addEventListener('click', (event) => {
+            if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
+              let checkbox = event.target;
+              let parentP = $(checkbox).closest('td');
+              let tobeCheckboxProp = $(checkbox).prop('checked');
+
+              // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
+              parentP.find('.custom-radio').prop('checked', false);
+              parentP.find('.custom-radio').removeAttr('checked');
+
+              $(checkbox).prop('checked', tobeCheckboxProp);
+              if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+              else $(checkbox).removeAttr('checked');
+            }
+          })
+        })
       }
     });
   }
@@ -1002,9 +1038,27 @@
       , editable_root: false
       , content_style: `.myClass {border: 2px solid red !important;}`
       , height: 490
+      , setup: (editor) => {
+        editor.on('init', () => {
+          editor.getBody().addEventListener('click', (event) => {
+            if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
+              let checkbox = event.target;
+              let parentP = $(checkbox).closest('td');
+              let tobeCheckboxProp = $(checkbox).prop('checked');
+
+              // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
+              parentP.find('.custom-radio').prop('checked', false);
+              parentP.find('.custom-radio').removeAttr('checked');
+
+              $(checkbox).prop('checked', tobeCheckboxProp);
+              if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+              else $(checkbox).removeAttr('checked');
+            }
+          })
+        })
+      }
     });
   }
-
 
 </script>
 </body>
