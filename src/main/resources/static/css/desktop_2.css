@@ -1350,31 +1350,31 @@ a.ui-button:active,
 }
 .ui-icon,
 .ui-widget-content .ui-icon {
-	background-image: url(/img/png/ui-icons_444444_256x240.png)/*{iconsContent}*/;
+	background-image: url(img/png/ui-icons_444444_256x240.png)/*{iconsContent}*/;
 }
 .ui-widget-header .ui-icon {
-	background-image: url(/img/png/ui-icons_444444_256x240.png)/*{iconsHeader}*/;
+	background-image: url(img/png/ui-icons_444444_256x240.png)/*{iconsHeader}*/;
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon,
 .ui-button:hover .ui-icon,
 .ui-button:focus .ui-icon {
-	background-image: url(/img/png/ui-icons_555555_256x240.png)/*{iconsHover}*/;
+	background-image: url(img/png/ui-icons_555555_256x240.png)/*{iconsHover}*/;
 }
 .ui-state-active .ui-icon,
 .ui-button:active .ui-icon {
-	background-image: url(/img/png/ui-icons_ffffff_256x240.png)/*{iconsActive}*/;
+	background-image: url(img/png/ui-icons_ffffff_256x240.png)/*{iconsActive}*/;
 }
 .ui-state-highlight .ui-icon,
 .ui-button .ui-state-highlight.ui-icon {
-	background-image: url(/img/png/ui-icons_777620_256x240.png)/*{iconsHighlight}*/;
+	background-image: url(img/png/ui-icons_777620_256x240.png)/*{iconsHighlight}*/;
 }
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-	background-image: url(/img/png/ui-icons_cc0000_256x240.png)/*{iconsError}*/;
+	background-image: url(img/png/ui-icons_cc0000_256x240.png)/*{iconsError}*/;
 }
 .ui-button .ui-icon {
-	background-image: url(/img/png/ui-icons_777777_256x240.png)/*{iconsDefault}*/;
+	background-image: url(img/png/ui-icons_777777_256x240.png)/*{iconsDefault}*/;
 }
 
 /* positioning */
@@ -20374,7 +20374,7 @@ option:hover, option:checked {
 }
 
 ::-webkit-scrollbar-button {
-  display: none;
+  /* display: none; */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -20406,7 +20406,6 @@ option:hover, option:checked {
   align-items: center;
   font-size: 13rem;
   font-weight: 400;
-  line-height: 16rem;
   user-select: none;
 }
 .breadcrumbs ul,
@@ -20418,7 +20417,9 @@ option:hover, option:checked {
   margin-right: 7rem;
 }
 .breadcrumbs a {
+  display: inline-block;
   color: #9e9e9e;
+  line-height: 16rem;
 }
 .breadcrumbs .icon:first-child {
   margin-right: 0.5em;
@@ -21250,7 +21251,7 @@ fieldset[disabled] .color, .color[disabled] {
 }
 .container.is-page {
   min-width: 1920rem;
-  height: calc(100vh - 95rem - 6rem);
+  height: calc(100vh - 55rem);
   overflow-y: auto;
   overflow-y: overlay;
   background-color: #f2f5f6;
@@ -21693,6 +21694,7 @@ fieldset[disabled] .dropdown-trigger .button, .dropdown-trigger .button[disabled
 }
 .icon.is-star {
   fill: #bebebe;
+  line-height: 0;
 }
 .icon.is-menu {
   fill: #cbcbcb;
@@ -22234,6 +22236,7 @@ a.list-item {
   }
 }
 .left-navbar {
+  overflow: visible;
   position: fixed;
   left: -260rem;
   top: 95rem;
@@ -22242,9 +22245,29 @@ a.list-item {
   background-color: white;
   box-shadow: 0 0 8rem rgba(0, 0, 0, 0.08);
   transition: 0.1s all;
-  z-index: 1;
-  height: calc(100% - 180rem);
+  z-index: 20;
+  height: calc(100% - 135.5rem);
 }
+
+.left-navbar .lnb-toggle-btn {
+  display: inline-block;
+  position: absolute;
+  left: 100%;
+  top: 20px;
+  width: 18px;
+  height: 36px;
+  text-indent: -999999px;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background: #5F0000 url(../img/svg/lnb-toggle-btn.svg) no-repeat center;
+  background-size: 12px auto;
+  overflow: visible;
+  cursor: pointer;
+}
+.left-navbar .lnb-toggle-btn.is-active {
+  background-image: url(../img/svg/lnb-toggle-btn-active.svg);
+}
+
 .left-navbar > .profile,
 .left-navbar > .is-menu {
   opacity: 0;
@@ -23396,10 +23419,10 @@ body.has-navbar-fixed-bottom {
 }
 
 .navbar-menu {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   padding: 0 42rem 0 40rem;
-  width: calc(100% - 300rem);
 }
 
 .navbar-content {
@@ -23630,17 +23653,22 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
 .page-title {
   display: flex;
   justify-content: space-between;
+  gap: 20rem;
   font-size: 28rem;
   font-weight: 600;
   line-height: 34rem;
   color: black;
   text-align: inherit;
+  word-break: keep-all;
 }
 .page-title .checkbox.is-star {
   margin-right: 7rem;
+	width: 13px;
+	margin-top: 5px;
 }
 .page-title .columns {
   margin-top: -2rem;
+  min-width: 146rem;
 }
 .page-title:not(:last-child) {
   margin-bottom: 6rem;
@@ -23651,6 +23679,8 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
 }
 .page.is-main .page-body {
   padding: 39.5rem;
+  display: flex;
+  flex-direction: column;
 }
 .left-navbar.is-active ~ .page {
   width: calc(100% - 300rem);
@@ -23658,7 +23688,7 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
 
 .page-body {
   padding: 30rem 30rem 0;
-  min-height: calc(100vh - 101rem);
+  min-height: calc(100vh - 55rem);
   transition: 0.1s;
 }
 .page-body::after {
@@ -23666,6 +23696,10 @@ fieldset[disabled] .delete::before, fieldset[disabled] .delete::after, .delete[d
   flex: none;
   display: block;
   /*height: 15rem;*/
+}
+
+.page-body .is-sub:not(.is-search) { 
+  flex: 1;
 }
 
 .panel {
@@ -24321,12 +24355,12 @@ fieldset[disabled] .table > tbody > tr > td,
 .table > tbody {
   background-color: transparent;
 }
-.table > tbody > tr > th,
+/* .table > tbody > tr > th,
 .table > tbody > tr > td {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
+} */
 .table > tfoot {
   background-color: transparent;
 }
@@ -24468,7 +24502,7 @@ fieldset[disabled] .table > tbody > tr > td,
 .table.is-search > thead > tr > td:last-child,
 .table.is-search > tbody > tr > td:last-child {
   padding-right: 20rem;
-  padding-bottom: 11rem;
+  padding-bottom: 15rem;
   vertical-align: top;
   text-align: right;
 }
@@ -27019,7 +27053,7 @@ fieldset[disabled] .checkbox input ~ .icon, .checkbox input[disabled] ~ .icon {
   line-height: 17rem;
   color: black;
   padding: 0 10rem;
-  height: 100%;
+  height: 26rem;
 }
 .input::placeholder {
   font-size: 14rem;
@@ -27858,6 +27892,9 @@ fieldset[disabled] .textarea, .textarea[disabled] {
 }
 .columns.has-gap:last-child {
   margin-bottom: -10rem;
+}
+.columns > .column > .form > div > p {
+  word-break: keep-all;
 }
 .columns.has-3-columns {
   margin-top: -10rem;
@@ -31346,5 +31383,3 @@ fieldset[disabled] .ms-choice, .ms-choice[disabled] {
   background-image: url(../background-images/icon-double-chevron-disabled.svg);
   transform: rotate(180deg);
 }
-
-/*# sourceMappingURL=desktop.css.map*/

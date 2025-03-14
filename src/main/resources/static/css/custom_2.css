@@ -201,7 +201,7 @@
         width:100%;
     }
     .navbar-menu {
-        padding: 0 42rem 0 10rem!important;
+        padding: 0 42rem 0 25rem!important;
     }
     .logo.is-gsitm-hr {
         width: 115rem !important;
@@ -227,7 +227,7 @@
         width: calc(50% - (10rem * 2));
     }
     .navbar-menu {
-        width: 100%!important;
+        /* width: 100%!important; */
     }
     .navbar-left .navbar-item:not(:last-child) {
         margin-right: 0rem!important;
@@ -244,8 +244,16 @@
     .main-slide .slide-title .title {
         font-size: 25rem;
     }
+    .left-navbar.is-active ~ .page {
+        width: 100%;
+    }
+    .table.is-search colgroup col:nth-child(odd) {
+        width: 14% !important;
+    } 
+    .table.is-search colgroup col:last-child {
+        width: 13.9% !important;
+    }
 }
-
 
 .my-modal {
     display: none;
@@ -268,7 +276,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: 300px;
+    width: 50%;
+    height: 50%;
     text-align: center;
 }
 
@@ -277,6 +286,6 @@
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
 }

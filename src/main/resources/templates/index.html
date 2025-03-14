@@ -10,13 +10,40 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
 
-  <link rel="stylesheet" href="/css/desktop.css"/>
-  <link rel="stylesheet" href="/css/custom.css"/>
+  <link rel="stylesheet" href="/css/desktop_2.css"/>
+  <link rel="stylesheet" href="/css/custom_2.css"/>
 
   <script src="/js/jquery.min.js"></script>
   <script src="/js/temp.js"></script>
 
+  <script src="/js/xlsx.full.min.js"></script>
+  <script src="/js/tui-grid.js"></script>
+  <link rel="stylesheet" href="/css/tui-grid.css"/>
+
   <script src="https://cdn.tiny.cloud/1/9hwtzxtc2zwisi7b85nco60f3mzb63hrh69z1w3qywn28snr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+  <style>
+      .chan-blue > div {
+          color: blue !important;
+          text-decoration: underline;
+          cursor: pointer;
+      }
+
+      #detailTiny * {
+          all: revert;
+      }
+
+      /*#listGridParent, #list_2GridParent {*/
+      /*    width: 100%;*/
+      /*    display: flex;*/
+      /*    flex-direction: column;*/
+      /*}*/
+
+      /*#listGrid, #list_2Grid {*/
+      /*    flex: 1;*/
+      /*    min-height: 300px;*/
+      /*}*/
+  </style>
 </head>
 
 <body>
@@ -27,7 +54,8 @@
     <div class="navbar-logo">
       <a class="navbar-link" href="/" rel="noopener">
         <span class="logo is-gsitm-hr is-medium">
-          <svg id="svgKgcLogo"><use href="#logo-kgc"></use></svg>
+          <img src="img/svg/logo-kgc.svg"/>
+          <!--<svg id="svgKgcLogo"><use href="#logo-kgc"></use></svg>-->
         </span>
       </a>
     </div>
@@ -81,6 +109,7 @@
     <div class="columns is-page">
       <!-- [ navigation menu ] start -->
       <aside class="left-navbar is-active">
+        <button class="lnb-toggle-btn is-active">LNB 접기/펼치기</button>
         <div class="profile">
           <div class="columns">
             <figure id="_psmstrPhotoPicture" class="id-photo">
@@ -141,41 +170,41 @@
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener"  onclick="loadPage($(this).text())">
+                <a class="menu-link" href="#" aria-current="page" rel="noopener"  onclick="loadPage('formList')">
                   제조기록서 양식
                 </a>
               </li>
               <li class="menu-item">
                 <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
-                  Log 레포트
+                  샘플메뉴_1
                 </a>
               </li>
             </ul>
             <ul id="sideMenuCom" class="menu" style="display:none;">
               <li class="menu-item">
                 <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
-                  공통코드 관리
+                  샘플메뉴_2
                 </a>
               </li>
               <li class="menu-item">
                 <a class="menu-link" href="#" aria-current="page" rel="noopener">
-                  권한 관리
+                  샘플메뉴_3
                   <ul class="sub-menu">
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 그룹</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_1</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 별 유저</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_2</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">권한 별 메뉴</a>
+                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_3</a>
                     </li>
                   </ul>
                 </a>
               </li>
               <li class="menu-item">
                 <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
-                  사용자 관리
+                  샘플메뉴_4
                 </a>
               </li>
             </ul>
@@ -189,16 +218,16 @@
       </aside>
       <div class="page" id="mainContent">
         <!-- 메인 페이지 시작... -->
-        <!-- 1(S) -->
-        <div class="content" id="listForm" style="display: none;">
+        <!-- 0(S) -->
+        <div class="content" id="formListForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
               <div class="card is-sub is-search">
                 <div class="card-header">
                   <h1 class="page-title">
-                    제조기록서(임시페이지로 등록/수정/작성/상세 가능)
+                    제조기록서 양식
                     <div class="columns">
-                      <ul aria-label="breadcrumbs"class="breadcrumbs has-chevron-separator">
+                      <ul aria-label="breadcrumbs" class="breadcrumbs has-chevron-separator">
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
@@ -223,7 +252,7 @@
                   </h1>
                 </div>
                 <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
+                  <table class="table is-search is-fullwidth">
                     <colgroup>
                       <col style="width: 9%;"/>
                       <col/>
@@ -246,7 +275,7 @@
                       <th></th>
                       <td></td>
                       <td rowspan="2">
-                        <button type="button" id="btnSearch" class="button is-search is-filled is-medium">
+                        <button type="button" class="button is-search is-filled is-medium" disabled>
                             <span class="icon is-search is-medium">
                                 <svg><use href="#search"></use></svg>
                             </span>
@@ -275,32 +304,123 @@
                 <div class="card-body">
                   <div class="columns has-gap">
                     <div class="column">
-                      <div class="form">
+                      <div class="form" id="list_2GridParent">
+                        <div class="columns has-table-title">
+                          <h2 class="table-title">
+                            <span>제조기록서 양식</span>
+                            <span class="data-count"><span>3</span>건</span>
+                          </h2>
+                        </div>
+                        <div id="list_2Grid"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 0(E) -->
+
+        <!-- 1(S) -->
+        <div class="content" id="listForm" style="display: none;">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="card is-sub is-search">
+                <div class="card-header">
+                  <h1 class="page-title">
+                    제조기록서
+                    <div class="columns">
+                      <ul aria-label="breadcrumbs" class="breadcrumbs has-chevron-separator">
+                        <li class="breadcrumb">
+                          <span>홈</span>
+                        </li>
+                        <li aria-current="page"class="breadcrumb is-active">
+                          <a href="#"rel="noopener">제조기록서</a>
+                        </li>
+                      </ul>
+                      <label class="checkbox is-star">
+                        <input type="checkbox"/>
+                        <span class="icon is-star is-large">
+                          <svg><use href="#star"></use></svg>
+                        </span>
+                        <div class="tooltip">즐겨찾기</div>
+                      </label>
+                      <button class="button is-question is-ghost">
+                        <span class="icon is-question is-filled is-medium">
+                          <svg><use href="#question-filled"></use></svg>
+                        </span>
+                        <div class="tooltip">도움말</div>
+                      </button>
+                    </div>
+                  </h1>
+                </div>
+                <div class="card-body">
+                  <table class="table is-search is-fullwidth">
+                    <colgroup>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 9%;"/>
+                      <col/>
+                      <col style="width: 7.4%;"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                      <th><span>등록일자</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>공정번호</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                      <td rowspan="2">
+                        <button type="button" class="button is-search is-filled is-medium" disabled>
+                            <span class="icon is-search is-medium">
+                                <svg><use href="#search"></use></svg>
+                            </span>
+                          <span>조회</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><span>제조번호</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th><span>품목</span></th>
+                      <td>
+                        <input type="text" class="input"/>
+                      </td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card is-sub">
+                <div class="card-body">
+                  <div class="columns has-gap">
+                    <div class="column">
+                      <div class="form" id="listGridParent">
                         <div class="columns has-table-title">
                           <h2 class="table-title">
                             <span>제조기록서</span>
-                            <span class="data-count">1<span></span>건</span>
+                            <span class="data-count"><span id="listGridCnt">0</span>건</span>
                           </h2>
                           <div class="buttons">
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('regist')">
-                              양식 등록
-                            </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('update')">
-                              양식 수정
-                            </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('write')">
+                            <button id="btnListWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                               제조기록서 작성
-                            </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;" onclick="loadPage('detail')">
-                              제조기록서 상세
-                            </button>
-                            <button type="button" class="button is-outline is-primary is-medium" onclick="alert('미구현 기능입니다.');">
-                              <span class="icon is-excel is-medium"><svg><use href="#excel"></use></svg></span>
-                              <span>버튼2</span>
                             </button>
                           </div>
                         </div>
-                        <div style="height: 420rem;"></div>
+                        <div id="listGrid"></div>
                       </div>
                     </div>
                   </div>
@@ -320,7 +440,7 @@
                   <h1 class="page-title" id="emptyTitle">빈페이지</h1>
                 </div>
                 <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
+                  <table class="table is-search is-fullwidth">
                     <colgroup>
                       <col style="width: 9%;"/>
                       <col/>
@@ -343,7 +463,7 @@
                       <th></th>
                       <td></td>
                       <td rowspan="2">
-                        <button type="button" id="btnSearch" class="button is-search is-filled is-medium" disabled>
+                        <button type="button" class="button is-search is-filled is-medium" disabled>
                             <span class="icon is-search is-medium">
                                 <svg><use href="#search"></use></svg>
                             </span>
@@ -376,10 +496,10 @@
                         <div class="columns has-table-title">
                           <h2 class="table-title">
                             <span>검색결과</span>
-                            <span class="data-count">x<span></span>건</span>
+                            <span class="data-count"><span>x</span>건</span>
                           </h2>
                         </div>
-                        <div style="height: 420rem;"></div>
+                        <div></div>
                       </div>
                     </div>
                   </div>
@@ -390,108 +510,13 @@
         </div>
         <!-- 2(E) -->
 
-        <!-- 3(S) -->
-        <div class="content" id="registForm" style="display: none;">
-          <div class="page is-main">
-            <div class="page-body">
-              <div class="card is-sub is-search">
-                <div class="card-header">
-                  <h1 class="page-title">제조기록서 등록</h1>
-                </div>
-                <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
-                    <colgroup>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 7.4%;"/>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                      <th><span>기타1</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th><span>기타2</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div class="card is-sub">
-                <div class="card-body">
-                  <div class="columns has-gap">
-                    <div class="column">
-                      <div class="form">
-                        <div class="columns has-table-title">
-                          <h2 class="table-title">
-                            <span>양식</span>
-                          </h2>
-                          <div class="buttons">
-                            <button id="btnRegist" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              등록하기
-                            </button>
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼2
-                            </button>
-                          </div>
-                        </div>
-                        <div style="height: 465rem;">
-                          <div id="registTiny"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 3(E) -->
-
         <!-- 4(S) -->
         <div class="content" id="updateForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
-              <div class="card is-sub is-search">
+              <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title">제조기록서 수정</h1>
-                </div>
-                <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
-                    <colgroup>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 7.4%;"/>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                      <th><span>기타1</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th><span>기타2</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                    </tbody>
-                  </table>
+                  <h1 class="page-title">제조기록서 양식 수정</h1>
                 </div>
               </div>
 
@@ -508,14 +533,9 @@
                             <button id="btnUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                               수정하기
                             </button>
-                            <button id="btnUpdateLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              불러오기
-                            </button>
                           </div>
                         </div>
-                        <div style="height: 465rem;">
-                          <div id="updateTiny"></div>
-                        </div>
+                        <div id="updateTiny"></div>
                       </div>
                     </div>
                   </div>
@@ -530,36 +550,9 @@
         <div class="content" id="writeForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
-              <div class="card is-sub is-search">
+              <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title">제조기록서 작성</h1>
-                </div>
-                <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
-                    <colgroup>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 7.4%;"/>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                      <th><span>기타1</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th><span>기타2</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                    </tbody>
-                  </table>
+                  <h1 class="page-title" id="writeFormTitle">제조기록서 작성</h1>
                 </div>
               </div>
 
@@ -576,14 +569,12 @@
                             <button id="btnWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                               작성하기
                             </button>
-                            <button id="btnWriteLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              불러오기
+                            <button id="btnWriteUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              수정하기
                             </button>
                           </div>
                         </div>
-                        <div style="height: 465rem;">
-                          <div id="writeTiny"></div>
-                        </div>
+                        <div id="writeTiny"></div>
                       </div>
                     </div>
                   </div>
@@ -598,36 +589,9 @@
         <div class="content" id="detailForm" style="display: none;">
           <div class="page is-main">
             <div class="page-body">
-              <div class="card is-sub is-search">
+              <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title">제조기록서 상세</h1>
-                </div>
-                <div class="card-body">
-                  <table id="searchTable" class="table is-search is-fullwidth">
-                    <colgroup>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 9%;"/>
-                      <col/>
-                      <col style="width: 7.4%;"/>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                      <th><span>기타1</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th><span>기타2</span></th>
-                      <td>
-                        <input type="text" class="input"/>
-                      </td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                    </tbody>
-                  </table>
+                  <h1 class="page-title" id="detailTitle">제조기록서 상세</h1>
                 </div>
               </div>
 
@@ -638,20 +602,18 @@
                       <div class="form">
                         <div class="columns has-table-title">
                           <h2 class="table-title">
-                            <span>양식</span>
+                            <span></span>
                           </h2>
                           <div class="buttons">
-                            <button type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기타버튼1
+                            <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              기록서 수정
                             </button>
-                            <button id="btnDetailLoad" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              불러오기
+                            <button id="btnDetailUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              양식 수정
                             </button>
                           </div>
                         </div>
-                        <div style="height: 465rem;">
-                          <div id="detailTiny"></div>
-                        </div>
+                        <div id="detailTiny" style="margin-left: 15%;"></div>
                       </div>
                     </div>
                   </div>
@@ -665,15 +627,9 @@
         <div id="myModal" class="my-modal">
           <div class="my-modal-content">
             <span class="my-close">&times;</span>
-            <h1 class="page-title" id="myModalTitle">등록하기</h1>
-            <input type="hidden" id="modalTinyName"/>
-            <input type="hidden" id="modalActType"/>
+            <h1 class="page-title" id="myModalTitle">제조기록서 작성</h1>
             <br/>
-            <div>
-              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(1)">샘플_1</button>
-              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(2)">샘플_2</button>
-              <button type="button" class="button is-outline is-primary is-medium" onclick="setModalContent(3)">샘플_3</button>
-            </div>
+            <div id="list_3Grid"></div>
           </div>
         </div>
         <!-- 메인 페이지 끝... -->
@@ -685,16 +641,23 @@
 <script th:inline="javascript">
 
   let nowEnable = false;    //테이블 resize 현재값
+  let tinyHeight = 500;
+  let listGrid;
+  let list_2Grid;
+  let list_3Grid;
+  let writeIdx = 0;
+
   let documentList = {
-    'list_1': {'name':'샘플_1','content':content_1}
-    , 'list_2': {'name':'샘플_2','content':content_2}
-    , 'list_3' : {'name':'샘플_3','content':content_3}
+    'content_1': {idx: 'content_1', content: content_1, docName: '제조지시 및 기록서', prodName: '홍삼정 (Cage 추출방식)', process: '원료투입', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
+    , 'content_2': {idx: 'content_2', content: content_2, docName: '제조지시 및 기록서', prodName: '홍삼정', process: '충전', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
+    , 'content_3' : {idx: 'content_3', content: content_3, docName: '포장지시 및 기록서', prodName: '홍삼정', process: '포장', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
   };
+  let writeList = {};
+
+  let nowDetailContent;   //상세페이지에서 사용되는 content
+  let nowDetailLocation;  //상세페이지 호출 경로
 
   $(document).ready(function() {
-    setTinyMce('registTiny');
-    setTinyMce('updateTiny');
-    setTinyMce('writeTiny');
     setSvg();
     initEvent();
   })  //document.ready
@@ -753,6 +716,29 @@
       }
     });
 
+    //LNB(접고 펼치기)
+    $('.lnb-toggle-btn').click(function() {
+      $(this).toggleClass('is-active');
+      $('.left-navbar').toggleClass('is-active');
+    });
+
+    $('.navbar-left').click(function() {
+      $(".left-navbar, .lnb-toggle-btn").addClass("is-active");
+    })
+
+    if ($(window).width() <= 1600) {
+      tinyHeight = '64vh';
+      $(".left-navbar, .lnb-toggle-btn").removeClass("is-active");
+
+      const closeNavbar = () => {
+        if ($(".left-navbar").hasClass("is-active") && $(".lnb-toggle-btn").hasClass("is-active")) {
+          $(".left-navbar, .lnb-toggle-btn").removeClass("is-active");
+        }
+      };
+
+      $("#mainContent, iframe").click(closeNavbar);
+    }
+
     //TABS(메뉴/즐겨찾기)
     $("ul.tabs .tab").click(function() {
       $("ul.tabs .tab").removeClass('is-active');
@@ -781,142 +767,180 @@
     });
 
     $("#btnWrite").click(() => {
-      $("#myModalTitle").text('작성하기');
-      $("#modalTinyName").val('writeTiny');
-      $("#modalActType").val('set');
-      $("#myModal").fadeIn();
+      if(confirm('저장하시겠습니까?')) {
+        writeIdx++;
+        writeList['writeContent_'+writeIdx] = {
+          idx: 'writeContent_'+writeIdx
+          , content: tinymce.get('writeTiny').getContent()
+          , docName: documentList[nowDetailContent].docName
+          , prodName: documentList[nowDetailContent].prodName
+          , process: documentList[nowDetailContent].process
+          , worker: '홍길동'
+          , workDate: new Date().toLocaleDateString('en-CA')
+          , _attributes:{className:{column:{docName:['chan-blue']}}}
+        }
+        ;
+        alert('저장되었습니다.');
+        loadPage('list');
+      }
     });
 
-    $("#btnWriteLoad").click(() => {
-      $("#myModalTitle").text('불러오기');
-      $("#modalTinyName").val('writeTiny');
-      $("#modalActType").val('get');
-      $("#myModal").fadeIn();
+    $("#btnWriteUpdate").click(() => {
+      if(confirm('수정하시겠습니까?')) {
+        writeList[nowDetailContent] = {
+          idx: nowDetailContent
+          , content: tinymce.get('writeTiny').getContent()
+          , docName: writeList[nowDetailContent].docName
+          , prodName: writeList[nowDetailContent].prodName
+          , process: writeList[nowDetailContent].process
+          , worker: '홍길동'
+          , workDate: new Date().toLocaleDateString('en-CA')
+          , _attributes:{className:{column:{docName:['chan-blue']}}}
+        }
+        ;
+        alert('수정되었습니다.');
+        loadPage('list');
+      }
     });
 
-    $("#btnDetailLoad").click(() => {
-      $("#myModalTitle").text('불러오기');
-      $("#modalTinyName").val('detailTiny');
-      $("#modalActType").val('get');
+    $("#btnListWrite").click(() => {
+      setList_3Grid();
       $("#myModal").fadeIn();
     });
 
     $("#btnUpdate").click(() => {
-      $("#myModalTitle").text('수정하기');
-      $("#modalTinyName").val('updateTiny');
-      $("#modalActType").val('set');
-      $("#myModal").fadeIn();
+      if(confirm('수정하시겠습니까?')) {
+        alert('수정되었습니다.');
+        documentList[nowDetailContent].content = tinymce.get('updateTiny').getContent();
+        loadPage('formList');
+      }
     });
 
-    $("#btnUpdateLoad").click(() => {
-      $("#myModalTitle").text('불러오기');
-      $("#modalTinyName").val('updateTiny');
-      $("#modalActType").val('get');
-      $("#myModal").fadeIn();
-    })
+    $("#btnDetailWrite").click(() => {
+      let idx = nowDetailContent;
+      if(nowDetailContent) {
+        nowDetailLocation = 'listUpdate';
+        loadPage('write', writeList[idx].content);
+      }
+    });
 
-    $("#btnRegist").click(() => {
-      $("#myModalTitle").text('등록하기');
-      $("#modalTinyName").val('registTiny');
-      $("#modalActType").val('set');
-      $("#myModal").fadeIn();
+    $("#btnDetailUpdate").click(() => {
+      let idx = nowDetailContent;
+      if(nowDetailContent) loadPage('update', documentList[idx].content);
     });
 
     $(".my-close, .my-modal").click(function(event){
       if (event.target === this) {
         $("#myModal").fadeOut();
+        list_3Grid.destroy();
+        list_3Grid = null;
       }
     });
   } //initEvent
 
-  function setModalContent(num) {
-    let tinyTarget = tinymce.get($("#modalTinyName").val());
-    if(tinyTarget) {
-      if($("#modalActType").val() === 'set') {
-        if(num === 1) {
-          content_1 = tinyTarget.getContent();
-        }else if(num === 2) {
-          content_2 = tinyTarget.getContent();
-        }else if(num === 3) {
-          content_3 = tinyTarget.getContent();
-        }
-        $("#myModal").fadeOut();
-        loadPage('list');
-      } else if($("#modalActType").val() === 'get') {
-        if(num === 1) {
-          tinyTarget.setContent(content_1);
-        }else if(num === 2) {
-          tinyTarget.setContent(content_2);
-        }else if(num === 3) {
-          tinyTarget.setContent(content_3);
-        }
-        $("#myModal").fadeOut();
-      }
-    }else if ($("#modalTinyName").val() === 'detailTiny') {
-      if(num === 1) {
-        $("#detailTiny").html(content_1);
-      }else if(num === 2) {
-        $("#detailTiny").html(content_2);
-      }else if(num === 3) {
-        $("#detailTiny").html(content_3);
-      }
-      $("#myModal").fadeOut();
-    }
-    $("#modalActType").val('')
-    $("#modalTinyName").val('');
-    $("#myModalTitle").text('');
-  }
+  function loadPage(type, content) {
 
-  function loadPage(type) {
-    $(".tox-statusbar__branding").hide();
-    if (type === 'list') {
-      $("#emptyForm, #registForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+    $("#listForm, #emptyForm, #updateForm, #writeForm, #detailForm, #formListForm").fadeOut(300).promise().done(function() {
+      $("input").val('');
+      destroyTiny();
+      destroyGrid();
+
+      if(type === 'list') {
+        nowDetailContent = '';
+        nowDetailLocation = '';
+        $("#listGridCnt").text(Object.keys(writeList).length);
+        setListGrid();
         $("#listForm").fadeIn(300);
-      });
-    } else if (type === 'write') {
-      $("#listForm, #emptyForm, #registForm, #updateForm, #detailForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
-        tinymce.get('writeTiny').setContent(content_1);
-        $("#writeForm").fadeIn(300);
-      });
-    } else if (type === 'update') {
-      $("#listForm, #emptyForm, #registForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+      }else if(type === 'formList') {
+        nowDetailContent = '';
+        nowDetailLocation = '';
+        setList_2Grid();
+        $("#formListForm").fadeIn(300);
+      }else if (type === 'write') {
+        setTinyMce('writeTiny').then(() => {
+          $(".tox-statusbar__branding").hide();
+          if(content) tinymce.get('writeTiny').setContent(content);
+          if(nowDetailLocation === 'listUpdate') {
+            $("#writeFormTitle").text('제조기록서 수정');
+            $("#btnWriteUpdate").show();
+            $("#btnWrite").hide();
+          }else if(nowDetailLocation === 'newWrite') {
+            $("#writeFormTitle").text('제조기록서 작성');
+            $("#btnWrite").show();
+            $("#btnWriteUpdate").hide();
+          }else {
+            $("#writeFormTitle").text('제조기록서 작성');
+            $("#btnWrite").hide();
+            $("#btnWriteUpdate").hide();
+          }
+          $("#writeForm").fadeIn(300);
+        });
+      }else if (type === 'update') {
+        setTinyMce('updateTiny').then(() => {
+          $(".tox-statusbar__branding").hide();
+          if(content) tinymce.get('updateTiny').setContent(content);
+        });
         $("#updateForm").fadeIn(300);
-      });
-    } else if (type === 'regist') {
-      $("#listForm, #emptyForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
-        $("#registForm").fadeIn(300);
-      });
-    } else if(type === 'detail') {
-      $("#listForm, #emptyForm, #registForm, #updateForm, #writeForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+      }else if(type === 'detail') {
+        $("#detailTiny").html(content);
+        if(nowDetailLocation === 'form') {
+          $("#detailTitle").text('제조기록서 양식 상세');
+          $("#btnDetailWrite").hide();
+          $("#btnDetailUpdate").show();
+        } else if(nowDetailLocation === 'list') {
+          $("#detailTitle").text('제조기록서 상세');
+          $("#btnDetailUpdate").hide();
+          $("#btnDetailWrite").show();
+        } else {
+          $("#detailTitle").text('제조기록서 상세');
+          $("#btnDetailUpdate").hide();
+          $("#btnDetailWrite").hide();
+        }
+        $(".custom-radio").css("pointer-events", "none");
         $("#detailForm").fadeIn(300);
-      });
-    } else {
-      $("#listForm, #emptyForm, #registForm, #updateForm, #writeForm, #detailForm").fadeOut(300).promise().done(function() {
-        $("input").val('');
-        if(tinymce.get().length>0) tinymce.get().forEach(editor => editor.setContent(''));
+      }else {
+        nowDetailContent = '';
+        nowDetailLocation = '';
         $("#emptyTitle").text(type);
         $("#emptyForm").fadeIn(300);
-      });
-    }
+      }
+    });
   } //loadPage
 
-  function setTinyMce(tag) {
-    if(tag === 'writeTiny') {
-      setWriterTiny(tag);
+  function destroyTiny(targetTiny) {
+    if(targetTiny) {
+      let editor = tinymce.get(editorId); // 현재 에디터 가져오기
+      editor.setContent('');
+      editor.destroy(); // 현재 에디터 제거
     }else {
-      setManagerTiny(tag);
+      if(tinymce.get().length>0) tinymce.get().forEach(editor => {editor.setContent('');editor.destroy();});
     }
   }
+
+  function destroyGrid() {
+    if(listGrid) {
+      listGrid.destroy();
+      listGrid = null;
+    }
+    if(list_2Grid) {
+      list_2Grid.destroy();
+      list_2Grid = null;
+    }
+  }
+
+  function setTinyMce(tag) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (tag === 'writeTiny') {
+          setWriterTiny(tag).then(resolve);
+        } else {
+          setManagerTiny(tag).then(resolve);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  } //setTinyMce
 
   function toggleTableResize(editorId) {
     let editor = tinymce.get(editorId); // 현재 에디터 가져오기
@@ -924,138 +948,295 @@
     if (editor) {
       let tempContent = editor.getContent();
       editor.destroy(); // 현재 에디터 제거
-      setManagerTiny(editorId);
-      tinymce.get(editorId).setContent(tempContent);
+      setManagerTiny(editorId).then(() => tinymce.get(editorId).setContent(tempContent));
     }
-  }
+  } //toggleTableResize
 
   function setManagerTiny(tag) {
-    tinymce.init({
-      selector: '#'+tag
-      , language: 'ko_KR'
-      , resize: 'both'
-      , height: 490
-      , plugins: [
-        // Core editing features
-        'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
-        'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
-      ]
-      , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton']
-      , content_style: `.myClass {border: 2px solid red !important;}`
-      , table_resize_bars: nowEnable
-      , setup: (editor) => {
-        editor.ui.registry.addButton('writeButton', {
-          text: '작성설정'
-          , onAction: (_) => {
-            let node = editor.selection.getNode();
-            let depth = 0;  // 최대 4단계 제한
+    return new Promise((resolve, reject) => {
+      try {
+        tinymce.init({
+          selector: '#'+tag
+          , language: 'ko_KR'
+          , resize: true
+          , min_height: 500
+          , height: tinyHeight
+          , plugins: [
+            'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
+            'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
+          ]
+          , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton']
+          , content_style: `.myClass {border: 2px solid red !important;}`
+          , table_resize_bars: nowEnable
+          , setup: (editor) => {
+            editor.ui.registry.addButton('writeButton', {
+              text: '작성설정'
+              , onAction: (_) => {
+                let node = editor.selection.getNode();
+                let depth = 0;  // 최대 4단계 제한
 
-            while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
-              node = node.parentNode;
-              depth++;
-            }
+                while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
+                  node = node.parentNode;
+                  depth++;
+                }
 
-            if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-              if(node.classList.contains('myClass')) node.classList.remove("myClass");
-              else node.classList.add("myClass");
-            }else {
-              if(editor.selection.getNode().classList.contains('myClass')) editor.selection.getNode().classList.remove('myClass')
-              else editor.selection.getNode().classList.add('myClass')
-            }
-          }
-        });
-        editor.ui.registry.addButton('resizeButton', {
-          text: '테이블조절'
-          , onAction: (_) => {
-            nowEnable = !nowEnable;
-            toggleTableResize(tag);
-          }
-        });
-        editor.ui.registry.addButton('makeRadioButton', {
-          text: '체크활성화'
-          , onAction: (_) => {
-            let content = editor.getContent();
-
-            // □가 포함된 태그를 <input type="radio">로 변환
-            // content = content.replace(/<[^>]*>□<\/[^>]*>/g, function () {
-            //   return '<input type="checkbox" class="custom-radio"/>';
-            // });
-
-            // □를 포함한 span 태그와 바로 이전 span 태그를 label로 묶기
-            // content = content.replace(/(<span[^>]*>.*?□<\/span>)(?=<span[^>]*>|\s*<\/p>)/g, function(match) {
-            //   return '<label>' + match + '</label>';
-            // });
-            //
-            // // □가 포함된 태그를 <input type="checkbox">로 변환
-            // content = content.replace(/<span[^>]*>□<\/span>/g, function() {
-            //   return '<input type="checkbox" class="custom-radio"/>';
-            // });
-
-            // content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
-            //   // □를 <input type="checkbox">로 변환
-            //   let checkbox = p2.replace('□', '<input type="checkbox" class="custom-radio"/>');
-            //   return '<label>' + p1 + checkbox + p3 + '</label>';
-            // });
-
-            content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
-              // □를 <input type="checkbox">로 변환
-              let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio"/>');
-              return p1 + checkbox + p3;
+                if (node && node.tagName && node.tagName.toLowerCase() === "td") {
+                  if(node.classList.contains('myClass')) node.classList.remove("myClass");
+                  else node.classList.add("myClass");
+                }else {
+                  if(editor.selection.getNode().classList.contains('myClass')) editor.selection.getNode().classList.remove('myClass')
+                  else editor.selection.getNode().classList.add('myClass')
+                }
+              }
             });
+            editor.ui.registry.addButton('resizeButton', {
+              text: '테이블조절'
+              , onAction: (_) => {
+                nowEnable = !nowEnable;
+                toggleTableResize(tag);
+              }
+            });
+            editor.ui.registry.addButton('makeRadioButton', {
+              text: '체크활성화'
+              , onAction: (_) => {
+                let content = editor.getContent();
 
-            editor.setContent(content); // 변경된 내용 반영
+                content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
+                  // □를 <input type="checkbox">로 변환
+                  let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio"/>');
+                  return p1 + checkbox + p3;
+                });
+
+                editor.setContent(content); // 변경된 내용 반영
+              }
+            });
+            editor.on('init', () => {
+              editor.getBody().addEventListener('click', (event) => {
+                if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
+                  let checkbox = event.target;
+                  let parentP = $(checkbox).closest('td');
+                  let tobeCheckboxProp = $(checkbox).prop('checked');
+
+                  // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
+                  parentP.find('.custom-radio').prop('checked', false);
+                  parentP.find('.custom-radio').removeAttr('checked');
+
+                  $(checkbox).prop('checked', tobeCheckboxProp);
+                  if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+                  else $(checkbox).removeAttr('checked');
+                }
+              })
+            })
           }
+          , init_instance_callback: (e) => resolve()
         });
-        editor.on('init', () => {
-          editor.getBody().addEventListener('click', (event) => {
-            if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
-              let checkbox = event.target;
-              let parentP = $(checkbox).closest('td');
-              let tobeCheckboxProp = $(checkbox).prop('checked');
-
-              // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
-              parentP.find('.custom-radio').prop('checked', false);
-              parentP.find('.custom-radio').removeAttr('checked');
-
-              $(checkbox).prop('checked', tobeCheckboxProp);
-              if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
-              else $(checkbox).removeAttr('checked');
-            }
-          })
-        })
+      }catch (e) {
+        reject(e);
       }
+
     });
-  }
+  } //setManagerTiny
 
   function setWriterTiny(tag) {
-    tinymce.init({
-      selector: '#'+tag
-      , language: 'ko_KR'
-      , resize: false
-      , menubar: false
-      , toolbar: false
-      , editable_class: 'myClass'
-      , editable_root: false
-      , content_style: `.myClass {border: 2px solid red !important;}`
-      , height: 490
-      , setup: (editor) => {
-        editor.on('init', () => {
-          editor.getBody().addEventListener('click', (event) => {
-            if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
-              let checkbox = event.target;
-              let parentP = $(checkbox).closest('td');
-              let tobeCheckboxProp = $(checkbox).prop('checked');
+    return new Promise((resolve, reject) => {
+      try {
+        tinymce.init({
+          selector: '#' + tag
+          , language: 'ko_KR'
+          , resize: true
+          , menubar: false
+          , toolbar: false
+          , editable_class: 'myClass'
+          , editable_root: false
+          , content_style: `.myClass {border: 2px solid red !important;}`
+          , min_height: 500
+          , height: tinyHeight
+          , setup: (editor) => {
+            editor.on('init', () => {
+              editor.getBody().addEventListener('click', (event) => {
+                if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
+                  let checkbox = event.target;
+                  let parentP = $(checkbox).closest('td');
+                  let tobeCheckboxProp = $(checkbox).prop('checked');
 
-              // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
-              parentP.find('.custom-radio').prop('checked', false);
-              parentP.find('.custom-radio').removeAttr('checked');
+                  // 해당 <p> 태그 내의 모든 .custom-radio를 uncheck 상태로 만들기
+                  parentP.find('.custom-radio').prop('checked', false);
+                  parentP.find('.custom-radio').removeAttr('checked');
 
-              $(checkbox).prop('checked', tobeCheckboxProp);
-              if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
-              else $(checkbox).removeAttr('checked');
-            }
-          })
-        })
+                  $(checkbox).prop('checked', tobeCheckboxProp);
+                  if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+                  else $(checkbox).removeAttr('checked');
+                }
+              })
+            })
+          }
+          , init_instance_callback: (e) => resolve()
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  } //setWriterTiny
+
+  function setListGrid() {
+    if(listGrid) return;
+    // tui.Grid.applyTheme('striped');
+    setGridStyle_a();
+    listGrid = new tui.Grid({
+      el: document.getElementById('listGrid')
+      , data: Object.values(writeList)
+      , scrollX: false
+      , scrollY: false
+      , bodyHeight: 300
+      , rowHeight: 35
+      , rowHeaders: ['rowNum']
+      , columns: [
+        {header: 'content값', name: 'idx', hidden: true}
+        , {header: '제조기록서', name: 'docName', sortable: true, align: 'center'}
+        , {header: '제품명', name: 'prodName', sortable: true}
+        , {header: '제조공정', name: 'process', sortable: true}
+        , {header: '작업자', name: 'worker', sortable: true, align: 'center'}
+        , {header: '작업일자', name: 'workDate', sortable: true, align: 'center'}
+      ]
+      , contextMenu: ({rowKey, columnName}) => [
+        [{
+          name: 'export', label: 'Export'
+          , subMenu: [{name: 'execlExport', label: '엑셀내보내기(xlsx)', action: () => listGrid.export('xlsx', {fileName:'제조기록서_리스트'})}]
+        }]
+      ]
+    });
+
+    listGrid.on('click', (ev) => {
+      if(ev.columnName === 'docName') {
+        let idx = listGrid.getValue(ev.rowKey, "idx");
+        if(idx) {
+          nowDetailContent = idx;
+          nowDetailLocation = 'list';
+          loadPage('detail', writeList[idx].content);
+        }
+      }
+    })
+  }
+
+  function setList_2Grid() {
+    if(list_2Grid) return;
+    setGridStyle_a();
+    list_2Grid = new tui.Grid({
+      el: document.getElementById('list_2Grid')
+      , data: Object.values(documentList)
+      , scrollX: false
+      , scrollY: false
+      , bodyHeight: 300
+      , rowHeight: 35
+      , rowHeaders: ['rowNum']
+      , columns: [
+        {header: 'content값', name: 'idx', hidden: true}
+        , {header: '제조기록서', name: 'docName', sortable: true, align: 'center'}
+        , {header: '제품명', name: 'prodName', sortable: true}
+        , {header: '제조공정', name: 'process', sortable: true}
+        , {header: '등록자', name: 'worker', sortable: true, align: 'center'}
+        , {header: '등록일자', name: 'workDate', sortable: true, align: 'center'}
+      ]
+      , contextMenu: ({rowKey, columnName}) => [
+        [{
+          name: 'export', label: 'Export'
+          , subMenu: [{name: 'execlExport', label: '엑셀내보내기(xlsx)', action: () => list_2Grid.export('xlsx', {fileName:'제조기록서양식_리스트'})}]
+        }]
+      ]
+    });
+
+    list_2Grid.on('click', (ev) => {
+      if(ev.columnName === 'docName') {
+        let idx = list_2Grid.getValue(ev.rowKey, "idx");
+        if(idx) {
+          nowDetailContent = idx;
+          nowDetailLocation = 'form';
+          loadPage('detail', documentList[idx].content);
+        }
+      }
+    })
+  }
+
+  function setList_3Grid() {
+    if(list_3Grid) return;
+    setGridStyle_a();
+    list_3Grid = new tui.Grid({
+      el: document.getElementById('list_3Grid')
+      , data: Object.values(documentList)
+      , scrollX: false
+      , scrollY: false
+      , bodyHeight: 300
+      , rowHeight: 35
+      , rowHeaders: ['rowNum']
+      , columns: [
+        {header: 'content값', name: 'idx', hidden: true}
+        , {header: '제조기록서', name: 'docName', sortable: true, align: 'center'}
+        , {header: '제품명', name: 'prodName', sortable: true}
+        , {header: '제조공정', name: 'process', sortable: true}
+      ]
+    });
+
+    list_3Grid.on('click', (ev) => {
+      if(ev.columnName === 'docName') {
+        let idx = list_3Grid.getValue(ev.rowKey, "idx");
+        if(idx) {
+          nowDetailContent = idx;
+          nowDetailLocation = 'newWrite';
+          $("#myModal").fadeOut();
+          loadPage('write', documentList[idx].content);
+          list_3Grid.destroy();
+          list_3Grid = null;
+        }
+      }
+    })
+  }
+
+  function setGridStyle_a() {
+    tui.Grid.applyTheme('striped' ,{
+      selection: {
+        background: '#4daaf9',
+        border: '#004082'
+      },
+      scrollbar: {
+        background: '#f5f5f5',
+        thumb: '#d9d9d9',
+        active: '#c1c1c1'
+      },
+      row: {
+        even: {
+          background: '#f8f8f8'
+        },
+        hover: {
+          background: '#eee'
+        }
+      },
+      cell: {
+        normal: {
+          background: '#fbfbfb',
+          border: '#e0e0e0',
+          showVerticalBorder: true
+        },
+        header: {
+          background: '#eee',
+          border: '#ccc',
+          showVerticalBorder: true
+        },
+        rowHeader: {
+          border: '#ccc',
+          showVerticalBorder: true
+        },
+        editable: {
+          background: '#fbfbfb'
+        },
+        selectedHeader: {
+          background: '#d8d8d8'
+        },
+        focused: {
+          border: '#418ed4'
+        },
+        disabled: {
+          text: '#b0b0b0'
+        }
       }
     });
   }

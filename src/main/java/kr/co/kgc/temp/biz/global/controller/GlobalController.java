@@ -10,9 +10,4 @@ public class GlobalController {
   public String goMain() {
     return "index";
   }
-  
-  @GetMapping("/list")
-  public String getList() {
-    return "/document/list";
-  }
 }
