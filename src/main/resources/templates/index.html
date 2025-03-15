@@ -858,7 +858,6 @@
         $("#formListForm").fadeIn(300);
       }else if (type === 'write') {
         setTinyMce('writeTiny').then(() => {
-          $(".tox-statusbar__branding").hide();
           if(content) tinymce.get('writeTiny').setContent(content);
           if(nowDetailLocation === 'listUpdate') {
             $("#writeFormTitle").text('제조기록서 수정');
@@ -877,7 +876,6 @@
         });
       }else if (type === 'update') {
         setTinyMce('updateTiny').then(() => {
-          $(".tox-statusbar__branding").hide();
           if(content) tinymce.get('updateTiny').setContent(content);
         });
         $("#updateForm").fadeIn(300);
@@ -961,6 +959,8 @@
           , resize: true
           , min_height: 500
           , height: tinyHeight
+          , branding: false
+          , elementpath: false
           , plugins: [
             'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
             'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
@@ -1003,7 +1003,7 @@
 
                 content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
                   // □를 <input type="checkbox">로 변환
-                  let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio"/>');
+                  let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio" style="margin:5px 1px 1px 1px"/>');
                   return p1 + checkbox + p3;
                 });
 
@@ -1051,6 +1051,8 @@
           , content_style: `.myClass {border: 2px solid red !important;}`
           , min_height: 500
           , height: tinyHeight
+          , branding: false
+          , elementpath: false
           , setup: (editor) => {
             editor.on('init', () => {
               editor.getBody().addEventListener('click', (event) => {
