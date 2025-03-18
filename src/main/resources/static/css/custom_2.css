@@ -279,6 +279,7 @@
     width: 50%;
     height: 50%;
     text-align: center;
+    overflow: hidden;
 }
 
 /* 닫기 버튼 */

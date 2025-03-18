@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no;" />
   <title>제조기록서</title>
 
   <meta name="msapplication-TileColor" content="#ffffff">
@@ -52,7 +52,7 @@
   <!-- [ Header ] start -->
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-logo">
-      <a class="navbar-link" href="/" rel="noopener">
+      <a class="navbar-link" href="javascript:void(0);" rel="noopener">
         <span class="logo is-gsitm-hr is-medium">
           <img src="img/svg/logo-kgc.svg"/>
           <!--<svg id="svgKgcLogo"><use href="#logo-kgc"></use></svg>-->
@@ -62,7 +62,7 @@
     <div class="navbar-menu">
       <ul class="navbar-left" id="headerMenu">
         <li class="navbar-item" data-target="dom">
-          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="javascript:void(0);" aria-current="page" rel="noopener">
             <span class="icon is-person-check is-medium">
               <svg id="svgClipboard"><use href="#clipboard"></use></svg>
             </span>
@@ -70,7 +70,7 @@
           </a>
         </li>
         <li class="navbar-item" data-target="com">
-          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="javascript:void(0);" aria-current="page" rel="noopener">
             <span class="icon is-person-check is-medium">
               <svg id="svgWindowGear"><use href="#window-gear"></use></svg>
             </span>
@@ -80,10 +80,10 @@
       </ul>
       <ul class="navbar-right">
         <li class="navbar-item">
-          <a class="navbar-link" id="btnsiteMap" href="#" aria-current="page" rel="noopener"></a>
+          <a class="navbar-link" id="btnsiteMap" href="javascript:void(0);" aria-current="page" rel="noopener"></a>
         </li>
         <li class="navbar-item">
-          <a class="navbar-link" id="headerEmplSearch" href="#" aria-current="page" rel="noopener">
+          <a class="navbar-link" id="headerEmplSearch" href="javascript:void(0);" aria-current="page" rel="noopener">
             <div class="control is-x-large has-icon-right" style="width: 150px;">
               <input id="inputEmplSearch" type="text" th:placeholder="사원검색" class="input" disabled/>
               <span class="icon is-search is-large">
@@ -93,7 +93,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a class="navbar-link" href="#" aria-current="page" rel="noopener">
+          <a class="navbar-link" href="javascript:void(0);" aria-current="page" rel="noopener">
             <span class="icon is-logout is-medium">
                 <svg id="svgLogout"><use href="#logout"></use></svg>
             </span>
@@ -145,7 +145,7 @@
         </div>
         <ul class="tabs is-menu">
           <li class="tab is-active" data-target="base">
-            <a class="tab-link" href="#" rel="noopener">
+            <a class="tab-link" href="javascript:void(0);" rel="noopener">
               <span class="icon is-medium is-menu">
                 <svg id="svgMenu"><use href="#menu"></use></svg>
               </span>
@@ -153,7 +153,7 @@
             </a>
           </li>
           <li class="tab" data-target="fav">
-            <a class="tab-link" href="#" rel="noopener">
+            <a class="tab-link" href="javascript:void(0);" rel="noopener">
               <span class="icon is-medium is-menu">
                 <svg id="svgStar"><use href="#star"></use></svg>
               </span>
@@ -165,45 +165,45 @@
           <div class="tab-content is-menu is-active">
             <ul id="sideMenuDoc" class="menu" style="display: none;">
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage('list')">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener" onclick="loadPage('list')">
                   제조기록서
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener"  onclick="loadPage('formList')">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener"  onclick="loadPage('formList')">
                   제조기록서 양식
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   샘플메뉴_1
                 </a>
               </li>
             </ul>
             <ul id="sideMenuCom" class="menu" style="display:none;">
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   샘플메뉴_2
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener">
                   샘플메뉴_3
                   <ul class="sub-menu">
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_1</a>
+                      <a class="sub-menu-link" href="javascript:void(0);" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_1</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_2</a>
+                      <a class="sub-menu-link" href="javascript:void(0);" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_2</a>
                     </li>
                     <li class="sub-menu-item">
-                      <a class="sub-menu-link" href="#" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_3</a>
+                      <a class="sub-menu-link" href="javascript:void(0);" rel="noopener" onclick="loadPage($(this).text())">샘플하위메뉴_3</a>
                     </li>
                   </ul>
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="#" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener" onclick="loadPage($(this).text())">
                   샘플메뉴_4
                 </a>
               </li>
@@ -232,7 +232,7 @@
                           <span>홈</span>
                         </li>
                         <li aria-current="page"class="breadcrumb is-active">
-                          <a href="#"rel="noopener">제조기록서</a>
+                          <a href="javascript:void(0);" rel="noopener">제조기록서 양식</a>
                         </li>
                       </ul>
                       <label class="checkbox is-star">
@@ -336,7 +336,7 @@
                           <span>홈</span>
                         </li>
                         <li aria-current="page"class="breadcrumb is-active">
-                          <a href="#"rel="noopener">제조기록서</a>
+                          <a href="javascript:void(0);" rel="noopener">제조기록서</a>
                         </li>
                       </ul>
                       <label class="checkbox is-star">
@@ -516,7 +516,19 @@
             <div class="page-body">
               <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title">제조기록서 양식 수정</h1>
+                  <h1 class="page-title">
+                    제조기록서 양식 수정
+                    <div class="columns">
+                      <ul aria-label="breadcrumbs" class="breadcrumbs has-chevron-separator">
+                        <li class="breadcrumb">
+                          <span>홈</span>
+                        </li>
+                        <li aria-current="page"class="breadcrumb">
+                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('formList')">제조기록서 양식</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </h1>
                 </div>
               </div>
 
@@ -552,7 +564,19 @@
             <div class="page-body">
               <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title" id="writeFormTitle">제조기록서 작성</h1>
+                  <h1 class="page-title">
+                    <div id="writeFormTitle">제조기록서 작성</div>
+                    <div class="columns">
+                      <ul aria-label="breadcrumbs" class="breadcrumbs has-chevron-separator">
+                        <li class="breadcrumb">
+                          <span>홈</span>
+                        </li>
+                        <li aria-current="page"class="breadcrumb">
+                          <a href="javascript:void(0);"  rel="noopener" onclick="loadPage('list')">제조기록서</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </h1>
                 </div>
               </div>
 
@@ -591,29 +615,44 @@
             <div class="page-body">
               <div class="card is-sub is-search" style="padding: 0 5rem 5rem 15rem">
                 <div class="card-header">
-                  <h1 class="page-title" id="detailTitle">제조기록서 상세</h1>
+                  <h1 class="page-title">
+                    <div id="detailTitle">제조기록서 상세</div>
+                    <div class="columns">
+                      <ul aria-label="breadcrumbs" class="breadcrumbs has-chevron-separator">
+                        <li class="breadcrumb">
+                          <span>홈</span>
+                        </li>
+                        <li aria-current="page"class="breadcrumb">
+                          <a href="javascript:void(0);" rel="noopener" id="detailFormBread" onclick="loadPage('formList')" style="display: none;">제조기록서 양식</a>
+                          <a href="javascript:void(0);" rel="noopener" id="detailListBread" onclick="loadPage('list')" style="display: none;">제조기록서</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </h1>
                 </div>
               </div>
 
-              <div class="card is-sub">
-                <div class="card-body">
-                  <div class="columns has-gap">
-                    <div class="column">
-                      <div class="form">
-                        <div class="columns has-table-title">
-                          <h2 class="table-title">
-                            <span></span>
-                          </h2>
-                          <div class="buttons">
-                            <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              기록서 수정
-                            </button>
-                            <button id="btnDetailUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
-                              양식 수정
-                            </button>
+              <div class="card is-sub" style="padding: 0">
+                <div style="margin: 37rem 32rem 46rem; overflow-x: auto;">
+                  <div class="card-body">
+                    <div class="columns">
+                      <div class="column">
+                        <div class="form" style="justify-self: center;">
+                          <div class="columns has-table-title">
+                            <h2 class="table-title">
+                              <span></span>
+                            </h2>
+                            <div class="buttons">
+                              <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                                기록서 수정
+                              </button>
+                              <button id="btnDetailUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                                양식 수정
+                              </button>
+                            </div>
                           </div>
+                          <div id="detailTiny"></div>
                         </div>
-                        <div id="detailTiny" style="margin-left: 15%;"></div>
                       </div>
                     </div>
                   </div>
@@ -832,8 +871,10 @@
     $(".my-close, .my-modal").click(function(event){
       if (event.target === this) {
         $("#myModal").fadeOut();
-        list_3Grid.destroy();
-        list_3Grid = null;
+        if(list_3Grid) {
+          list_3Grid.destroy();
+          list_3Grid = null;
+        }
       }
     });
   } //initEvent
@@ -883,16 +924,22 @@
         $("#detailTiny").html(content);
         if(nowDetailLocation === 'form') {
           $("#detailTitle").text('제조기록서 양식 상세');
+          $("#detailListBread").hide();
           $("#btnDetailWrite").hide();
+          $("#detailFormBread").show();
           $("#btnDetailUpdate").show();
         } else if(nowDetailLocation === 'list') {
           $("#detailTitle").text('제조기록서 상세');
+          $("#detailFormBread").hide();
           $("#btnDetailUpdate").hide();
+          $("#detailListBread").show();
           $("#btnDetailWrite").show();
         } else {
           $("#detailTitle").text('제조기록서 상세');
+          $("#detailFormBread").hide();
           $("#btnDetailUpdate").hide();
           $("#btnDetailWrite").hide();
+          $("#detailListBread").show();
         }
         $(".custom-radio").css("pointer-events", "none");
         $("#detailForm").fadeIn(300);
@@ -1003,7 +1050,7 @@
 
                 content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
                   // □를 <input type="checkbox">로 변환
-                  let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio" style="margin:5px 1px 1px 1px"/>');
+                  let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio" style="margin: 0; vertical-align: bottom; width: 15px; height: 15px;"/>');
                   return p1 + checkbox + p3;
                 });
 
