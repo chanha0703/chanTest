@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no;" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>제조기록서</title>
 
   <meta name="msapplication-TileColor" content="#ffffff">
@@ -32,17 +32,6 @@
       #detailTiny * {
           all: revert;
       }
-
-      /*#listGridParent, #list_2GridParent {*/
-      /*    width: 100%;*/
-      /*    display: flex;*/
-      /*    flex-direction: column;*/
-      /*}*/
-
-      /*#listGrid, #list_2Grid {*/
-      /*    flex: 1;*/
-      /*    min-height: 300px;*/
-      /*}*/
   </style>
 </head>
 
@@ -55,7 +44,6 @@
       <a class="navbar-link" href="javascript:void(0);" rel="noopener">
         <span class="logo is-gsitm-hr is-medium">
           <img src="img/svg/logo-kgc.svg"/>
-          <!--<svg id="svgKgcLogo"><use href="#logo-kgc"></use></svg>-->
         </span>
       </a>
     </div>
@@ -643,6 +631,16 @@
                               <span></span>
                             </h2>
                             <div class="buttons">
+                              <button id="btnDownPdf" class="button is-outline is-primary is-medium">
+                                <span class="icon is-medium" style="padding-right: 5px;">
+                                  <svg id="svgPdf" width="15" height="15" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="4" width="48" height="56" rx="4" ry="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+                                    <rect x="8" y="24" width="48" height="24" fill="#D32F2F"/>
+                                    <text x="16" y="40" font-family="Arial, sans-serif" font-size="16" fill="#FFFFFF" font-weight="bold">PDF</text>
+                                  </svg>
+                                </span>
+                                <span>PDF다운</span>
+                              </button>
                               <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
                                 기록서 수정
                               </button>
@@ -706,8 +704,11 @@
 
     $("svg").each(function () {
       const $svg = $(this);
+      if($(this).attr('id') === 'svgPdf') return;
       const symbolId = $svg.find("use").attr("href").replace("#", ""); // href 값에서 # 제거
       const filePath = `${svgPath}${symbolId}.svg`; // 파일 경로 만들기
+
+      if(!$svg || !symbolId || !filePath) return;
 
       // SVG 파일 불러와서 대체
       $.get(filePath, function (data) {
@@ -877,6 +878,54 @@
         }
       }
     });
+
+    $("#btnDownPdf").click(() => {
+      var printContents = $("#detailTiny").html();
+      let printWindow = window.open("", "_blank"); // 새 창 열기
+
+      printWindow.document.write(`
+        <html>
+        <head>
+            <title>PDF다운</title>
+            <style>
+                body { font-family: Arial, sans-serif; text-align: center; }
+                #print-area { width: 100%; }
+            </style>
+        </head>
+        <body>
+            <div id="print-area">${printContents}</div>
+            <script>
+                window.onload = function() {
+                    window.print();
+
+                    // 인쇄 완료 후 창 닫기
+                    window.onafterprint = function() { window.close(); };
+
+                    // 인쇄 취소 감지 (matchMedia 활용)
+                    var mediaQueryList = window.matchMedia('print');
+                    mediaQueryList.addEventListener('change', function(e) {
+                        if (!e.matches) {
+                            window.close();
+                        }
+                    });
+
+                    // 2초마다 창이 닫혔는지 확인 후 강제 닫기
+                    var checkClose = setInterval(function() {
+                        if (window.closed) {
+                            clearInterval(checkClose);
+                        } else {
+                            window.close();
+                        }
+                    }, 500);
+                };
+            <\/script>
+        </body>
+        </html>
+    `);
+
+      printWindow.document.close();
+    });
+
   } //initEvent
 
   function loadPage(type, content) {
@@ -1012,8 +1061,8 @@
             'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
             'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
           ]
-          , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton']
-          , content_style: `.myClass {border: 2px solid red !important;}`
+          , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton | setImageArea']
+          , content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
           , table_resize_bars: nowEnable
           , setup: (editor) => {
             editor.ui.registry.addButton('writeButton', {
@@ -1028,11 +1077,21 @@
                 }
 
                 if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-                  if(node.classList.contains('myClass')) node.classList.remove("myClass");
-                  else node.classList.add("myClass");
+                  if(node.classList.contains('myClass')) {
+                    node.classList.remove("myClass");
+                    node.classList.remove("customEdit");
+                  }else {
+                    node.classList.add("myClass");
+                    node.classList.add("customEdit");
+                  }
                 }else {
-                  if(editor.selection.getNode().classList.contains('myClass')) editor.selection.getNode().classList.remove('myClass')
-                  else editor.selection.getNode().classList.add('myClass')
+                  if(editor.selection.getNode().classList.contains('myClass')) {
+                    editor.selection.getNode().classList.remove('myClass');
+                    editor.selection.getNode().classList.remove('customEdit');
+                  }else {
+                    editor.selection.getNode().classList.add('myClass');
+                    editor.selection.getNode().classList.add('customEdit');
+                  }
                 }
               }
             });
@@ -1057,6 +1116,69 @@
                 editor.setContent(content); // 변경된 내용 반영
               }
             });
+            editor.ui.registry.addButton('setImageArea', {
+              text: '이미지영역'
+              , onAction: (_) => {
+                let node = editor.selection.getNode();
+                let depth = 0;  // 최대 4단계 제한
+
+                while (node && node.tagName && node.tagName.toLowerCase() !== "td" && depth < 5) {
+                  node = node.parentNode;
+                  depth++;
+                }
+
+                if (node && node.tagName && node.tagName.toLowerCase() === "td") {
+                  if(node.classList.contains('myImage')) {
+                    node.classList.remove("myImage");
+                    node.classList.remove("customEdit");
+
+                    let tdInput = node.querySelector('input');
+                    let tdImg = node.querySelector('img');
+                    if(tdInput) {
+                      node.removeChild(tdInput);
+                    }
+                    if(tdImg) {
+                      node.removeChild(tdImg);
+                    }
+                  }else {
+                    const $td = $(node);
+
+                    // 1. id 생성
+                    let maxId = 0;
+                    $('[id^="customImage_"]').each(function () {
+                      const idNum = parseInt(this.id.split('_')[1]);
+                      if (!isNaN(idNum) && idNum > maxId) maxId = idNum;
+                    });
+
+                    const newId = `customImage_${maxId + 1}`;
+                    $td.addClass('myImage').addClass('customEdit').attr('id', newId);
+
+                    let tdInput = node.querySelector('input');
+                    let tdImg = node.querySelector('img');
+                    if (!tdInput) {
+                      // input 태그 생성
+                      tdInput = document.createElement('input');
+                      tdInput.type = 'file';
+                      tdInput.accept = 'image/*';
+                      tdInput.style.display = 'none';
+                      tdInput.id = `input_${newId}`;
+                      node.appendChild(tdInput);
+                    }
+                    if(!tdImg) {
+                      tdImg = document.createElement('img');
+                      tdImg.src = '';
+                      tdImg.alt = '이미지를 넣어주세요.';
+                      tdImg.style.display = 'block';
+                      tdImg.style.maxWidth = '100%';
+                      tdImg.style.maxHeight = '100%';
+                      tdImg.style.objectFit = 'contain';
+                      tdImg.style.margin = '3px';
+                      node.appendChild(tdImg);
+                    }
+                  }
+                }
+              }
+            });
             editor.on('init', () => {
               editor.getBody().addEventListener('click', (event) => {
                 if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
@@ -1072,7 +1194,49 @@
                   if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
                   else $(checkbox).removeAttr('checked');
                 }
-              })
+
+                if ((event.target.tagName === 'TD' && event.target.classList.contains('myImage'))
+                  || (event.target.closest('td') && event.target.closest('td').classList.contains('myImage'))) {
+                  const tdId = event.target.closest('td').id;
+                  const td = event.target.closest('td');
+                  const input = event.target.closest('td').querySelector('input');
+
+                  if (input) {
+                    let fileChange = function(e) {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                          const oldInput = td.querySelector('input');
+                          let img = td.querySelector('img');
+
+                          if (!img) {
+                            img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.alt = '썸네일';
+                            img.style.display = 'block';
+                            img.style.maxWidth = '100%';
+                            img.style.maxHeight = '100%';
+                            img.style.objectFit = 'contain';
+                            img.style.margin = '3px';
+                            td.appendChild(img);
+                          } else {
+                            // 이미 존재하는 img는 src만 업데이트
+                            img.src = event.target.result;
+                            img.style.display = 'block';
+                          }
+
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }
+
+                    input.removeEventListener('change',fileChange);
+                    input.addEventListener('change', fileChange);
+                    input.click();
+                  }
+                }
+              });
             })
           }
           , init_instance_callback: (e) => resolve()
@@ -1093,9 +1257,9 @@
           , resize: true
           , menubar: false
           , toolbar: false
-          , editable_class: 'myClass'
+          , editable_class: 'customEdit'
           , editable_root: false
-          , content_style: `.myClass {border: 2px solid red !important;}`
+          , content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
           , min_height: 500
           , height: tinyHeight
           , branding: false
@@ -1115,6 +1279,48 @@
                   $(checkbox).prop('checked', tobeCheckboxProp);
                   if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
                   else $(checkbox).removeAttr('checked');
+                }
+
+                if ((event.target.tagName === 'TD' && event.target.classList.contains('myImage'))
+                  || (event.target.closest('td') && event.target.closest('td').classList.contains('myImage'))) {
+                  const tdId = event.target.closest('td').id;
+                  const td = event.target.closest('td');
+                  const input = event.target.closest('td').querySelector('input');
+
+                  if (input) {
+                    let fileChange = function(e) {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                          const oldInput = td.querySelector('input');
+                          let img = td.querySelector('img');
+
+                          if (!img) {
+                            img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.alt = '썸네일';
+                            img.style.display = 'block';
+                            img.style.maxWidth = '100%';
+                            img.style.maxHeight = '100%';
+                            img.style.objectFit = 'contain';
+                            img.style.margin = '3px';
+                            td.appendChild(img);
+                          } else {
+                            // 이미 존재하는 img는 src만 업데이트
+                            img.src = event.target.result;
+                            img.style.display = 'block';
+                          }
+
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }
+
+                    input.removeEventListener('change',fileChange);
+                    input.addEventListener('change', fileChange);
+                    input.click();
+                  }
                 }
               })
             })
