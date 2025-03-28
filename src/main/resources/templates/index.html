@@ -30,7 +30,7 @@
       }
 
       #detailTiny * {
-          all: revert;
+          all: revert-layer;
       }
   </style>
 </head>
@@ -41,7 +41,7 @@
   <!-- [ Header ] start -->
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-logo">
-      <a class="navbar-link" href="javascript:void(0);" rel="noopener">
+      <a class="navbar-link" href="javascript:void(0);" rel="noopener" onclick="loadPage('none')">
         <span class="logo is-gsitm-hr is-medium">
           <img src="img/svg/logo-kgc.svg"/>
         </span>
@@ -641,10 +641,10 @@
                                 </span>
                                 <span>PDF다운</span>
                               </button>
-                              <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              <button id="btnDetailWrite" type="button" class="button is-outline is-primary is-medium">
                                 기록서 수정
                               </button>
-                              <button id="btnDetailUpdate" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                              <button id="btnDetailUpdate" type="button" class="button is-outline is-primary is-medium">
                                 양식 수정
                               </button>
                             </div>
@@ -992,7 +992,10 @@
         }
         $(".custom-radio").css("pointer-events", "none");
         $("#detailForm").fadeIn(300);
-      }else {
+      } else if(type === 'none') {
+        nowDetailContent = '';
+        nowDetailLocation = '';
+      } else {
         nowDetailContent = '';
         nowDetailLocation = '';
         $("#emptyTitle").text(type);
@@ -1166,13 +1169,14 @@
                     }
                     if(!tdImg) {
                       tdImg = document.createElement('img');
-                      tdImg.src = '';
-                      tdImg.alt = '이미지를 넣어주세요.';
+                      tdImg.src = 'img/svg/folder-opened.svg';
+                      tdImg.alt = '';
                       tdImg.style.display = 'block';
                       tdImg.style.maxWidth = '100%';
                       tdImg.style.maxHeight = '100%';
                       tdImg.style.objectFit = 'contain';
                       tdImg.style.margin = '3px';
+                      tdImg.style.justifySelf = 'center';
                       node.appendChild(tdImg);
                     }
                   }
