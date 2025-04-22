@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
   <title>제조기록서</title>
 
   <meta name="msapplication-TileColor" content="#ffffff">
@@ -19,6 +19,7 @@
   <script src="/js/xlsx.full.min.js"></script>
   <script src="/js/tui-grid.js"></script>
   <link rel="stylesheet" href="/css/tui-grid.css"/>
+  <script src="/js/desktop.js"></script>
 
   <script src="https://cdn.tiny.cloud/1/9hwtzxtc2zwisi7b85nco60f3mzb63hrh69z1w3qywn28snr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -158,7 +159,7 @@
                 </a>
               </li>
               <li class="menu-item">
-                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener"  onclick="loadPage('formList')">
+                <a class="menu-link" href="javascript:void(0);" aria-current="page" rel="noopener" onclick="loadPage('formList')">
                   제조기록서 양식
                 </a>
               </li>
@@ -219,7 +220,7 @@
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
-                        <li aria-current="page"class="breadcrumb is-active">
+                        <li aria-current="page" class="breadcrumb is-active">
                           <a href="javascript:void(0);" rel="noopener">제조기록서 양식</a>
                         </li>
                       </ul>
@@ -323,7 +324,7 @@
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
-                        <li aria-current="page"class="breadcrumb is-active">
+                        <li aria-current="page" class="breadcrumb is-active">
                           <a href="javascript:void(0);" rel="noopener">제조기록서</a>
                         </li>
                       </ul>
@@ -511,8 +512,9 @@
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
-                        <li aria-current="page"class="breadcrumb">
-                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('formList')">제조기록서 양식</a>
+                        <li aria-current="page" class="breadcrumb">
+                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('formList')">제조기록서
+                            양식</a>
                         </li>
                       </ul>
                     </div>
@@ -559,8 +561,8 @@
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
-                        <li aria-current="page"class="breadcrumb">
-                          <a href="javascript:void(0);"  rel="noopener" onclick="loadPage('list')">제조기록서</a>
+                        <li aria-current="page" class="breadcrumb">
+                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('list')">제조기록서</a>
                         </li>
                       </ul>
                     </div>
@@ -610,8 +612,9 @@
                         <li class="breadcrumb">
                           <span>홈</span>
                         </li>
-                        <li aria-current="page"class="breadcrumb">
-                          <a href="javascript:void(0);" rel="noopener" id="detailFormBread" onclick="loadPage('formList')" style="display: none;">제조기록서 양식</a>
+                        <li aria-current="page" class="breadcrumb">
+                          <a href="javascript:void(0);" rel="noopener" id="detailFormBread" onclick="loadPage('formList')" style="display: none;">제조기록서
+                            양식</a>
                           <a href="javascript:void(0);" rel="noopener" id="detailListBread" onclick="loadPage('list')" style="display: none;">제조기록서</a>
                         </li>
                       </ul>
@@ -661,6 +664,251 @@
         </div>
         <!-- 6(E) -->
 
+        <!-- 7(S) -->
+        <div class="content" id="mainForm">
+          <div class="page is-main">
+            <div class="page-body">
+              <div class="columns has-gap is-wrapped">
+                <div class="column is-half is-grown-vertically">
+                  <div class="card is-main has-tabs is-grown-vertically">
+
+                    <header class="card-header">
+                      <ul class="tabs is-underline">
+                        <li class="tab is-active">
+                          <a href="#none" rel="noopener">
+                            <p><span>작성중</span>(<span id="status1">0</span>)</p>
+                          </a>
+                        </li>
+                        <li class="tab">
+                          <a href="#none" rel="noopener">
+                            <p>
+                              <span>결재중</span>(<span id="status2">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                        <li class="tab">
+                          <a href="#none" rel="noopener">
+                            <p>
+                              <span>결재완료</span>(<span id="status3">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                        <li class="tab">
+                          <a href="#none" rel="noopener">
+                            <p>
+                              <span>결재할문서</span>(<span id="status4">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                      </ul>
+                      <button class="button is-refresh is-ghost" aria-label="refresh" id="btnRefresh">
+                        <span class="icon is-refresh">
+                          <svg>
+                            <use href="#refresh"></use>
+                          </svg>
+                        </span>
+                      </button>
+                    </header>
+
+                    <div class="card-body">
+                      <div class="tab-contents is-underline">
+                        <div class="tab-content is-active" id="documentStatus1">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 74%"></col>
+                              <col style="width: 12%"></col>
+                              <col></col>
+                            </colgroup>
+                            <tbody>
+                              <tr>
+                                <td colspan="3">데이터가 없습니다.</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content" id="documentStatus2">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 74%"></col>
+                              <col style="width: 12%"></col>
+                              <col></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content" id="documentStatus3">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 74%"></col>
+                              <col style="width: 12%"></col>
+                              <col></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content" id="documentStatus4">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 74%"></col>
+                              <col style="width: 12%"></col>
+                              <col></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-half is-grown-vertically">
+                  <div class="columns has-gap is-wrapped">
+                    <div class="column is-fullwidth">
+                      <div class="card is-main has-table is-main-notice">
+                        <div class="card-header">
+                          <h2 class="card-title">공지사항</h2>
+                          <a class="button is-more is-ghost" href="javascript:void(0);">
+                            <span class="icon is-chevron-right"><svg><use href="#chevron-right"></use></svg></span>
+                          </a>
+                        </div>
+                        <section class="card-body" id="noticeList">
+                          <div class="no-result" id="notiNoResult">
+                            <p></p>
+                            <p>공지내용이 없습니다.</p>
+                            <p></p>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                    <div class="column is-fullwidth">
+                      <div class="card is-main is-quick-menu">
+                        <section class="card-body">
+                          <div class="columns has-gap is-wrapped">
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-parasol"><svg><use href="#parasol"></use></svg></span>
+                              <span>휴가</span>
+                            </a>
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-calendar-x"><svg><use href="#calendar-x"></use></svg></span>
+                              <span>휴가취소</span>
+                            </a>
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-suitcase"><svg><use href="#suitcase"></use></svg></span>
+                              <span>파견</span>
+                            </a>
+
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-clock"><svg><use href="#clock"></use></svg></span>
+                              <span>연장근무</span>
+                            </a>
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-clipboard-check"><svg><use href="#clipboard-check"></use></svg></span>
+                              <span>문서발급</span>
+                            </a>
+                            <a class="column" href="javascript:void(0);">
+                              <span class="icon is-address-book"><svg><use href="#address-book"></use></svg></span>
+                              <span>인적정보</span>
+                            </a>
+                            </a>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-half is-grown-vertically">
+                  <div class="columns has-gap is-wrapped">
+                    <div class="column is-half is-grown-vertically">
+                      <div class="card is-main is-chart is-grown-vertically">
+                        <div class="card-header">
+                          <h2 class="card-title">주 근무시간</h2>
+                        </div>
+                        <section class="card-body">
+                          <p class="card-description">
+                            <span class="card-description-item">
+                              <span id="workMonth">4</span>월
+                              <span id="workWeek">3</span>주
+                            </span>
+                            <span id="workSumHour" class="card-description-number" style="color: #359dff">42</span>
+                            <span class="card-description-unit">h</span>
+                          </p>
+                          <div id="line-chart-0"></div>
+                        </section>
+                      </div>
+                    </div>
+
+                    <div class="column is-half is-grown-vertically">
+                      <div class="card is-main is-chart is-grown-vertically">
+                        <div class="card-header">
+                          <h2 class="card-title">월 근무시간</h2>
+                        </div>
+                        <section class="card-body">
+                          <p class="card-description">
+                            <span class="card-description-item">
+                              <span id="monthHour">126</span> / <span id="totalMonthHour">160</span>h
+                            </span>
+                            <span id="monthRate" class="card-description-number" style="color: #00d5a2">75</span>
+                            <span class="card-description-unit">%</span>
+                          </p>
+                          <div id="bar-chart-0"></div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="column is-half is-grown-vertically">
+                  <div class="card is-main is-horizontal">
+                    <div class="card-header">
+                      <h2 class="card-title">연차</h2>
+                    </div>
+                    <section class="card-body">
+                      <div class="columns has-gap is-wrapped">
+                        <div class="column">
+                          <div class="inner-card">
+                            <h3 class="inner-card-title">부여</h3>
+                            <p class="inner-card-description" id="leaveDaysYear">15</p>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="inner-card">
+                            <h3 class="inner-card-title">사용</h3>
+                            <p class="inner-card-description" id="useDays">5</p>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="inner-card">
+                            <h3 class="inner-card-title">잔여</h3>
+                            <p class="inner-card-description" style="color: #359dff" id="remindDays">10</p>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                    <a class="button is-more is-ghost" href="javascript:pageMdiTabNoParamOpen('/empmenu/wrkleav/wrklvestatusemp100/view')">
+                      <span class="icon is-chevron-right"><svg><use href="#chevron-right"></use></svg></span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 7(E) -->
+
         <div id="myModal" class="my-modal">
           <div class="my-modal-content">
             <span class="my-close">&times;</span>
@@ -685,18 +933,48 @@
   let writeIdx = 0;
 
   let documentList = {
-    'content_1': {idx: 'content_1', content: content_1, docName: '제조지시 및 기록서', prodName: '홍삼정 (Cage 추출방식)', process: '원료투입', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
-    , 'content_2': {idx: 'content_2', content: content_2, docName: '제조지시 및 기록서', prodName: '홍삼정', process: '충전', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
-    , 'content_3' : {idx: 'content_3', content: content_3, docName: '포장지시 및 기록서', prodName: '홍삼정', process: '포장', worker: '홍길동', workDate: '2025-03-19', _attributes:{className:{column:{docName:['chan-blue']}}}}
+    'content_1': {
+      idx: 'content_1',
+      content: content_1,
+      docName: '제조지시 및 기록서',
+      prodName: '홍삼정 (Cage 추출방식)',
+      process: '원료투입',
+      worker: '홍길동',
+      workDate: '2025-03-19',
+      _attributes: {className: {column: {docName: ['chan-blue']}}}
+    }
+    ,
+    'content_2': {
+      idx: 'content_2',
+      content: content_2,
+      docName: '제조지시 및 기록서',
+      prodName: '홍삼정',
+      process: '충전',
+      worker: '홍길동',
+      workDate: '2025-03-19',
+      _attributes: {className: {column: {docName: ['chan-blue']}}}
+    }
+    ,
+    'content_3': {
+      idx: 'content_3',
+      content: content_3,
+      docName: '포장지시 및 기록서',
+      prodName: '홍삼정',
+      process: '포장',
+      worker: '홍길동',
+      workDate: '2025-03-19',
+      _attributes: {className: {column: {docName: ['chan-blue']}}}
+    }
   };
   let writeList = {};
 
   let nowDetailContent;   //상세페이지에서 사용되는 content
   let nowDetailLocation;  //상세페이지 호출 경로
 
-  $(document).ready(function() {
-    setSvg();
+  $(document).ready(function () {
+    // setSvg();
     initEvent();
+    fn_getChart([8,9,9,8,8], ['월', '화', '수', '목', '금'], 126);
   })  //document.ready
 
   function setSvg() {
@@ -704,11 +982,11 @@
 
     $("svg").each(function () {
       const $svg = $(this);
-      if($(this).attr('id') === 'svgPdf') return;
+      if ($(this).attr('id') === 'svgPdf') return;
       const symbolId = $svg.find("use").attr("href").replace("#", ""); // href 값에서 # 제거
       const filePath = `${svgPath}${symbolId}.svg`; // 파일 경로 만들기
 
-      if(!$svg || !symbolId || !filePath) return;
+      if (!$svg || !symbolId || !filePath) return;
 
       // SVG 파일 불러와서 대체
       $.get(filePath, function (data) {
@@ -721,16 +999,16 @@
 
   function initEvent() {
     //GNB
-    $("#headerMenu .navbar-item").click(function() {
+    $("#headerMenu .navbar-item").click(function () {
       $("#headerMenu .navbar-item").removeClass("is-active");
 
       // 클릭한 li에 is-active 추가
       $(this).addClass("is-active");
-      if($(this).data('target') == 'dom') {
+      if ($(this).data('target') == 'dom') {
         $("#sideMenuCom").hide();
         $("#sideMenuFav").hide();
         $("#sideMenuDoc").show();
-      }else if($(this).data('target') == 'com') {
+      } else if ($(this).data('target') == 'com') {
         $("#sideMenuDoc").hide();
         $("#sideMenuFav").hide();
         $("#sideMenuCom").show();
@@ -738,9 +1016,9 @@
     });
 
     //LNB
-    $("ul.menu .menu-item").click(function() {
+    $("ul.menu .menu-item").click(function () {
       let isAlreadyActive = $(this).hasClass('is-active');
-      if(!isAlreadyActive) {
+      if (!isAlreadyActive) {
         $(".sub-menu-item").removeClass('is-active');
         $("ul.menu .menu-item").removeClass('is-active');
         $(this).addClass('is-active');
@@ -748,21 +1026,21 @@
     });
 
     //LNB
-    $("ul.menu .menu-item .sub-menu .sub-menu-item").click(function() {
+    $("ul.menu .menu-item .sub-menu .sub-menu-item").click(function () {
       let isAlreadyActive = $(this).hasClass('is-active');
-      if(!isAlreadyActive) {
+      if (!isAlreadyActive) {
         $(".sub-menu-item").removeClass('is-active');
         $(this).addClass('is-active');
       }
     });
 
     //LNB(접고 펼치기)
-    $('.lnb-toggle-btn').click(function() {
+    $('.lnb-toggle-btn').click(function () {
       $(this).toggleClass('is-active');
       $('.left-navbar').toggleClass('is-active');
     });
 
-    $('.navbar-left').click(function() {
+    $('.navbar-left').click(function () {
       $(".left-navbar, .lnb-toggle-btn").addClass("is-active");
     })
 
@@ -780,26 +1058,26 @@
     }
 
     //TABS(메뉴/즐겨찾기)
-    $("ul.tabs .tab").click(function() {
+    $("ul.tabs .tab").click(function () {
       $("ul.tabs .tab").removeClass('is-active');
       $(this).addClass('is-active');
 
-      if($(this).data('target') == 'base') {
+      if ($(this).data('target') == 'base') {
         let gnb = $("#headerMenu .navbar-item.is-active").data("target");
-        if(gnb && gnb == 'dom') {
+        if (gnb && gnb == 'dom') {
           $("#sideMenuCom").hide();
           $("#sideMenuFav").hide();
           $("#sideMenuDoc").show();
-        }else if(gnb && gnb == 'com') {
+        } else if (gnb && gnb == 'com') {
           $("#sideMenuDoc").hide();
           $("#sideMenuFav").hide();
           $("#sideMenuCom").show();
-        }else {
+        } else {
           $("#sideMenuDoc").hide();
           $("#sideMenuFav").hide();
           $("#sideMenuCom").hide();
         }
-      }else if($(this).data('target') == 'fav') {
+      } else if ($(this).data('target') == 'fav') {
         $("#sideMenuDoc").hide();
         $("#sideMenuCom").hide();
         $("#sideMenuFav").show();
@@ -807,17 +1085,17 @@
     });
 
     $("#btnWrite").click(() => {
-      if(confirm('저장하시겠습니까?')) {
+      if (confirm('저장하시겠습니까?')) {
         writeIdx++;
-        writeList['writeContent_'+writeIdx] = {
-          idx: 'writeContent_'+writeIdx
+        writeList['writeContent_' + writeIdx] = {
+          idx: 'writeContent_' + writeIdx
           , content: tinymce.get('writeTiny').getContent()
           , docName: documentList[nowDetailContent].docName
           , prodName: documentList[nowDetailContent].prodName
           , process: documentList[nowDetailContent].process
           , worker: '홍길동'
           , workDate: new Date().toLocaleDateString('en-CA')
-          , _attributes:{className:{column:{docName:['chan-blue']}}}
+          , _attributes: {className: {column: {docName: ['chan-blue']}}}
         }
         ;
         alert('저장되었습니다.');
@@ -826,7 +1104,7 @@
     });
 
     $("#btnWriteUpdate").click(() => {
-      if(confirm('수정하시겠습니까?')) {
+      if (confirm('수정하시겠습니까?')) {
         writeList[nowDetailContent] = {
           idx: nowDetailContent
           , content: tinymce.get('writeTiny').getContent()
@@ -835,7 +1113,7 @@
           , process: writeList[nowDetailContent].process
           , worker: '홍길동'
           , workDate: new Date().toLocaleDateString('en-CA')
-          , _attributes:{className:{column:{docName:['chan-blue']}}}
+          , _attributes: {className: {column: {docName: ['chan-blue']}}}
         }
         ;
         alert('수정되었습니다.');
@@ -849,7 +1127,7 @@
     });
 
     $("#btnUpdate").click(() => {
-      if(confirm('수정하시겠습니까?')) {
+      if (confirm('수정하시겠습니까?')) {
         alert('수정되었습니다.');
         documentList[nowDetailContent].content = tinymce.get('updateTiny').getContent();
         loadPage('formList');
@@ -858,7 +1136,7 @@
 
     $("#btnDetailWrite").click(() => {
       let idx = nowDetailContent;
-      if(nowDetailContent) {
+      if (nowDetailContent) {
         nowDetailLocation = 'listUpdate';
         loadPage('write', writeList[idx].content);
       }
@@ -866,13 +1144,13 @@
 
     $("#btnDetailUpdate").click(() => {
       let idx = nowDetailContent;
-      if(nowDetailContent) loadPage('update', documentList[idx].content);
+      if (nowDetailContent) loadPage('update', documentList[idx].content);
     });
 
-    $(".my-close, .my-modal").click(function(event){
+    $(".my-close, .my-modal").click(function (event) {
       if (event.target === this) {
         $("#myModal").fadeOut();
-        if(list_3Grid) {
+        if (list_3Grid) {
           list_3Grid.destroy();
           list_3Grid = null;
         }
@@ -930,54 +1208,54 @@
 
   function loadPage(type, content) {
 
-    $("#listForm, #emptyForm, #updateForm, #writeForm, #detailForm, #formListForm").fadeOut(300).promise().done(function() {
+    $("#listForm, #emptyForm, #updateForm, #writeForm, #detailForm, #formListForm, #mainForm").fadeOut(300).promise().done(function () {
       $("input").val('');
       destroyTiny();
       destroyGrid();
 
-      if(type === 'list') {
+      if (type === 'list') {
         nowDetailContent = '';
         nowDetailLocation = '';
         $("#listGridCnt").text(Object.keys(writeList).length);
         setListGrid();
         $("#listForm").fadeIn(300);
-      }else if(type === 'formList') {
+      } else if (type === 'formList') {
         nowDetailContent = '';
         nowDetailLocation = '';
         setList_2Grid();
         $("#formListForm").fadeIn(300);
-      }else if (type === 'write') {
+      } else if (type === 'write') {
         setTinyMce('writeTiny').then(() => {
-          if(content) tinymce.get('writeTiny').setContent(content);
-          if(nowDetailLocation === 'listUpdate') {
+          if (content) tinymce.get('writeTiny').setContent(content);
+          if (nowDetailLocation === 'listUpdate') {
             $("#writeFormTitle").text('제조기록서 수정');
             $("#btnWriteUpdate").show();
             $("#btnWrite").hide();
-          }else if(nowDetailLocation === 'newWrite') {
+          } else if (nowDetailLocation === 'newWrite') {
             $("#writeFormTitle").text('제조기록서 작성');
             $("#btnWrite").show();
             $("#btnWriteUpdate").hide();
-          }else {
+          } else {
             $("#writeFormTitle").text('제조기록서 작성');
             $("#btnWrite").hide();
             $("#btnWriteUpdate").hide();
           }
           $("#writeForm").fadeIn(300);
         });
-      }else if (type === 'update') {
+      } else if (type === 'update') {
         setTinyMce('updateTiny').then(() => {
-          if(content) tinymce.get('updateTiny').setContent(content);
+          if (content) tinymce.get('updateTiny').setContent(content);
         });
         $("#updateForm").fadeIn(300);
-      }else if(type === 'detail') {
+      } else if (type === 'detail') {
         $("#detailTiny").html(content);
-        if(nowDetailLocation === 'form') {
+        if (nowDetailLocation === 'form') {
           $("#detailTitle").text('제조기록서 양식 상세');
           $("#detailListBread").hide();
           $("#btnDetailWrite").hide();
           $("#detailFormBread").show();
           $("#btnDetailUpdate").show();
-        } else if(nowDetailLocation === 'list') {
+        } else if (nowDetailLocation === 'list') {
           $("#detailTitle").text('제조기록서 상세');
           $("#detailFormBread").hide();
           $("#btnDetailUpdate").hide();
@@ -992,9 +1270,11 @@
         }
         $(".custom-radio").css("pointer-events", "none");
         $("#detailForm").fadeIn(300);
-      } else if(type === 'none') {
+      } else if (type === 'none') {
         nowDetailContent = '';
         nowDetailLocation = '';
+        $("#headerMenu .navbar-item, .menu-item").removeClass("is-active");
+        $("#mainForm").fadeIn(300);
       } else {
         nowDetailContent = '';
         nowDetailLocation = '';
@@ -1005,21 +1285,24 @@
   } //loadPage
 
   function destroyTiny(targetTiny) {
-    if(targetTiny) {
+    if (targetTiny) {
       let editor = tinymce.get(editorId); // 현재 에디터 가져오기
       editor.setContent('');
       editor.destroy(); // 현재 에디터 제거
-    }else {
-      if(tinymce.get().length>0) tinymce.get().forEach(editor => {editor.setContent('');editor.destroy();});
+    } else {
+      if (tinymce.get().length > 0) tinymce.get().forEach(editor => {
+        editor.setContent('');
+        editor.destroy();
+      });
     }
   }
 
   function destroyGrid() {
-    if(listGrid) {
+    if (listGrid) {
       listGrid.destroy();
       listGrid = null;
     }
-    if(list_2Grid) {
+    if (list_2Grid) {
       list_2Grid.destroy();
       list_2Grid = null;
     }
@@ -1053,21 +1336,32 @@
     return new Promise((resolve, reject) => {
       try {
         tinymce.init({
-          selector: '#'+tag
-          , language: 'ko_KR'
-          , resize: true
-          , min_height: 500
-          , height: tinyHeight
-          , branding: false
-          , elementpath: false
-          , plugins: [
+          selector: '#' + tag
+          ,
+          language: 'ko_KR'
+          ,
+          resize: true
+          ,
+          min_height: 500
+          ,
+          height: tinyHeight
+          ,
+          branding: false
+          ,
+          elementpath: false
+          ,
+          plugins: [
             'anchor', 'charmap', 'emoticons', 'link', 'lists', 'searchreplace', 'table', 'wordcount',
             'checklist', 'formatpainter', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'tableofcontents', 'inlinecss', 'markdown', 'importword', 'exportpdf'
           ]
-          , toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton | setImageArea']
-          , content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
-          , table_resize_bars: nowEnable
-          , setup: (editor) => {
+          ,
+          toolbar: ['blocks fontfamily fontsize | bold italic underline strikethrough | link table', 'align lineheight | checklist numlist bullist indent outdent | emoticons charmap | writeButton | resizeButton | makeRadioButton | setImageArea']
+          ,
+          content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
+          ,
+          table_resize_bars: nowEnable
+          ,
+          setup: (editor) => {
             editor.ui.registry.addButton('writeButton', {
               text: '작성설정'
               , onAction: (_) => {
@@ -1080,18 +1374,18 @@
                 }
 
                 if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-                  if(node.classList.contains('myClass')) {
+                  if (node.classList.contains('myClass')) {
                     node.classList.remove("myClass");
                     node.classList.remove("customEdit");
-                  }else {
+                  } else {
                     node.classList.add("myClass");
                     node.classList.add("customEdit");
                   }
-                }else {
-                  if(editor.selection.getNode().classList.contains('myClass')) {
+                } else {
+                  if (editor.selection.getNode().classList.contains('myClass')) {
                     editor.selection.getNode().classList.remove('myClass');
                     editor.selection.getNode().classList.remove('customEdit');
-                  }else {
+                  } else {
                     editor.selection.getNode().classList.add('myClass');
                     editor.selection.getNode().classList.add('customEdit');
                   }
@@ -1110,7 +1404,7 @@
               , onAction: (_) => {
                 let content = editor.getContent();
 
-                content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function(match, p1, p2, p3) {
+                content = content.replace(/(<span[^>]*>)(.*?□.*?)(<\/span>)/g, function (match, p1, p2, p3) {
                   // □를 <input type="checkbox">로 변환
                   let checkbox = p2.replaceAll('□', '<input type="checkbox" class="custom-radio" style="margin: 0; vertical-align: bottom; width: 15px; height: 15px;"/>');
                   return p1 + checkbox + p3;
@@ -1131,19 +1425,19 @@
                 }
 
                 if (node && node.tagName && node.tagName.toLowerCase() === "td") {
-                  if(node.classList.contains('myImage')) {
+                  if (node.classList.contains('myImage')) {
                     node.classList.remove("myImage");
                     node.classList.remove("customEdit");
 
                     let tdInput = node.querySelector('input');
                     let tdImg = node.querySelector('img');
-                    if(tdInput) {
+                    if (tdInput) {
                       node.removeChild(tdInput);
                     }
-                    if(tdImg) {
+                    if (tdImg) {
                       node.removeChild(tdImg);
                     }
-                  }else {
+                  } else {
                     const $td = $(node);
 
                     // 1. id 생성
@@ -1167,7 +1461,7 @@
                       tdInput.id = `input_${newId}`;
                       node.appendChild(tdInput);
                     }
-                    if(!tdImg) {
+                    if (!tdImg) {
                       tdImg = document.createElement('img');
                       tdImg.src = 'img/svg/folder-opened.svg';
                       tdImg.alt = '';
@@ -1195,7 +1489,7 @@
                   parentP.find('.custom-radio').removeAttr('checked');
 
                   $(checkbox).prop('checked', tobeCheckboxProp);
-                  if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+                  if (tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
                   else $(checkbox).removeAttr('checked');
                 }
 
@@ -1206,7 +1500,7 @@
                   const input = event.target.closest('td').querySelector('input');
 
                   if (input) {
-                    let fileChange = function(e) {
+                    let fileChange = function (e) {
                       const file = e.target.files[0];
                       if (file) {
                         const reader = new FileReader();
@@ -1235,7 +1529,7 @@
                       }
                     }
 
-                    input.removeEventListener('change',fileChange);
+                    input.removeEventListener('change', fileChange);
                     input.addEventListener('change', fileChange);
                     input.click();
                   }
@@ -1243,9 +1537,10 @@
               });
             })
           }
-          , init_instance_callback: (e) => resolve()
+          ,
+          init_instance_callback: (e) => resolve()
         });
-      }catch (e) {
+      } catch (e) {
         reject(e);
       }
 
@@ -1257,18 +1552,30 @@
       try {
         tinymce.init({
           selector: '#' + tag
-          , language: 'ko_KR'
-          , resize: true
-          , menubar: false
-          , toolbar: false
-          , editable_class: 'customEdit'
-          , editable_root: false
-          , content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
-          , min_height: 500
-          , height: tinyHeight
-          , branding: false
-          , elementpath: false
-          , setup: (editor) => {
+          ,
+          language: 'ko_KR'
+          ,
+          resize: true
+          ,
+          menubar: false
+          ,
+          toolbar: false
+          ,
+          editable_class: 'customEdit'
+          ,
+          editable_root: false
+          ,
+          content_style: `.myClass {border: 2px solid red !important;} .myImage {border: 2px solid green !important; cursor: pointer !important; -webkit-user-modify: read-only;}`
+          ,
+          min_height: 500
+          ,
+          height: tinyHeight
+          ,
+          branding: false
+          ,
+          elementpath: false
+          ,
+          setup: (editor) => {
             editor.on('init', () => {
               editor.getBody().addEventListener('click', (event) => {
                 if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && event.target.classList.contains('custom-radio')) {
@@ -1281,7 +1588,7 @@
                   parentP.find('.custom-radio').removeAttr('checked');
 
                   $(checkbox).prop('checked', tobeCheckboxProp);
-                  if(tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
+                  if (tobeCheckboxProp) $(checkbox).attr('checked', 'checked');
                   else $(checkbox).removeAttr('checked');
                 }
 
@@ -1292,7 +1599,7 @@
                   const input = event.target.closest('td').querySelector('input');
 
                   if (input) {
-                    let fileChange = function(e) {
+                    let fileChange = function (e) {
                       const file = e.target.files[0];
                       if (file) {
                         const reader = new FileReader();
@@ -1321,7 +1628,7 @@
                       }
                     }
 
-                    input.removeEventListener('change',fileChange);
+                    input.removeEventListener('change', fileChange);
                     input.addEventListener('change', fileChange);
                     input.click();
                   }
@@ -1329,7 +1636,8 @@
               })
             })
           }
-          , init_instance_callback: (e) => resolve()
+          ,
+          init_instance_callback: (e) => resolve()
         });
       } catch (error) {
         reject(error);
@@ -1338,7 +1646,7 @@
   } //setWriterTiny
 
   function setListGrid() {
-    if(listGrid) return;
+    if (listGrid) return;
     // tui.Grid.applyTheme('striped');
     setGridStyle_a();
     listGrid = new tui.Grid({
@@ -1359,16 +1667,22 @@
       ]
       , contextMenu: ({rowKey, columnName}) => [
         [{
-          name: 'export', label: 'Export'
-          , subMenu: [{name: 'execlExport', label: '엑셀내보내기(xlsx)', action: () => listGrid.export('xlsx', {fileName:'제조기록서_리스트'})}]
+          name: 'export',
+          label: 'Export'
+          ,
+          subMenu: [{
+            name: 'execlExport',
+            label: '엑셀내보내기(xlsx)',
+            action: () => listGrid.export('xlsx', {fileName: '제조기록서_리스트'})
+          }]
         }]
       ]
     });
 
     listGrid.on('click', (ev) => {
-      if(ev.columnName === 'docName') {
+      if (ev.columnName === 'docName') {
         let idx = listGrid.getValue(ev.rowKey, "idx");
-        if(idx) {
+        if (idx) {
           nowDetailContent = idx;
           nowDetailLocation = 'list';
           loadPage('detail', writeList[idx].content);
@@ -1378,7 +1692,7 @@
   }
 
   function setList_2Grid() {
-    if(list_2Grid) return;
+    if (list_2Grid) return;
     setGridStyle_a();
     list_2Grid = new tui.Grid({
       el: document.getElementById('list_2Grid')
@@ -1398,16 +1712,22 @@
       ]
       , contextMenu: ({rowKey, columnName}) => [
         [{
-          name: 'export', label: 'Export'
-          , subMenu: [{name: 'execlExport', label: '엑셀내보내기(xlsx)', action: () => list_2Grid.export('xlsx', {fileName:'제조기록서양식_리스트'})}]
+          name: 'export',
+          label: 'Export'
+          ,
+          subMenu: [{
+            name: 'execlExport',
+            label: '엑셀내보내기(xlsx)',
+            action: () => list_2Grid.export('xlsx', {fileName: '제조기록서양식_리스트'})
+          }]
         }]
       ]
     });
 
     list_2Grid.on('click', (ev) => {
-      if(ev.columnName === 'docName') {
+      if (ev.columnName === 'docName') {
         let idx = list_2Grid.getValue(ev.rowKey, "idx");
-        if(idx) {
+        if (idx) {
           nowDetailContent = idx;
           nowDetailLocation = 'form';
           loadPage('detail', documentList[idx].content);
@@ -1417,7 +1737,7 @@
   }
 
   function setList_3Grid() {
-    if(list_3Grid) return;
+    if (list_3Grid) return;
     setGridStyle_a();
     list_3Grid = new tui.Grid({
       el: document.getElementById('list_3Grid')
@@ -1436,9 +1756,9 @@
     });
 
     list_3Grid.on('click', (ev) => {
-      if(ev.columnName === 'docName') {
+      if (ev.columnName === 'docName') {
         let idx = list_3Grid.getValue(ev.rowKey, "idx");
-        if(idx) {
+        if (idx) {
           nowDetailContent = idx;
           nowDetailLocation = 'newWrite';
           $("#myModal").fadeOut();
@@ -1451,7 +1771,7 @@
   }
 
   function setGridStyle_a() {
-    tui.Grid.applyTheme('striped' ,{
+    tui.Grid.applyTheme('striped', {
       selection: {
         background: '#4daaf9',
         border: '#004082'
@@ -1498,6 +1818,170 @@
         }
       }
     });
+  }
+
+
+
+  function fn_getChart(linedata0, linelank0, bardata0)
+  {
+    //차트 초기화..
+    $("#line-chart-0").empty();
+    $("#bar-chart-0").empty();
+
+    // line chart
+    let lineData = [];
+    let lineOptions = [];
+    let lineCharts = [];
+
+    lineData[0] = {
+      categories: ['월', '화', '수', '목', '금', '토', '일'],
+      series: [
+        {
+          name: '일근무',
+          data: linedata0
+        }
+      ]
+    };
+
+    lineOptions[0] = {
+      xAxis: {
+        pointOnColumn: true
+      },
+      yAxis: {
+        scale: {
+          min: 0,
+          max: 16,
+          stepSize: 4
+        }
+      },
+      legend: {
+        visible: false
+      },
+      plot: {
+        bands: [
+          {
+            range: [
+              linelank0,
+            ],
+            color: '#00bcd4',
+            opacity: 0.2,
+          },
+        ],
+      },
+      exportMenu: {
+        visible: false
+      },
+      series: {
+        showDot: true,
+        selectable: true,
+        dataLabels: {
+          visible: true,
+        }
+      },
+      theme: {
+        xAxis: {
+          color: "white",
+          label: {
+            color: "white"
+          }
+        },
+        yAxis: {
+          label: {
+            fontFamily: "Pretendard",
+            fontSize: 13,
+            fontWeight: 400,
+            color: "#666"
+          },
+          color: "white"
+        },
+        series: {
+          dot: {
+            radius: 3,
+            borderWidth: 2,
+            borderColor: "white"
+          },
+          lineWidth: 3,
+          colors: ["#359DFF"],
+          dataLabels: {
+            fontFamily: 'Impact',
+            fontSize: 13,
+            fontWeight: 500,
+            color: '#ff416d',
+            textBubble: { visible: true, arrow: { visible: true } },
+          }
+        }
+      }
+    };
+
+    lineCharts[0] = Chart.lineChart({ el: document.querySelector("#line-chart-0"), data: lineData[0], options: lineOptions[0] });
+
+    // bar chart
+    let barData = [];
+    let barOptions = [];
+    let barCharts = [];
+
+    barData[0] = {
+      categories: [0],
+      series: [
+        {
+          name: "월 근무시간",
+          data: [bardata0]
+        }
+      ]
+    };
+
+    barOptions[0] = {
+      xAxis: {
+        scale: {
+          min: 0,
+          max: 200,
+          stepSize: 50
+        }
+      },
+      legend: {
+        visible: false
+      },
+      exportMenu: {
+        visible: false
+      },
+      series: {
+        selectable: true,
+        dataLabels: {
+          visible: true,
+        },
+      },
+      theme: {
+        xAxis: {
+          label: {
+            fontFamily: "Pretendard",
+            fontSize: 13,
+            fontWeight: 400,
+            color: "#666"
+          },
+          color: "white"
+        },
+        yAxis: {
+          label: {
+            color: "white"
+          },
+          color: "white"
+        },
+        series: {
+          barWidth: 42,
+          colors: ["#00D5A2"],
+          dataLabels: {
+            fontFamily: 'Impact',
+            fontSize: 13,
+            fontWeight: 500,
+            color: '#ff416d',
+            textBubble: { visible: true, arrow: { visible: true } },
+          }
+        }
+      }
+    };
+
+    barCharts[0] = Chart.barChart({ el: document.querySelector("#bar-chart-0"), data: barData[0], options: barOptions[0] });
+
   }
 
 </script>

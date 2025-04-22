@@ -20624,7 +20624,7 @@ option:hover, option:checked {
   flex: 0 auto;
   display: flex;
   align-items: center;
-  width: calc(25% - 20rem);
+  width: calc(33% - 20rem);
 }
 .card.is-main.is-quick-menu .column:hover {
   font-weight: 600;
