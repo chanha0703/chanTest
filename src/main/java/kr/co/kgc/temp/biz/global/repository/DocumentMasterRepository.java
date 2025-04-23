@@ -27,5 +27,18 @@ public interface DocumentMasterRepository extends JpaRepository<DocumentMaster, 
       @Param("lotNo") String lotNo,
       @Param("productName") String productName
   );
+
+  @Query("""
+    SELECT d
+    FROM DocumentMaster d
+    WHERE
+      (:parentIdx IS NOT NULL AND (d.parentIdx = :parentIdx OR d.idx = :parentIdx))
+      OR (:parentIdx IS NULL AND d.idx = :idx)
+    ORDER BY d.version DESC
+  """)
+  List<DocumentMaster> findRelatedDocuments(
+          @Param("idx") Long idx,
+          @Param("parentIdx") Long parentIdx
+  );
   
 }

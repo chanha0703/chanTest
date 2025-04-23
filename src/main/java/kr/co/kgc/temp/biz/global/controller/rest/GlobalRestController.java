@@ -35,11 +35,9 @@ public class GlobalRestController {
     return globalService.getListDocumentMaster(entity);
   }
 
-
-
-  @PostMapping("/document-master/latest")
-  public DocumentMaster getLatestDocumentMaster(@RequestBody DocumentMaster entity) {
-    return globalService.getLatestDocumentMaster(entity.getDocNo());
+  @PostMapping("/document-master/history")
+  public List<DocumentMaster> getLatestDocumentMaster(@RequestBody DocumentMaster entity) {
+    return globalService.getDocumentMasterHistory(entity.getIdx());
   }
   
 
@@ -63,10 +61,8 @@ public class GlobalRestController {
     return globalService.getListWorkDocument(entity);
   }
 
-
-  
-  @PostMapping("/work-document/rollback")
-  public String rollbackWorkDocument(@RequestBody WorkDocument entity) {
-    return globalService.rollbackWorkDocument(entity.getDocNo(), entity.getVersion());
+  @PostMapping("/work-document/history")
+  public List<WorkDocument> rollbackWorkDocument(@RequestBody WorkDocument entity) {
+    return globalService.getWorkDocumentHistory(entity.getIdx());
   }
 }

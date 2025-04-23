@@ -22,6 +22,7 @@
   <script src="/js/desktop.js"></script>
 
   <script src="/js/common.js"></script>
+  <script src="/js/diff_match_patch.js"></script>
 
   <script src="https://cdn.tiny.cloud/1/9hwtzxtc2zwisi7b85nco60f3mzb63hrh69z1w3qywn28snr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -1025,6 +1026,45 @@
           </div>
         </div>
 
+
+        <div id="compareModal" class="my-modal">
+          <div class="my-modal-content" style="width: 100%; height: 90%;">
+            <span class="my-close">&times;</span>
+            <h1 class="page-title">변경이력 확인 예시</h1>
+            <br/>
+            <table class="table is-search is-fullwidth">
+              <colgroup>
+                <col style="width: 9%;"/>
+                <col/>
+                <col style="width: 18%;"/>
+                <col style="width: 9%;"/>
+                <col/>
+              </colgroup>
+              <tbody>
+              <tr>
+                <th><span>기록서 1</span></th>
+                <td>
+                  <select class="input" id="compareLeft">
+                    <option value="">선택</option>
+                  </select>
+                </td>
+                <td></td>
+                <th><span>기록서 2</span></th>
+                <td>
+                  <select class="input" id="compareRight">
+                    <option value="">선택</option>
+                  </select>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div style="display:flex; height: 85%; justify-content: space-around;">
+              <div id="compareLeftDoc" style="width: 48%;height: 100%;border: 1px solid black; overflow-y: auto; padding-top: 15px;"></div>
+              <div id="compareRightDoc" style="width: 48%;height: 100%;border: 1px solid black; overflow-y: auto; padding-top: 15px;"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- 메인 페이지 끝... -->
       </div>
     </div>
@@ -1220,8 +1260,87 @@
     });
 
     $("#btnDetailHistory").click(() => {
-      //TODO
+      let resList = [];
+      const buildOptions = (list) => {
+        const $left = $("#compareLeft");
+        const $right = $("#compareRight");
 
+        // 초기화 및 '선택' 옵션 추가
+        $left.empty().append('<option value="">선택</option>');
+        $right.empty().append('<option value="">선택</option>');
+
+        list.forEach(item => {
+          const displayText = `${item.docNo} (version - ${item.version})`;
+          const optionHtml = `<option value="${item.idx}">${displayText}</option>`;
+          $left.append(optionHtml);
+          $right.append(optionHtml);
+        });
+      };
+      const callback = (res) => {
+        res.forEach(item => {
+          item.writeDt = item.writeDt || item.regDt;
+          item.writeDt = formatDate(item.writeDt);
+          item._attributes = {
+            className: {
+              column: {
+                docName: ['chan-blue']
+              }
+            }
+          };
+        });
+
+        resList = res;
+        buildOptions(resList);
+        $("#compareModal").fadeIn();
+      };
+
+      if (nowDetailLocation === 'form') {
+        SmartDoc.DocumentMaster.getHistory(nowDetailContent, callback);
+      } else if (nowDetailLocation === 'list') {
+        SmartDoc.WorkDocument.getHistory(nowDetailContent, callback);
+      }
+    });
+
+
+    $("#compareLeft, #compareRight").change(function () {
+      const $left = $("#compareLeft");
+      const $right = $("#compareRight");
+      const leftVal = $left.val();
+      const rightVal = $right.val();
+
+      const targetId = $(this).attr("id");
+      const selectedVal = $(this).val();
+      const isLeft = targetId === "compareLeft";
+      const targetDoc = isLeft ? "#compareLeftDoc" : "#compareRightDoc";
+
+      // 같은 문서 선택 방지
+      if (leftVal && rightVal && leftVal === rightVal) {
+        alert("같은 문서를 두 번 선택할 수 없습니다.");
+        $(this).val("");
+        $(targetDoc).html("");
+        return;
+      }
+
+      // 선택된 값 없으면 리턴
+      if (!selectedVal) {
+        $(targetDoc).html("");
+        return;
+      };
+
+      // 공통 로딩 함수
+      const loadDocument = (docId, callback) => {
+        if (nowDetailLocation === 'form') {
+          SmartDoc.DocumentMaster.load(docId, callback);
+        } else if (nowDetailLocation === 'list') {
+          SmartDoc.WorkDocument.load(docId, callback);
+        }
+      };
+
+      // 문서 불러와서 표시
+      loadDocument(selectedVal, function(res) {
+        $(targetDoc).html(res.content);
+        tryRunDiff();
+      });
     });
 
     $("#btnDetailWrite").click(() => {
@@ -1253,6 +1372,11 @@
 
         $("#confirmModal").fadeOut();
         $("#confirmWriteModal").fadeOut();
+
+        $("#compareModal").fadeOut().promise().done(function () {
+          $("#compareLeftDoc").html("");
+          $("#compareRightDoc").html("");
+        });
       }
     });
 
@@ -1404,6 +1528,55 @@
     });
 
   } //initEvent
+
+  function tryRunDiff() {
+    const leftText = sanitizeText($("#compareLeftDoc").html());
+    const rightText = sanitizeText($("#compareRightDoc").html());
+
+    if (!leftText || !rightText) return;
+
+    const dmp = new diff_match_patch();
+    const diffs = dmp.diff_main(leftText, rightText);
+    dmp.diff_cleanupSemantic(diffs); // 이거 다시 넣자 (보기도 예쁘게 해줌)
+
+    // const diffedHtml = dmp.diff_prettyHtml(diffs);
+    //
+    // // $("#compareRightDoc").html(unescapeHtml(diffedHtml));
+    // $("#compareRightDoc").html(diffedHtml);
+
+    const DIFF_EQUAL = 0;
+    const DIFF_DELETE = -1;
+    const DIFF_INSERT = 1;
+
+    const resultHtml = diffs.map(diff => {
+      const op = diff[0];
+      const data = diff[1];
+
+      switch (op) {
+        case DIFF_INSERT:
+          return `<span style="background-color:#d4fcdc;">${data}</span>`;
+        case DIFF_DELETE:
+          return `<span style="background-color:#ffe0e0; text-decoration: line-through;">${data}</span>`;
+        case DIFF_EQUAL:
+          return data;
+        default:
+          return "";
+      }
+    }).join("");
+
+    $("#compareRightDoc").html(resultHtml);
+  }
+
+  function sanitizeText(text) {
+    return text.replace(/\s+/g, ' ').trim();
+  }
+
+  function unescapeHtml(escapedStr = "") {
+    const temp = document.createElement("div");
+    temp.innerHTML = escapedStr;
+    return temp.textContent || temp.innerText || "";
+  }
+
 
   function loadPage(type, content) {
 
@@ -1981,7 +2154,6 @@
         , {header: '문서이름', name: 'docName', sortable: true, align: 'center'}
         , {header: '제품명', name: 'productName', sortable: true}
         , {header: '제조단위', name: 'lotUnit', sortable: true, align: 'right'}
-        , {header: '버전', name: 'version', sortable: false, align: 'center'}
       ]
     });
 

@@ -24,9 +24,9 @@ const SmartDoc = (function () {
     getList: function(data, onSuccess) {
       post('/api/document-master/list', data, onSuccess);
     },
-    getLatest: function (docNo, onSuccess) {
-      post('/api/document-master/latest', { docNo: docNo }, onSuccess);
-    },
+    getHistory: function (idx, onSuccess) {
+      post('/api/document-master/history', { idx: idx }, onSuccess);
+    }
   };
   
   const WorkDocument = {
@@ -39,8 +39,8 @@ const SmartDoc = (function () {
     getList: function(data, onSuccess) {
       post('/api/work-document/list', data, onSuccess);
     },
-    rollback: function (docNo, version, onSuccess) {
-      post('/api/work-document/rollback', { docNo: docNo, version: version }, onSuccess);
+    getHistory: function (idx, onSuccess) {
+      post('/api/work-document/history', { idx: idx }, onSuccess);
     }
   };
   

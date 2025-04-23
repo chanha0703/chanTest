@@ -51,11 +51,6 @@ public class GlobalService {
     return dmr.findById(idx).orElse(null);
   }
   
-  public DocumentMaster getLatestDocumentMaster(String docNo) {
-    return null;
-//    return dmr.findTopByIdxAndIsFinalTrueOrderByVersionDesc(docNo).orElse(null);
-  }
-  
   public List<DocumentMaster> getListDocumentMaster(DocumentMaster req) {
     LocalDate regDate = null;
     if (req.getRegDt() != null) {
@@ -68,6 +63,11 @@ public class GlobalService {
         req.getLotNo(),
         req.getProductName()
     );
+  }
+
+  public List<DocumentMaster> getDocumentMasterHistory(Long idx) {
+      DocumentMaster doc = dmr.findById(idx).orElseThrow(() -> new RuntimeException("Document not found"));
+      return dmr.findRelatedDocuments(idx, doc.getParentIdx());
   }
   
   // ===== WorkDocument =====
@@ -93,29 +93,27 @@ public class GlobalService {
     return "작업 문서 저장 완료";
   }
 
-    public List<WorkDocument> getListWorkDocument(WorkDocument req) {
-        LocalDate writeDate = null;
-        if (req.getWriteDt() != null) {
-            writeDate = req.getWriteDt().toLocalDate();
-        }
 
-        return wdr.searchWithConditions(
-                writeDate,
-                req.getProcessName(),
-                req.getLotNo(),
-                req.getProductName()
-        );
-    }
-  
   public WorkDocument loadWorkDocument(Long idx) {
     return wdr.findById(idx).orElse(null);
   }
+
+  public List<WorkDocument> getListWorkDocument(WorkDocument req) {
+    LocalDate writeDate = null;
+    if (req.getWriteDt() != null) {
+        writeDate = req.getWriteDt().toLocalDate();
+    }
+
+    return wdr.searchWithConditions(
+            writeDate,
+            req.getProcessName(),
+            req.getLotNo(),
+            req.getProductName()
+    );
+  }
   
-  public String rollbackWorkDocument(String docNo, int version) {
-    wdr.findByDocNo(docNo).forEach(wd -> {
-      wd.setFinal(wd.getVersion() == version);
-      wdr.save(wd);
-    });
-    return "롤백 완료";
+  public List<WorkDocument> getWorkDocumentHistory(Long idx) {
+      WorkDocument doc = wdr.findById(idx).orElseThrow(() -> new RuntimeException("Document not found"));
+      return wdr.findRelatedDocuments(idx, doc.getParentIdx());
   }
 }
