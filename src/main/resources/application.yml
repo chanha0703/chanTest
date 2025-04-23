@@ -20,13 +20,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
-        format_sql: true
-      show-sql: false
+        format_sql: false
+    show-sql: false
 
 server:
   port: 8080
 
 logging:
   level:
-    org.hibernate.SQL: OFF
-    org.hibernate.type.descriptor.sql: OFF
+    jdbc: OFF
+    jdbc.sqlonly: OFF
+    jdbc.sqltiming: OFF
+    jdbc.resultset: OFF
+    jdbc.connection: OFF
+    jdbc.audit: OFF
