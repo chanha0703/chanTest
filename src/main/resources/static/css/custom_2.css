@@ -282,6 +282,10 @@
     overflow: hidden;
 }
 
+.modal-no-height {
+    height: auto;
+}
+
 /* 닫기 버튼 */
 .my-close {
     position: absolute;

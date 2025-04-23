@@ -7,7 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class GlobalController {
   
   @GetMapping("")
+  public String goGate() {
+    return "gate";
+  }
+  
+  @GetMapping("/main")
   public String goMain() {
     return "index";
+  }
+  
+  @GetMapping("/2")
+  public String goMain2() {
+    return "index2";
   }
 }

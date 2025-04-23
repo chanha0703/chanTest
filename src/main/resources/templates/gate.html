@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>제조 기록서</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            background:  url('img/main.png') no-repeat center center/cover;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .main-content {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 60px;
+            border-radius: 16px;
+            color: #2c3e50;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 추가할 스타일 */
+        .main-content {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .title {
+            font-size: 42px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 로고 컨테이너 스타일 - 크기 확대 및 정밀 정렬 */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            width: 100%;
+            gap: 60px;
+        }
+
+        .logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px; /* 더 큰 고정 너비 */
+            height: 100px; /* 더 큰 고정 높이 */
+        }
+
+        .logo-img-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 130px; /* 로고 이미지 영역 높이 */
+            width: 80%;
+            overflow: hidden;
+        }
+
+        .logo-img {
+            max-height: 150px; /* 로고 크기 확대 */
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        /* KGC 로고 특별 조정 */
+        .logo-item.kgc .logo-img {
+            padding: 15px; /* KGC 로고 주변 여백 조정 */
+            box-sizing: content-box;
+        }
+
+        .company-name {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* 특징 스타일 */
+        .features {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            width: 30%;
+            min-width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature:hover {
+            /*transform: translateY(-5px);*/
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #c0392b;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 40px 20px;
+                width: 95%;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .logo-item {
+                width: 100%;
+                height: auto;
+                margin: 10px 0;
+            }
+
+            .feature {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="presentation-container">
+    <div class="main-content" onclick="location.href='/main'">
+        <h1 class="title">스마트 제조 기록서 시스템</h1>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">실시간 데이터 수집</h3>
+                <p class="feature-desc">생산 과정의 모든 데이터를 실시간으로 수집하여 분석하고 시각화합니다.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">정확한 기록 관리</h3>
+                <p class="feature-desc">전자서명 기술로 기록의 신뢰성과 변경 방지를 보장합니다.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">✍️</div>
+                <h3 class="feature-title">태블릿 전용 에디터</h3>
+                <p class="feature-desc">직관적인 태블릿용 에디터로 현장에서 쉽게 양식을 작성하고 제출할 수 있습니다.</p>
+            </div>
+        </div>
+
+        <div class="logo-container" style="padding-top: 60px;">
+            <div class="logo-item kgc">
+                <div class="logo-img-wrapper">
+                    <img src="img/kgc-logo.png" alt="KGC인삼공사 로고" class="logo-img" style="padding-bottom: 40px;">
+                </div>
+            </div>
+            <div class="logo-item">
+                <div class="logo-img-wrapper">
+                    <img src="img/gs-logo.png" alt="GS ITM 로고" class="logo-img">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

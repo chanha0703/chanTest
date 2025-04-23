@@ -255,18 +255,18 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                      <th><span>등록일자</span></th>
+                      <th><span>일자</span></th>
                       <td>
-                        <input type="text" class="input"/>
+                        <input type="text" class="input" disabled/>
                       </td>
-                      <th><span>공정번호</span></th>
+                      <th><span>공정(제조공정)</span></th>
                       <td>
-                        <input type="text" class="input"/>
+                        <input type="text" class="input" id="formListProcessName"/>
                       </td>
                       <th></th>
                       <td></td>
                       <td rowspan="2">
-                        <button type="button" class="button is-search is-filled is-medium" disabled>
+                        <button type="button" class="button is-search is-filled is-medium" id="searchFormListForm">
                             <span class="icon is-search is-medium">
                                 <svg><use href="#search"></use></svg>
                             </span>
@@ -277,11 +277,11 @@
                     <tr>
                       <th><span>제조번호</span></th>
                       <td>
-                        <input type="text" class="input"/>
+                        <input type="text" class="input" id="formListLotNo"/>
                       </td>
-                      <th><span>품목</span></th>
+                      <th><span>품목(제품명)</span></th>
                       <td>
-                        <input type="text" class="input"/>
+                        <input type="text" class="input" id="formListProductName"/>
                       </td>
                       <th></th>
                       <td></td>
@@ -361,7 +361,7 @@
                     <tr>
                       <th><span>등록일자</span></th>
                       <td>
-                        <input type="text" class="input"/>
+                        <input type="text" class="input" disabled/>
                       </td>
                       <th><span>공정번호</span></th>
                       <td>
@@ -515,8 +515,7 @@
                           <span>홈</span>
                         </li>
                         <li aria-current="page" class="breadcrumb">
-                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('formList')">제조기록서
-                            양식</a>
+                          <a href="javascript:void(0);" rel="noopener" onclick="loadPage('formList')">제조기록서양식</a>
                         </li>
                       </ul>
                     </div>
@@ -920,6 +919,49 @@
             <div id="list_3Grid"></div>
           </div>
         </div>
+
+        <div id="confirmModal" class="my-modal">
+          <div class="my-modal-content modal-no-height">
+            <span class="my-close">&times;</span>
+            <h1 class="page-title" id="confirmTitle">개정이력</h1>
+            <br/>
+            <div class="card-body">
+              <table class="table is-search is-fullwidth">
+                <colgroup>
+                  <col style="width: 9%;"/>
+                  <col style="width: 9%;"/>
+                  <col/>
+                </colgroup>
+                <tbody>
+                <tr>
+                  <th><span>개정번호</span></th>
+                  <td></td>
+                  <td>
+                    <input type="text" class="input"/>
+                  </td>
+                </tr>
+                <tr>
+                  <th><span>개정일자</span></th>
+                  <td></td>
+                  <td>
+                    <input type="text" class="input"/>
+                  </td>
+                </tr>
+                <tr>
+                  <th><span>개정이력</span></th>
+                  <td></td>
+                  <td>
+                    <input type="text" class="input"/>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <button id="confirmModalWrite" type="button" class="button is-outline is-primary is-medium" style="margin-right: 10px;">
+                제조기록서 작성
+              </button>
+            </div>
+          </div>
+        </div>
         <!-- 메인 페이지 끝... -->
       </div>
     </div>
@@ -979,26 +1021,6 @@
     initEvent();
     fn_getChart([8, 9, 9, 8, 8], ['월', '화', '수', '목', '금'], 126);
   })  //document.ready
-
-  function setSvg() {
-    const svgPath = "/img/svg/"; // SVG 파일 경로
-
-    $("svg").each(function () {
-      const $svg = $(this);
-      if ($(this).attr('id') === 'svgPdf') return;
-      const symbolId = $svg.find("use").attr("href").replace("#", ""); // href 값에서 # 제거
-      const filePath = `${svgPath}${symbolId}.svg`; // 파일 경로 만들기
-
-      if (!$svg || !symbolId || !filePath) return;
-
-      // SVG 파일 불러와서 대체
-      $.get(filePath, function (data) {
-        const svgContent = $(data).find("svg").html(); // SVG 내부 내용만 가져오기
-        $svg.html(svgContent); // 기존 <use>를 대체
-      });
-    });
-  } //setSvg
-
 
   function initEvent() {
     //GNB
@@ -1108,21 +1130,21 @@
 
         const content = tinymce.get('writeTiny').getContent();
 
-        SmartDoc.WorkDocument.save({
-          docNo: 'DOC-001',
-          productName: '홍삼정',
-          lotNo: 'A001-23',
-          lotUnit: 'UNIT-01',
-          workDate: new Date().toISOString().slice(0, 10),
-          processName: '충전',
-          content: content,
-          writerId: 'testId',
-          writerIp: '127.0.0.1',
-          status: 'SAVED'
-        }, function (res) {
-          alert('저장되었습니다.');
-          loadPage('list');
-        });
+        // SmartDoc.WorkDocument.save({
+        //   docNo: 'DOC-001',
+        //   productName: '홍삼정',
+        //   lotNo: 'A001-23',
+        //   lotUnit: 'UNIT-01',
+        //   workDate: new Date().toISOString().slice(0, 10),
+        //   processName: '충전',
+        //   content: content,
+        //   writerId: 'testId',
+        //   writerIp: '127.0.0.1',
+        //   status: 'SAVED'
+        // }, function (res) {
+        //   alert('저장되었습니다.');
+        //   loadPage('list');
+        // });
       }
     });
 
@@ -1150,24 +1172,50 @@
     });
 
     $("#btnUpdate").click(() => {
+      $("#confirmModal").fadeIn();
+
+      // if (confirm('수정하시겠습니까?')) {
+      //   alert('수정되었습니다.');
+      //   documentList[nowDetailContent].content = tinymce.get('updateTiny').getContent();
+      //   loadPage('formList');
+      // }
+    });
+
+    $("#confirmModalWrite").click(() => {
       if (confirm('수정하시겠습니까?')) {
-        alert('수정되었습니다.');
-        documentList[nowDetailContent].content = tinymce.get('updateTiny').getContent();
-        loadPage('formList');
+        SmartDoc.DocumentMaster.save({
+          idx: nowDetailContent,
+          workDate: new Date().toISOString().slice(0, 10),
+          content: tinymce.get('updateTiny').getContent(),
+          regId: 'system',
+          regIp: '127.0.0.1'
+        }, function (res) {
+          alert('수정되었습니다.');
+          $("#confirmModal").fadeOut();
+          loadPage('formList');
+        });
       }
     });
 
     $("#btnDetailWrite").click(() => {
+      //TODO 완
       let idx = nowDetailContent;
       if (nowDetailContent) {
         nowDetailLocation = 'listUpdate';
-        loadPage('write', writeList[idx].content);
+        SmartDoc.DocumentMaster.load(idx, function(res) {
+          loadPage('write', res.content);
+        });
       }
     });
 
     $("#btnDetailUpdate").click(() => {
+      //TODO 완
       let idx = nowDetailContent;
-      if (nowDetailContent) loadPage('update', documentList[idx].content);
+      if (nowDetailContent) {
+        SmartDoc.DocumentMaster.load(idx, function(res) {
+          loadPage('update', res.content);
+        });
+      }
     });
 
     $(".my-close, .my-modal").click(function (event) {
@@ -1177,7 +1225,32 @@
           list_3Grid.destroy();
           list_3Grid = null;
         }
+
+        $("#confirmModal").fadeOut();
       }
+    });
+
+    $("#searchFormListForm").on('click', function() {
+      SmartDoc.DocumentMaster.getList({
+        processName: $("#formListProcessName").val()
+        , lotNo: $("#formListLotNo").val()
+        , productName: $("#formListProductName").val()
+      }, function(res) {
+        res.forEach(item => {
+          item.regDt = formatDate(item.regDt);
+          item._attributes = {
+            className: {
+              column: {
+                docName: ['chan-blue']
+              }
+            }
+          };
+        });
+
+        if (list_2Grid) {
+          list_2Grid.resetData(res);
+        }
+      });
     });
 
     $("#btnDownPdf").click(() => {
@@ -1711,54 +1784,87 @@
     })
   }
 
-  function setList_2Grid() {
-    if (list_2Grid) return;
-    setGridStyle_a();
-    list_2Grid = new tui.Grid({
-      el: document.getElementById('list_2Grid')
-      , data: Object.values(documentList)
-      , scrollX: false
-      , scrollY: false
-      , bodyHeight: 300
-      , rowHeight: 35
-      , rowHeaders: ['rowNum']
-      , columns: [
-        {header: 'content값', name: 'idx', hidden: true}
-        , {header: '제조기록서', name: 'docName', sortable: true, align: 'center'}
-        , {header: '제품명', name: 'prodName', sortable: true}
-        , {header: '제조공정', name: 'process', sortable: true}
-        , {header: '등록자', name: 'worker', sortable: true, align: 'center'}
-        , {header: '등록일자', name: 'workDate', sortable: true, align: 'center'}
-      ]
-      , contextMenu: ({rowKey, columnName}) => [
-        [{
-          name: 'export',
-          label: 'Export'
-          ,
-          subMenu: [{
-            name: 'execlExport',
-            label: '엑셀내보내기(xlsx)',
-            action: () => list_2Grid.export('xlsx', {fileName: '제조기록서양식_리스트'})
-          }]
-        }]
-      ]
-    });
+  function formatDate(isoString) {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
 
-    list_2Grid.on('click', (ev) => {
-      if (ev.columnName === 'docName') {
-        let idx = list_2Grid.getValue(ev.rowKey, "idx");
-        if (idx) {
-          nowDetailContent = idx;
-          nowDetailLocation = 'form';
-          loadPage('detail', documentList[idx].content);
+  function setList_2Grid() {
+    //TODO 완
+    if (list_2Grid) return;
+
+    SmartDoc.DocumentMaster.getList({}, function(res) {
+      console.log("res :: ", res);
+      setGridStyle_a();
+
+      res.forEach(item => {
+        item.regDt = formatDate(item.regDt); // 새 필드로 저장
+        item._attributes = {
+          className: {
+            column: {
+              docName: ['chan-blue']
+            }
+          }
+        };
+      });
+
+      list_2Grid = new tui.Grid({
+        el: document.getElementById('list_2Grid')
+        , data: res
+        , scrollX: false
+        , scrollY: false
+        , bodyHeight: 300
+        , rowHeight: 35
+        , rowHeaders: ['rowNum']
+        , columns: [
+          {header: 'idx', name: 'idx', hidden: true}
+          , {header: '문서번호', name: 'docNo', sortable: true, align: 'center'}
+          , {header: '문서이름', name: 'docName', sortable: true, align: 'center'}
+          , {header: '제품명', name: 'productName', sortable: true}
+          , {header: '제조번호', name: 'lotNo', sortable: true}
+          , {header: '제조단위', name: 'lotUnit', sortable: true}
+          , {header: '제조공정', name: 'processName', sortable: true}
+          , {header: '등록자', name: 'regId', sortable: true, align: 'center'}
+          , {header: '등록일자', name: 'regDt', sortable: true, align: 'center'}
+          , {header: 'content', name: 'content', hidden: true}
+        ]
+        , contextMenu: ({rowKey, columnName}) => [
+          [{
+            name: 'export',
+            label: 'Export'
+            ,
+            subMenu: [{
+              name: 'execlExport',
+              label: '엑셀내보내기(xlsx)',
+              action: () => list_2Grid.export('xlsx', {fileName: '제조기록서양식_리스트'})
+            }]
+          }]
+        ]
+      });
+
+      list_2Grid.on('click', (ev) => {
+        if (ev.columnName === 'docName') {
+          let idx = list_2Grid.getValue(ev.rowKey, "idx");
+          if (idx) {
+            nowDetailContent = idx;
+            nowDetailLocation = 'form';
+            SmartDoc.DocumentMaster.load(idx, function(res) {
+              loadPage('detail', res.content);
+            });
+          }
         }
-      }
-    })
+      });
+    });
   }
 
   function setList_3Grid() {
     if (list_3Grid) return;
     setGridStyle_a();
+
     list_3Grid = new tui.Grid({
       el: document.getElementById('list_3Grid')
       , data: Object.values(documentList)
