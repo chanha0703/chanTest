@@ -14,8 +14,12 @@ import java.util.List;
 public class GlobalRestController {
   
   private final GlobalService globalService;
-  
-  
+
+
+  /********************
+   * DOCUMENT-MASTER  *
+   ********************/
+
   @PostMapping("/document-master/save")
   public String saveDocumentMaster(@RequestBody DocumentMaster entity) {
     return globalService.saveDocumentMaster(entity);
@@ -26,27 +30,40 @@ public class GlobalRestController {
     return globalService.loadDocumentMaster(entity.getIdx());
   }
   
+  @PostMapping("/document-master/list")
+  public List<DocumentMaster> getListDocumentMaster(@RequestBody DocumentMaster entity) {
+    return globalService.getListDocumentMaster(entity);
+  }
+
+
+
   @PostMapping("/document-master/latest")
   public DocumentMaster getLatestDocumentMaster(@RequestBody DocumentMaster entity) {
     return globalService.getLatestDocumentMaster(entity.getDocNo());
   }
   
-  @PostMapping("/document-master/list")
-  public List<DocumentMaster> getListDocumentMaster(@RequestBody DocumentMaster entity) {
-    return globalService.getListDocumentMaster(entity);
-  }
-  
-  
+
+
+  /******************
+   * WORK-DOCUMENT  *
+   ******************/
   
   @PostMapping("/work-document/save")
   public String saveWorkDocument(@RequestBody WorkDocument entity) {
     return globalService.saveWorkDocument(entity);
   }
-  
+
   @PostMapping("/work-document/load")
   public WorkDocument loadWorkDocument(@RequestBody WorkDocument entity) {
-    return globalService.loadWorkDocument(entity.getDocNo());
+    return globalService.loadWorkDocument(entity.getIdx());
   }
+
+  @PostMapping("/work-document/list")
+  public List<WorkDocument> getListWorkDocument(@RequestBody WorkDocument entity) {
+    return globalService.getListWorkDocument(entity);
+  }
+
+
   
   @PostMapping("/work-document/rollback")
   public String rollbackWorkDocument(@RequestBody WorkDocument entity) {

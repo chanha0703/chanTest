@@ -24,7 +24,6 @@ public class GlobalService {
     dmr.findTopByIdxAndIsFinalTrueOrderByVersionDesc(entity.getIdx())
         .ifPresent(prev -> {
           prev.setFinal(false);
-          prev.setContent(entity.getContent());
           dmr.save(prev);
           entity.setVersion(prev.getVersion() + 1);
           entity.setDocNo(prev.getDocNo());
@@ -75,11 +74,14 @@ public class GlobalService {
   
   public String saveWorkDocument(WorkDocument entity) {
     // 이전 최종본을 is_final = false로
-    wdr.findTopByDocNoAndIsFinalTrueOrderByVersionDesc(entity.getDocNo())
+    wdr.findTopByIdxAndIsFinalTrueOrderByVersionDesc(entity.getIdx())
         .ifPresent(prev -> {
           prev.setFinal(false);
           wdr.save(prev);
           entity.setVersion(prev.getVersion() + 1);
+          if(prev.getParentIdx() != null) entity.setParentIdx(prev.getParentIdx());
+          else entity.setParentIdx(prev.getIdx());
+          entity.setIdx(null);
         });
     
     if (entity.getVersion() == 0) {
@@ -90,10 +92,23 @@ public class GlobalService {
     wdr.save(entity);
     return "작업 문서 저장 완료";
   }
+
+    public List<WorkDocument> getListWorkDocument(WorkDocument req) {
+        LocalDate writeDate = null;
+        if (req.getWriteDt() != null) {
+            writeDate = req.getWriteDt().toLocalDate();
+        }
+
+        return wdr.searchWithConditions(
+                writeDate,
+                req.getProcessName(),
+                req.getLotNo(),
+                req.getProductName()
+        );
+    }
   
-  public WorkDocument loadWorkDocument(String docNo) {
-    return wdr.findTopByDocNoOrderByVersionDesc(docNo)
-        .orElse(null);
+  public WorkDocument loadWorkDocument(Long idx) {
+    return wdr.findById(idx).orElse(null);
   }
   
   public String rollbackWorkDocument(String docNo, int version) {

@@ -21,20 +21,23 @@ const SmartDoc = (function () {
     load: function (idx, onSuccess) {
       post('/api/document-master/load', { idx: idx }, onSuccess);
     },
+    getList: function(data, onSuccess) {
+      post('/api/document-master/list', data, onSuccess);
+    },
     getLatest: function (docNo, onSuccess) {
       post('/api/document-master/latest', { docNo: docNo }, onSuccess);
     },
-    getList: function(data, onSuccess) {
-      post('/api/document-master/list', data, onSuccess);
-    }
   };
   
   const WorkDocument = {
     save: function (data, onSuccess) {
       post('/api/work-document/save', data, onSuccess);
     },
-    load: function (docNo, onSuccess) {
-      post('/api/work-document/load', { docNo: docNo }, onSuccess);
+    load: function (idx, onSuccess) {
+      post('/api/work-document/load', { idx: idx }, onSuccess);
+    },
+    getList: function(data, onSuccess) {
+      post('/api/work-document/list', data, onSuccess);
     },
     rollback: function (docNo, version, onSuccess) {
       post('/api/work-document/rollback', { docNo: docNo, version: version }, onSuccess);

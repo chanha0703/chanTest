@@ -18,7 +18,13 @@ public class WorkDocument {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idx;
-  
+
+  @Column(name = "parent_idx")
+  private Long parentIdx;
+
+  @Column(name = "master_idx")
+  private Long masterIdx;
+
   @Column(name = "doc_no", nullable = false, length = 50)
   private String docNo;
   
