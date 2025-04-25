@@ -24,7 +24,7 @@
   <script src="/js/common.js"></script>
   <script src="/js/diff_match_patch.js"></script>
 
-  <script src="https://cdn.tiny.cloud/1/9hwtzxtc2zwisi7b85nco60f3mzb63hrh69z1w3qywn28snr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.tiny.cloud/1/5rqwly7yn7ev7x74lhdej9rp8ca3sn7aull9yqyux0zecmff/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
   <style>
       .chan-blue > div {
@@ -674,32 +674,32 @@
           <div class="page is-main">
             <div class="page-body">
               <div class="columns has-gap is-wrapped">
-                <div class="column is-half is-grown-vertically">
+                <div class="column is-half is-grown-vertically" style="height: 50vh;">
                   <div class="card is-main has-tabs is-grown-vertically">
 
                     <header class="card-header">
                       <ul class="tabs is-underline">
                         <li class="tab is-active">
-                          <a href="#none" rel="noopener">
-                            <p><span>작성중</span>(<span id="status1">0</span>)</p>
+                          <a href="javascript:void(0);" rel="noopener">
+                            <p><span>작성중</span>(<span id="status1">3</span>)</p>
                           </a>
                         </li>
                         <li class="tab">
-                          <a href="#none" rel="noopener">
+                          <a href="javascript:void(0);" rel="noopener">
                             <p>
                               <span>결재중</span>(<span id="status2">0</span>)
                             </p>
                           </a>
                         </li>
                         <li class="tab">
-                          <a href="#none" rel="noopener">
+                          <a href="javascript:void(0);" rel="noopener">
                             <p>
                               <span>결재완료</span>(<span id="status3">0</span>)
                             </p>
                           </a>
                         </li>
                         <li class="tab">
-                          <a href="#none" rel="noopener">
+                          <a href="javascript:void(0);" rel="noopener">
                             <p>
                               <span>결재할문서</span>(<span id="status4">0</span>)
                             </p>
@@ -717,12 +717,38 @@
 
                     <div class="card-body">
                       <div class="tab-contents is-underline">
-                        <div class="tab-content is-active" id="documentStatus1">
+                        <div class="tab-content is-active">
                           <table class="table has-no-borders is-fullwidth">
                             <colgroup>
-                              <col style="width: 74%"></col>
-                              <col style="width: 12%"></col>
-                              <col></col>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
+                            </colgroup>
+                            <tbody>
+                            <tr onclick="javascript:void(0);" style="cursor:pointer">
+                              <th>제조지시 및 기록서(홍삼정(Cage추출방식))</th>
+                              <td style="text-align:right;">홍길동</td>
+                              <td>2024-04-25</td>
+                            </tr>
+                            <tr onclick="javascript:void(0);" style="cursor:pointer">
+                              <th>포장지시 및 기록서(홍삼정)</th>
+                              <td style="text-align:right;">홍길동</td>
+                              <td>2024-04-24</td>
+                            </tr>
+                            <tr onclick="javascript:void(0);" style="cursor:pointer">
+                              <th>제조지시 및 기록서(홍삼정)</th>
+                              <td style="text-align:right;">홍길동</td>
+                              <td>2024-04-23</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
                             </colgroup>
                             <tbody>
                             <tr>
@@ -731,12 +757,12 @@
                             </tbody>
                           </table>
                         </div>
-                        <div class="tab-content" id="documentStatus2">
+                        <div class="tab-content">
                           <table class="table has-no-borders is-fullwidth">
                             <colgroup>
-                              <col style="width: 74%"></col>
-                              <col style="width: 12%"></col>
-                              <col></col>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
                             </colgroup>
                             <tbody>
                             <tr>
@@ -745,26 +771,12 @@
                             </tbody>
                           </table>
                         </div>
-                        <div class="tab-content" id="documentStatus3">
+                        <div class="tab-content">
                           <table class="table has-no-borders is-fullwidth">
                             <colgroup>
-                              <col style="width: 74%"></col>
-                              <col style="width: 12%"></col>
-                              <col></col>
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                              <td colspan="3">데이터가 없습니다.</td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="tab-content" id="documentStatus4">
-                          <table class="table has-no-borders is-fullwidth">
-                            <colgroup>
-                              <col style="width: 74%"></col>
-                              <col style="width: 12%"></col>
-                              <col></col>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
                             </colgroup>
                             <tbody>
                             <tr>
@@ -779,132 +791,155 @@
                 </div>
 
                 <div class="column is-half is-grown-vertically">
-                  <div class="columns has-gap is-wrapped">
-                    <div class="column is-fullwidth">
-                      <div class="card is-main has-table is-main-notice">
-                        <div class="card-header">
-                          <h2 class="card-title">공지사항</h2>
-                          <a class="button is-more is-ghost" href="javascript:void(0);">
-                            <span class="icon is-chevron-right"><svg><use href="#chevron-right"></use></svg></span>
+                  <div class="card is-main has-tabs is-grown-vertically">
+
+                    <header class="card-header">
+                      <ul class="tabs is-underline">
+                        <li class="tab is-active">
+                          <a href="javascript:void(0);" rel="noopener">
+                            <p><span>전체</span>(<span id="status1">3</span>)</p>
                           </a>
-                        </div>
-                        <section class="card-body" id="noticeList">
-                          <div class="no-result" id="notiNoResult">
-                            <p></p>
-                            <p>공지내용이 없습니다.</p>
-                            <p></p>
-                          </div>
-                        </section>
-                      </div>
-                    </div>
-                    <div class="column is-fullwidth">
-                      <div class="card is-main is-quick-menu">
-                        <section class="card-body">
-                          <div class="columns has-gap is-wrapped">
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-parasol"><svg><use href="#parasol"></use></svg></span>
-                              <span>휴가</span>
-                            </a>
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-calendar-x"><svg><use href="#calendar-x"></use></svg></span>
-                              <span>휴가취소</span>
-                            </a>
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-suitcase"><svg><use href="#suitcase"></use></svg></span>
-                              <span>파견</span>
-                            </a>
+                        </li>
+                        <li class="tab">
+                          <a href="javascript:void(0);" rel="noopener">
+                            <p>
+                              <span>기준이탈</span>(<span id="status2">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                        <li class="tab">
+                          <a href="javascript:void(0);" rel="noopener">
+                            <p>
+                              <span>수정/변경</span>(<span id="status3">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                        <li class="tab">
+                          <a href="javascript:void(0);" rel="noopener">
+                            <p>
+                              <span>정상</span>(<span id="status4">0</span>)
+                            </p>
+                          </a>
+                        </li>
+                      </ul>
+                      <button class="button is-refresh is-ghost" aria-label="refresh" id="btnRefresh">
+                        <span class="icon is-refresh">
+                          <svg>
+                            <use href="#refresh"></use>
+                          </svg>
+                        </span>
+                      </button>
+                    </header>
 
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-clock"><svg><use href="#clock"></use></svg></span>
-                              <span>연장근무</span>
-                            </a>
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-clipboard-check"><svg><use href="#clipboard-check"></use></svg></span>
-                              <span>문서발급</span>
-                            </a>
-                            <a class="column" href="javascript:void(0);">
-                              <span class="icon is-address-book"><svg><use href="#address-book"></use></svg></span>
-                              <span>인적정보</span>
-                            </a>
-                          </div>
-                        </section>
+                    <div class="card-body">
+                      <div class="tab-contents is-underline">
+                        <div class="tab-content is-active">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
+                            </colgroup>
+                            <tbody>
+                              <tr onclick="javascript:void(0);" style="cursor:pointer">
+                                <th>제조지시 및 기록서(홍삼정(Cage추출방식))</th>
+                                <td style="text-align:right;">홍길동</td>
+                                <td>2024-04-25</td>
+                              </tr>
+                              <tr onclick="javascript:void(0);" style="cursor:pointer">
+                                <th>포장지시 및 기록서(홍삼정)</th>
+                                <td style="text-align:right;">홍길동</td>
+                                <td>2024-04-24</td>
+                              </tr>
+                              <tr onclick="javascript:void(0);" style="cursor:pointer">
+                                <th>제조지시 및 기록서(홍삼정)</th>
+                                <td style="text-align:right;">홍길동</td>
+                                <td>2024-04-23</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="tab-content">
+                          <table class="table has-no-borders is-fullwidth">
+                            <colgroup>
+                              <col style="width: 50%"></col>
+                              <col style="width: 25%"></col>
+                              <col style="width: 25%"></col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                              <td colspan="3">데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="column is-half is-grown-vertically">
-                  <div class="columns has-gap is-wrapped">
-                    <div class="column is-half is-grown-vertically">
-                      <div class="card is-main is-chart is-grown-vertically">
-                        <div class="card-header">
-                          <h2 class="card-title">주 근무시간</h2>
-                        </div>
-                        <section class="card-body">
-                          <p class="card-description">
-                            <span class="card-description-item">
-                              <span id="workMonth">4</span>월
-                              <span id="workWeek">3</span>주
-                            </span>
-                            <span id="workSumHour" class="card-description-number" style="color: #359dff">42</span>
-                            <span class="card-description-unit">h</span>
-                          </p>
-                          <div id="line-chart-0"></div>
-                        </section>
-                      </div>
-                    </div>
-
-                    <div class="column is-half is-grown-vertically">
-                      <div class="card is-main is-chart is-grown-vertically">
-                        <div class="card-header">
-                          <h2 class="card-title">월 근무시간</h2>
-                        </div>
-                        <section class="card-body">
-                          <p class="card-description">
-                            <span class="card-description-item">
-                              <span id="monthHour">126</span> / <span id="totalMonthHour">160</span>h
-                            </span>
-                            <span id="monthRate" class="card-description-number" style="color: #00d5a2">75</span>
-                            <span class="card-description-unit">%</span>
-                          </p>
-                          <div id="bar-chart-0"></div>
-                        </section>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="column is-half is-grown-vertically">
-                  <div class="card is-main is-horizontal">
+                  <div class="card is-main is-chart is-grown-vertically">
                     <div class="card-header">
-                      <h2 class="card-title">연차</h2>
+                      <h2 class="card-title">주 작성문서</h2>
                     </div>
                     <section class="card-body">
-                      <div class="columns has-gap is-wrapped">
-                        <div class="column">
-                          <div class="inner-card">
-                            <h3 class="inner-card-title">부여</h3>
-                            <p class="inner-card-description" id="leaveDaysYear">15</p>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="inner-card">
-                            <h3 class="inner-card-title">사용</h3>
-                            <p class="inner-card-description" id="useDays">5</p>
-                          </div>
-                        </div>
-                        <div class="column">
-                          <div class="inner-card">
-                            <h3 class="inner-card-title">잔여</h3>
-                            <p class="inner-card-description" style="color: #359dff" id="remindDays">
-                              10</p>
-                          </div>
-                        </div>
-                      </div>
+                      <p class="card-description">
+                        <span class="card-description-item">
+                          <span id="workMonth">4</span>월
+                          <span id="workWeek">3</span>주
+                        </span>
+                        <span id="workSumHour" class="card-description-number" style="color: #359dff">12</span>
+                        <span class="card-description-unit">건</span>
+                      </p>
+                      <div id="line-chart-0"></div>
                     </section>
-                    <a class="button is-more is-ghost" href="javascript:pageMdiTabNoParamOpen('/empmenu/wrkleav/wrklvestatusemp100/view')">
-                      <span class="icon is-chevron-right"><svg><use href="#chevron-right"></use></svg></span>
-                    </a>
+                  </div>
+                </div>
+
+                <div class="column is-half is-grown-vertically">
+                  <div class="card is-main is-chart is-grown-vertically">
+                    <div class="card-header">
+                      <h2 class="card-title">월 기준이탈</h2>
+                    </div>
+                    <section class="card-body">
+                      <p class="card-description">
+                        <span class="card-description-item">
+                          <span id="monthHour">4</span> / <span id="totalMonthHour">50</span>건
+                        </span>
+                        <span id="monthRate" class="card-description-number" style="color: #00d5a2">8</span>
+                        <span class="card-description-unit">%</span>
+                      </p>
+                      <div id="bar-chart-0"></div>
+                    </section>
                   </div>
                 </div>
 
@@ -1084,7 +1119,7 @@
 
   $(document).ready(function () {
     initEvent();
-    fn_getChart([8, 9, 9, 8, 8], ['월', '화', '수', '목', '금'], 126);
+    fn_getChart([1, 4, 2, 3, 2], ['월', '화', '수', '목', '금'], 4);
   })  //document.ready
 
   function initEvent() {
@@ -1575,6 +1610,46 @@
     const temp = document.createElement("div");
     temp.innerHTML = escapedStr;
     return temp.textContent || temp.innerText || "";
+  }
+
+
+  function syncScrollTopOnly($left, $right) {
+    // 두 요소 다 존재해야만 동작
+    if ($left.is(':empty') || $right.is(':empty')) return;
+
+    // 혹시 모를 중복 방지: 기존 scroll 이벤트 제거
+    $left.off("scroll");
+    $right.off("scroll");
+
+    let isSyncingLeft = false;
+    let isSyncingRight = false;
+
+    $left.on("scroll", throttle(function () {
+      if (!isSyncingLeft) {
+        isSyncingRight = true;
+        $right.scrollTop($left.scrollTop());
+      }
+      isSyncingLeft = false;
+    }, 20)); // ← 20ms 간격 제한
+
+    $right.on("scroll", throttle(function () {
+      if (!isSyncingRight) {
+        isSyncingLeft = true;
+        $left.scrollTop($right.scrollTop());
+      }
+      isSyncingRight = false;
+    }, 20));
+  }
+
+  function throttle(fn, wait) {
+    let lastTime = 0;
+    return function (...args) {
+      const now = Date.now();
+      if (now - lastTime >= wait) {
+        lastTime = now;
+        fn.apply(this, args);
+      }
+    };
   }
 
 
@@ -2240,10 +2315,10 @@
     let lineCharts = [];
 
     lineData[0] = {
-      categories: ['월', '화', '수', '목', '금', '토', '일'],
+      categories: ['월', '화', '수', '목', '금'],
       series: [
         {
-          name: '일근무',
+          name: '작성',
           data: linedata0
         }
       ]
@@ -2256,8 +2331,8 @@
       yAxis: {
         scale: {
           min: 0,
-          max: 16,
-          stepSize: 4
+          max: 10,
+          stepSize: 2
         }
       },
       legend: {
@@ -2334,7 +2409,7 @@
       categories: [0],
       series: [
         {
-          name: "월 근무시간",
+          name: "월 기준이탈",
           data: [bardata0]
         }
       ]
@@ -2344,8 +2419,8 @@
       xAxis: {
         scale: {
           min: 0,
-          max: 200,
-          stepSize: 50
+          max: 100,
+          stepSize: 20
         }
       },
       legend: {

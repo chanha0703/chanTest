@@ -1,3 +1,6 @@
+CREATE DATABASE `smartdoc` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+
+
 -- smartDoc.tbl_document_master definition
 
 CREATE TABLE `tbl_document_master` (
